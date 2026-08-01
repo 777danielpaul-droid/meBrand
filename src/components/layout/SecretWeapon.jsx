@@ -63,7 +63,14 @@ export default function SecretWeapon() {
                 className="relative z-30 -mt-6 sm:-mt-8 text-center max-w-2xl"
               >
                 <h3 className="font-display font-bold text-4xl sm:text-6xl neon-text">
-                  <T en={s.name.en}>{s.name.de}</T>
+                  <a
+                    href={s.name.de}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-neon hover:text-cyan transition-colors underline decoration-cyan/50 hover:decoration-cyan"
+                  >
+                    {s.name.de}
+                  </a>
                 </h3>
                 <p className="mt-3 text-bone/80 text-lg max-w-xl mx-auto"><T en={s.subtitle.en}>{s.subtitle.de}</T></p>
                 <p className="mt-5 text-bone/65 leading-relaxed max-w-2xl mx-auto"><T en={s.body.en}>{s.body.de}</T></p>
@@ -77,13 +84,8 @@ export default function SecretWeapon() {
             >
               <div className="rounded-2xl neon-border glass card p-10 sm:p-14 text-center">
                 <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05]">
-                  <T en={s.titleCover.en}>{s.titleCover.de}</T>
+                  My first game
                 </h2>
-                <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>
-                <p className="mono-label text-neon mt-8 text-sm tracking-[0.2em]">
-                  {/* [T179] */}
-                  ↓ text179
-                </p>
               </div>
             </motion.div>
           </div>

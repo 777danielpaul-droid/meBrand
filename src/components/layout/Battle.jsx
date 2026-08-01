@@ -48,8 +48,8 @@ export default function Battle() {
                 >
                   {/* [T180] */}
                   <img
-                    src={asset(site.battle)}
-                    alt="text180"
+                    src={asset("/battle-cover.png")}
+                    alt="Battle Screenshot"
                     className="w-full h-[48vh] sm:h-[54vh] object-cover"
                     loading="lazy"
                   />

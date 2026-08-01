@@ -104,7 +104,7 @@ export const site = {
 
   // --- GEHEIMWAFFE ---
   secret: {
-    name: { de: "text77", en: "text78" },
+    name: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text78" },
     subtitle: { de: "text79", en: "text80" },
     body: { de: "text81", en: "text82" },
     titleCover: { de: "text83", en: "text84" },
