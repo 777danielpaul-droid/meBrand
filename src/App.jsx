@@ -26,10 +26,10 @@ export default function App() {
       <TerminalCard open={termOpen} onClose={() => setTermOpen(false)} />
       <main>
         <Hero />
+        <CvSection />
         <Conflict />
         <SecretWeapon />
         <Battle />
-        <CvSection />
         <WarRoomArchive />
       </main>
       <Footer />
