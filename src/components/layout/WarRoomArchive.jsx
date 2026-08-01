@@ -6,56 +6,6 @@ import { T } from "../RunenText"
 import { EASE } from "../motion/variants"
 import RunenText from "../RunenText"
 
-// ArchiveCard: Karten mit radialer Stapel-Animation beim Scrollen.
-function ArchiveCard({ entry, index, count, progress }) {
-  const cardRef = useRef(null)
-  const x = useMotionValue(0)
-  const rotate = useMotionValue(0)
-  const opacity = useMotionValue(1)
-
-  useLayoutEffect(() => {
-    const card = cardRef.current
-    const grid = card && card.parentElement
-    if (!grid) return
-
-    const apply = () => {
-      const stacked = window.matchMedia("(min-width: 768px)").matches
-      if (!stacked) return
-      const g = grid.getBoundingClientRect()
-      const r = card.getBoundingClientRect()
-      const center = g.left + g.width / 2 - (r.left + r.width / 2)
-      const rel = index - (count - 1) / 2
-      const p = progress.get()
-      let factor = 1 - p * 2
-      if (factor < 0) factor = 0
-      if (factor > 1) factor = 1
-      x.set(factor * center + rel * 8)
-      rotate.set(rel * 6 * (1 - factor))
-      opacity.set(0.8 + factor * 0.2)
-    }
-
-    apply()
-    const off = progress.on("change", apply)
-    return off
-  }, [progress, x, rotate, opacity, index, count])
-
-  return (
-    <motion.article
-      ref={cardRef}
-      style={{ x, rotate, opacity, zIndex: count - index }}
-      className="rounded-xl neon-border glass card p-6 hover:border-gold/40 transition-colors"
-    >
-      <div className="mono-label text-neon">{entry.code}</div>
-      <h3 className="font-display font-semibold text-lg mt-3 text-bone">
-        <T>{entry.title.de}</T>
-      </h3>
-      <p className="mt-3 text-sm text-bone/60 leading-relaxed">
-        <T>{entry.text.de}</T>
-      </p>
-    </motion.article>
-  )
-}
-
 // InterceptCard: Interaktive Karten mit Chiffre-Entschlüsselung.
 function InterceptCard({ msg, delay, z }) {
   const [open, setOpen] = useState(false)
@@ -149,7 +99,6 @@ function Intercepts({ data }) {
 
 export default function WarRoomArchive() {
   const ref = useRef(null)
-  const archiveGridRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
@@ -172,18 +121,6 @@ export default function WarRoomArchive() {
                   <T>{site.archive.title.de}</T>
                 </h2>
               </Reveal>
-
-              <div ref={archiveGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {site.archive.entries.map((e, i) => (
-                  <ArchiveCard
-                    key={e.code}
-                    entry={e}
-                    index={i}
-                    count={site.archive.entries.length}
-                    progress={scrollYProgress}
-                  />
-                ))}
-              </div>
 
               <Intercepts data={site.archive.intercepts} />
             </div>

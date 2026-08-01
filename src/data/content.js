@@ -104,8 +104,8 @@ export const site = {
 
   // --- ARCHIV ---
   archive: {
-    eyebrow: { de: "text95", en: "text96" },
-    title: { de: "text97", en: "text98" },
+    eyebrow: { de: "", en: "" },
+    title: { de: "", en: "" },
     entries: [
       {
         code: "text99",
@@ -129,29 +129,29 @@ export const site = {
       },
     ],
     intercepts: {
-      eyebrow: { de: "text119", en: "text120" },
-      title: { de: "text121", en: "text122" },
-      hint: { de: "text123", en: "text124" },
+      eyebrow: { de: "", en: "" },
+      title: { de: "", en: "" },
+      hint: { de: "", en: "" },
       messages: [
         {
-          code: "text125",
-          cipher: "text126",
-          plain: { de: "text127", en: "text128" },
+          code: "SIG-01",
+          cipher: "ᛟᚠᚠ-W0R-ᛗE-ᚱU-ᚷHT",
+          plain: { de: "Position Gewinnen Sie rechts", en: "Advance position right flank" },
         },
         {
-          code: "text129",
-          cipher: "text130",
-          plain: { de: "text131", en: "text132" },
+          code: "SIG-02",
+          cipher: "ᛗI-ᚱI-ᚷHT-ᚠL-ᚨN-ᚲ",
+          plain: { de: "Mich rechts anflankieren", en: "Flank me from the right" },
         },
         {
-          code: "text133",
-          cipher: "text134",
-          plain: { de: "text135", en: "text136" },
+          code: "SIG-03",
+          cipher: "ᚠAL-ᛚS-ᚷO-ᚱIGHT-ᛗE",
+          plain: { de: "Falle rechts mich gehen", en: "Ambush right, go for me" },
         },
         {
-          code: "text137",
-          cipher: "text138",
-          plain: { de: "text139", en: "text140" },
+          code: "SIG-04",
+          cipher: "ᚱI-ᚷHT-ᚠL-ᚨN-ᚲ-CO-ᛗ",
+          plain: { de: "Rechts anflankieren mit CO", en: "Right flank with CO" },
         },
       ],
     },
