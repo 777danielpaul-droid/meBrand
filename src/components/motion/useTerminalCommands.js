@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react"
 
 // Terminal-Befehle und deren Verarbeitung.
-// Trennt die Command-Logik von der UI-Komponente für bessere Testbarkeit.
-const KNOWN_COMMANDS = ["jesus"]
+const KNOWN_COMMANDS = ["text"]
 
 const GAME_URL = `${import.meta.env.BASE_URL}erdbaerdefense/`
 const SHEPHERD_URL = `${import.meta.env.BASE_URL}shepherd.html`
@@ -30,7 +29,7 @@ export function useTerminalCommands() {
     if (warPrompt) {
       if (v === "y") {
         window.open(GAME_URL, "_blank", "noopener")
-        pushLines(["go to war? [y/n]", `> ${v}`, "// SPIEL WIRD GESTARTET... //"])
+        pushLines(["go to war?", `> ${v}`, "// text //"])
         setWarPrompt(false)
         setCurrent("")
         return
@@ -46,7 +45,7 @@ export function useTerminalCommands() {
     // --- bekannte Befehle ---
     if (v === "jesus") {
       window.open(SHEPHERD_URL, "_blank", "noopener")
-      pushLines([v, "// geheimnis offenbart //"])
+      pushLines([v, "// text //"])
       setCurrent("")
       return
     }
@@ -59,7 +58,7 @@ export function useTerminalCommands() {
         pushLines([v, "// ZUGRIFF VERWEIGERT //", "go to war? [y/n]"])
         setWarPrompt(true)
       } else {
-        pushLines([v, `// unbekannter befehl (${next}/3) //`])
+        pushLines([v, "// text //"]);
       }
       setCurrent("")
       return

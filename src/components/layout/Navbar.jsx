@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import { site } from "../../data/content"
 import { getInitialTheme, toggleTheme } from "../../lib/theme"
 import { useLang } from "../RunenContext"
-import { useTimeline } from "../TimelineProvider"
 
 const NEON = ["#c026d3", "#7c3aed", "#c9a227"]
 
@@ -13,22 +12,18 @@ export default function Navbar({ termOpen, setTermOpen }) {
   const { mode, cycle: cycleLang } = useLang()
   const [hover, setHover] = useState({})
 
-  const { phase } = useTimeline()
-
   const randomNeon = (key) => setHover((h) => ({ ...h, [key]: NEON[(Math.random() * NEON.length) | 0] }))
   const resetNeon = (key) => setHover((h) => ({ ...h, [key]: "#22d3ee" }))
   const onToggle = () => setTheme(toggleTheme())
-
-  if (phase < 5) return null
 
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 inset-x-0 z-50 phase-gated"
+      className="fixed top-0 inset-x-0 z-50"
     >
-      <nav className="backdrop-blur-md bg-ink/40 border-b border-white/10 glass phase-gated">
+      <nav className="backdrop-blur-md bg-ink/40 border-b border-white/10 glass">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-2 md:h-16 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0">
           <a href="#top" className="flex items-center gap-3 group">
             <span className="relative grid place-items-center w-8 h-8 rounded-md bg-neon/15 border border-neon/40">
@@ -61,18 +56,12 @@ export default function Navbar({ termOpen, setTermOpen }) {
               onClick={() => setTermOpen((v) => !v)}
               className="inline-flex mono-label bg-ink text-cyan border border-cyan/50 hover:bg-cyan/10 transition-colors px-3 py-1.5 rounded-sm"
             >
-              Terminal
+              text
             </button>
 
             <button
               type="button"
-              aria-label={
-                mode === "de"
-                  ? "Auf Englisch umschalten"
-                  : mode === "en"
-                  ? "In fremder Schrift anzeigen"
-                  : "Zu Deutsch wechseln"
-              }
+              aria-label={mode === "de" ? "text" : mode === "en" ? "text" : "text"}
               onClick={cycleLang}
               className={`grid place-items-center w-9 h-9 rounded-md border text-bone transition-colors ${
                 mode === "runes" ? "border-neon/60 text-neon" : "border-white/10 hover:border-neon/50"
@@ -85,7 +74,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
 
             <button
               type="button"
-              aria-label={theme === "dark" ? "Zu Light Mode wechseln" : "Zu Dark Mode wechseln"}
+              aria-label={theme === "dark" ? "text" : "text"}
               onClick={onToggle}
               className="grid place-items-center w-9 h-9 rounded-md border border-white/10 hover:border-neon/50 text-bone transition-colors"
             >
@@ -94,7 +83,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
 
             <button
               type="button"
-              aria-label="Menü"
+              aria-label="text"
               onClick={() => setOpen((v) => !v)}
               className="md:hidden grid place-items-center w-9 h-9 rounded-md border border-white/20 text-bone hover:border-neon/50"
             >
@@ -132,7 +121,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
                     onClick={() => { setOpen(false); setTermOpen((v) => !v) }}
                     className="mono-label text-cyan"
                   >
-                    Terminal
+                    text
                   </button>
                 </li>
               </ul>

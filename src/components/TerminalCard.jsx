@@ -69,7 +69,7 @@ export default function TerminalCard({ open, onClose }) {
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
               <div className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" aria-hidden="true" />
-                <span>// TERMINAL //</span>
+                <span>// text //</span>
               </div>
               <button
                 type="submit"
@@ -90,15 +90,16 @@ export default function TerminalCard({ open, onClose }) {
               {lines.length === 0 && (
                 <p className="text-bone/30 text-xs leading-relaxed">
                   // Knack den Code um das uralte Geheimnis zu offenbaren //
+                  → text
                 </p>
               )}
 
               {/* Status-Zeile (runic) */}
               {lines.length > 0 && (
                 <div className="flex items-center gap-2 text-cyan text-xs mono-label mb-2">
-                  <span className="text-bone/40">bär</span>
+                  <span className="text-bone/40">text</span>
                   <span className="text-bone/50">@</span>
-                  <span className="text-bone/40">erdbären</span>
+                  <span className="text-bone/40">text</span>
                   <span className="text-bone/60">:~ $</span>
                 </div>
               )}

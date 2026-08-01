@@ -4,17 +4,12 @@ import { site } from "../../data/content"
 import { useVotes } from "../../lib/votes"
 import { useCountUp } from "../../lib/countup"
 import { T } from "../RunenText"
-import HoloEarthLazy from "../HoloEarthLazy"
-import { useTimeline } from "../TimelineProvider"
-import SectorCanvas from "../SectorCanvas"
 
 const NEON = ["#c026d3", "#7c3aed", "#22d3ee", "#c9a227"]
 
 function randomNeon() {
   return NEON[(Math.random() * NEON.length) | 0]
 }
-
-
 
 const TITLE_SHADOW =
   "2px 2px rgba(0,0,0,0.55), 4px 4px rgba(0,0,0,0.5), 6px 6px rgba(0,0,0,0.45), " +
@@ -24,11 +19,8 @@ const TITLE_SHADOW =
 
 export default function Hero() {
   const h = site.hero
-  const [t1, t2] = h.title.de.split("\n")
-  const [t1en, t2en] = h.title.en.split("\n")
   const votes = useVotes()
 
-  // Basis-Stand der Milchmäuse (lore-seitig höher als der Widerstand).
   const MILCHMAEUSE_BASE = h.milchmaeuseBase || 17171
 
   const nWiderstand = useCountUp(
@@ -42,23 +34,18 @@ export default function Hero() {
     votes.loaded
   )
 
-  // Live-Zähler ersetzen die statischen Werte.
   const liveValue = (label) => {
     if (label === "Der Widerstand") return nWiderstand.toLocaleString("de-DE")
     if (label === "Die Unterdrücker") return nUnterdruecker.toLocaleString("de-DE")
     return null
   }
 
-  // Scroll-Linked Parallax: Aurora-Blob driftet beim Scrollen.
   const { scrollY } = useScroll()
   const blobY = useTransform(scrollY, [0, 800], [0, 220])
   const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
 
-  const { phase } = useTimeline()
-
   return (
     <section id="top" className="hero-holo relative bg-theatre grain overflow-hidden motion-reveal">
-      <SectorCanvas />
       <motion.div
         style={{ y: blobY, opacity: blobOpacity }}
         className="absolute top-24 right-[-6rem] w-[18rem] h-[18rem] sm:w-[28rem] sm:h-[28rem] rounded-full bg-neon/25 blur-[60px] sm:blur-[120px]"
@@ -72,45 +59,45 @@ export default function Hero() {
           <motion.p
             custom={0}
             initial="hidden"
-            animate={phase >= 1 ? "show" : "hidden"}
+            animate="show"
             variants={titleLine}
             className="mono-label text-neon mb-6"
           >
-            <T en={h.eyebrow.en}>{h.eyebrow.de}</T>
+            <T en="text">text</T>
           </motion.p>
 
           <h1
             className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words"
-            style={{ filter: "drop-shadow(0 0 18px rgba(80, 200, 255, 0.35)) drop-shadow(3px 3px rgba(40, 120, 200, 0.35)) drop-shadow(7px 7px rgba(20, 70, 140, 0.3)) drop-shadow(14px 14px 14px rgba(10, 40, 90, 0.35))" }}
+            style={{ filter: TITLE_SHADOW }}
           >
-            <motion.span custom={1} initial="hidden" animate={phase >= 2 ? "show" : "hidden"} variants={titleLine} className="block title-rainbow">
-              <T en={t1en}>{t1}</T>
+            <motion.span custom={1} initial="hidden" animate="show" variants={titleLine} className="block title-rainbow">
+              <T en="text">text</T>
             </motion.span>
             <motion.span
               custom={2}
               initial="hidden"
-              animate={phase >= 2 ? "show" : "hidden"}
+              animate="show"
               variants={titleLine}
               className="block title-rainbow"
             >
-              <T en={t2en}>{t2}</T>
+              <T en="text">text</T>
             </motion.span>
           </h1>
 
           <motion.p
             custom={3}
             initial="hidden"
-            animate={phase >= 3 ? "show" : "hidden"}
+            animate="show"
             variants={titleLine}
             className="mt-8 text-lg sm:text-xl text-bone/70 max-w-2xl leading-relaxed"
           >
-            <T en={h.lead.en}>{h.lead.de}</T>
+            <T en="text">text</T>
           </motion.p>
 
           <motion.div
             custom={4}
             initial="hidden"
-            animate={phase >= 4 ? "show" : "hidden"}
+            animate="show"
             variants={titleLine}
             className="mt-10 flex flex-wrap gap-4 pointer-events-auto"
           >
@@ -118,20 +105,20 @@ export default function Hero() {
               href={h.primaryCta.href}
               className="mono-label bg-neon hover:bg-neon-2 transition-colors text-white px-6 py-3 rounded-sm shadow-[0_0_40px_rgba(192,38,211,0.45)]"
             >
-              <T en={h.primaryCta.label.en}>{h.primaryCta.label.de}</T>
+              <T en="text">text</T>
             </a>
             <a
               href={h.secondaryCta.href}
               className="mono-label border border-white/15 hover:border-gold/60 text-bone px-6 py-3 rounded-sm transition-colors"
             >
-              <T en={h.secondaryCta.label.en}>{h.secondaryCta.label.de}</T>
+              <T en="text">text</T>
             </a>
           </motion.div>
 
           <motion.div
             custom={5}
             initial="hidden"
-            animate={phase >= 4 ? "show" : "hidden"}
+            animate="show"
             variants={titleLine}
             className="mt-16 grid grid-cols-1 sm:grid-cols-4 gap-px bg-white/5 border border-white/10 rounded-xl overflow-hidden max-w-4xl"
           >
@@ -145,36 +132,14 @@ export default function Hero() {
             ))}
           </motion.div>
           {/* end */}
-
-          {/* Hidden layout spacers used before their phase activates, prevent DOM height jumps */}
-          <div aria-hidden="true" className={phase >= 1 ? 'hidden' : 'h-0 overflow-visible'}>
-            <div className="mono-label text-neon h-6">.</div>
-          </div>
-          <div aria-hidden="true" className={phase >= 2 ? 'hidden' : 'h-0 overflow-visible'}>
-            <div className="h-[0.9em]"></div>
-          </div>
-          <div aria-hidden="true" className={phase >= 3 ? 'hidden' : 'h-0 overflow-visible'}>
-            <div className="mt-8 h-12"></div>
-          </div>
-          <div aria-hidden="true" className={phase >= 4 ? 'hidden' : 'h-0 overflow-visible'}>
-            <div className="mt-16 h-24"></div>
-          </div>
         </div>
-      </div>
-
-      {/* 3D-Hologramm-Erde */}
-      <div
-        className="absolute inset-y-0 right-0 hidden lg:block w-[38%] xl:w-[34%] pointer-events-none -z-0"
-        aria-hidden="true"
-      >
-        <HoloEarthLazy />
       </div>
 
       <motion.div
         style={{ y: useTransform(scrollY, [0, 800], [0, 60]) }}
         className="absolute bottom-8 right-8 hidden lg:block mono-label text-bone/30"
       >
-        SCROLL ↓
+        text
       </motion.div>
     </section>
   )

@@ -10,28 +10,28 @@ import { useArchiveCardPosition } from "../motion/useArchiveCardPosition"
 
 const FACTIONS = {
   erdbaeren: {
-    name: "ERDBÄREN",
-    nameEn: "EARTHBEARS",
+    name: "text",
+    nameEn: "text",
     color: "#c026d3",
     stats: [
-      { k: "WIDERSTAND", v: 98 },
-      { k: "WENDE-KRAFT", v: 100 },
-      { k: "BEFREIUNGSTEMPO", v: 97 },
-      { k: "GEHORSAM", v: 9 },
+      { k: "text-1", v: 98 },
+      { k: "text-2", v: 100 },
+      { k: "text-3", v: 97 },
+      { k: "text-4", v: 9 },
     ],
-    verdict: "DIE WENDE — DIE HERREN SIND ZU LANGSAM",
+    verdict: "text",
   },
   milchmaeuse: {
-    name: "MILCHMÄUSE",
-    nameEn: "MILKICE",
+    name: "text",
+    nameEn: "text",
     color: "#22d3ee",
     stats: [
-      { k: "ALTE HERRSCHAFT", v: 99 },
-      { k: "MUSTER-TREUE", v: 96 },
-      { k: "REAKTIONS-VERZUG", v: 88 },
-      { k: "NEUER WEG", v: 3 },
+      { k: "text-1", v: 99 },
+      { k: "text-2", v: 96 },
+      { k: "text-3", v: 88 },
+      { k: "text-4", v: 3 },
     ],
-    verdict: "DAS ALTE BRICHT — WO NICHTS NEUES REGT",
+    verdict: "text",
   },
 }
 
@@ -92,7 +92,7 @@ function InterceptCard({ msg, delay, z }) {
       >
         <div className="flex items-center justify-between mb-4">
           <span className="mono-label text-cyan">{msg.code}</span>
-          <span className="mono-label text-bone/35">{open ? (mode === "en" ? "DECRYPTED" : "DECHIFFRIERT") : (mode === "en" ? "▸ DECRYPT" : "▸ DECHIFFRIEREN")}</span>
+          <span className="text-bone/35">{open ? (mode === "en" ? "text" : "text") : (mode === "en" ? "text" : "text")}</span>
         </div>
         <RunenText text={msg.cipher} className="text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[4.5rem]" />
         <AnimatePresence initial={false}>
@@ -114,10 +114,10 @@ function InterceptCard({ msg, delay, z }) {
 }
 
 const DEAL = {
-  "INT-118": { delay: 0.2, z: 10 },
-  "INT-207": { delay: 0.95, z: 15 },
-  "INT-338": { delay: 0.95, z: 20 },
-  "INT-451": { delay: 0.95, z: 15 },
+  "text-1": { delay: 0.2, z: 10 },
+  "text-2": { delay: 0.95, z: 15 },
+  "text-3": { delay: 0.95, z: 20 },
+  "text-4": { delay: 0.95, z: 15 },
 }
 
 function Intercepts({ data }) {
@@ -196,10 +196,10 @@ export default function WarRoomArchive() {
             <div className="absolute inset-0 hud-grid opacity-50" aria-hidden="true" />
             <div className="relative min-h-full max-w-7xl mx-auto px-5 sm:px-8 flex flex-col justify-start sm:justify-center py-12">
               <Reveal className="mb-8 text-center">
-                <p className="mono-label text-neon mb-4">// KRIEGSKONSOLE // ECHTZEIT-SIM</p>
+                <p className="mono-label text-neon mb-4">// text //</p>
                 <h2 className="font-display font-bold text-4xl sm:text-6xl tracking-tight">
-                  <span className="glitch" data-text="WÄHLE DEINE FRAKTION" role="img" aria-label="Wähle deine Fraktion">
-                    <T en="CHOOSE YOUR FACTION">WÄHLE DEINE FRAKTION</T>
+                  <span className="glitch" data-text="text" role="img" aria-label="text">
+                    <T en="text">text</T>
                   </span>
                 </h2>
               </Reveal>
@@ -222,10 +222,8 @@ export default function WarRoomArchive() {
               </div>
               <Reveal className="mb-8 text-center">
                 <p className="mono-label text-bone/30">
-                  <T en={votes.mine ? "// YOUR VOTE IS COUNTED · VOTE AGAIN TO SWITCH" : "// ONE VOTE PER FIGHTER · CAST IT IN THE DOSSIER"}>
-                    {votes.mine
-                      ? "// DEINE STIMME IST GEZÄHLT · WÄHLE ERNEUT ZUM WECHSELN"
-                      : "// EINE STIMME PRO KÄMPFER · GIB SIE IM DOSSIER AB"}
+                  <T en="text">
+                    text
                   </T>
                 </p>
               </Reveal>
@@ -247,7 +245,7 @@ export default function WarRoomArchive() {
                     <h3 className="font-display font-bold text-2xl" style={{ color: f.color }}>
                       <T en={f.nameEn}>{f.name}</T>
                     </h3>
-                    <span className="mono-label text-bone/40">COMBAT-MATRIX v2.4</span>
+                    <span className="mono-label text-bone/40">text</span>
                   </div>
 
                   <div className="space-y-5">
@@ -257,7 +255,7 @@ export default function WarRoomArchive() {
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-white/10">
-                    <p className="mono-label text-bone/40 mb-2"><T en="FORECAST">PROGNOSE</T></p>
+                    <p className="mono-label text-bone/40 mb-2">text</p>
                     <p
                       className="font-display font-bold text-lg glitch"
                       data-text={f.verdict}
@@ -278,9 +276,7 @@ export default function WarRoomArchive() {
                       boxShadow: votes.mine === active ? `0 0 30px ${f.color}55` : "none",
                     }}
                   >
-                    <T en={votes.mine === active ? "YOUR VOTE ✓" : `VOTE FOR ${f.nameEn}`}>
-                      {votes.mine === active ? "DEINE STIMME ✓" : `STIMME FÜR ${f.name}`}
-                    </T>
+                    <T en="text">text</T>
                     <span className="tabular-nums text-bone/90">
                       {active === "erdbaeren" ? votes.erdbaeren : votes.milchmaeuse}
                     </span>
@@ -289,9 +285,7 @@ export default function WarRoomArchive() {
               </motion.div>
 
               <Reveal className="mt-8 text-center">
-                <p className="mono-label text-bone/30">
-                  &gt;&gt; SIMULATION LÄUFT · AKTUALISIERUNG ALLE 0.3s · ERDE-SEKTOR 0 «
-                </p>
+                <p className="mono-label text-bone/30">text</p>
               </Reveal>
             </div>
           </div>

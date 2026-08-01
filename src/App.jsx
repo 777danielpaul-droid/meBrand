@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Navbar from "./components/layout/Navbar"
 import Hero from "./components/layout/Hero"
 import FactionsDoctrine from "./components/layout/FactionsDoctrine"
@@ -11,17 +12,12 @@ import MoonLayer from "./components/MoonLayer"
 import CloudVolume from "./components/CloudVolume"
 import TerminalCard from "./components/TerminalCard"
 import { ScrollProgress } from "./components/motion/ScrollFX"
-import { TimelineProvider, useTimeline } from "./components/TimelineProvider"
 import { LangProvider } from "./components/RunenContext"
-import Intro from "./components/Intro"
-import { useState } from "react"
 
-function AppInner() {
-  const { start } = useTimeline()
+export default function App() {
   const [termOpen, setTermOpen] = useState(false)
   return (
     <LangProvider>
-      <Intro onDone={start} />
       <MoonLayer />
       <SpaceStage />
       <CloudVolume />
@@ -38,13 +34,5 @@ function AppInner() {
       </main>
       <Footer />
     </LangProvider>
-  )
-}
-
-export default function App() {
-  return (
-    <TimelineProvider>
-      <AppInner />
-    </TimelineProvider>
   )
 }
