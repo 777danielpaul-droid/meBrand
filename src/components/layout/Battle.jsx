@@ -14,7 +14,7 @@ import { T } from "../RunenText"
 export default function Battle() {
   const s = site.battleMeta
   const ref = useRef(null)
-  const {
+    const {
     imgY,
     imgScale,
     imgOpacity,
@@ -22,6 +22,8 @@ export default function Battle() {
     panelOpacity,
     captionY,
     captionOpacity,
+    linkY,
+    linkOpacity,
     glowShadow,
     imgFilter,
   } = useScrollRevealStage(ref)
@@ -59,21 +61,20 @@ export default function Battle() {
                   </motion.div>
               </motion.div>
 
-              <motion.div
-                style={{ y: captionY, opacity: captionOpacity }}
-                className="relative z-30 -mt-6 sm:-mt-8 text-center max-w-3xl"
+            <motion.div
+              style={{ y: captionY, opacity: captionOpacity }}
+              className="relative z-30 -mt-6 sm:-mt-8 text-center max-w-2xl"
+            >
+              <motion.a
+                href="https://humble-bee.de"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ y: linkY, opacity: linkOpacity }}
+                className="font-road-rage text-cyan hover:text-neon transition-colors text-2xl sm:text-3xl md:text-4xl font-bold underline decoration-cyan/30"
               >
-                <p className="battle-caption text-bone/80 text-sm sm:text-base max-w-3xl leading-relaxed">
-                  <a
-                    href={s.caption.de}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-neon hover:text-cyan transition-colors underline decoration-cyan/50 hover:decoration-cyan text-2xl sm:text-3xl md:text-4xl font-bold"
-                  >
-                    humble-bee.de
-                  </a>
-                </p>
-              </motion.div>
+                Save the bees
+              </motion.a>
+            </motion.div>
             </div>
 
             {/* TEXT-CONTAINER: GROSS + OPAK (Glass-Stil), verdeckt das Bild, wandert nach oben raus */}
@@ -81,8 +82,8 @@ export default function Battle() {
               style={{ y: panelY, opacity: panelOpacity }}
               className="relative z-20 mx-auto max-w-3xl"
             >
-              <div className="rounded-2xl neon-border glass card p-10 sm:p-14 text-center">
-                <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05]">
+              <div className="rounded-none bg-transparent">
+                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#6d28d9]">
                   <T en={s.titleCover.en}>{s.titleCover.de}</T>
                 </h2>
                 <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>

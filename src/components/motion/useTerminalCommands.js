@@ -2,6 +2,7 @@ import { useState, useCallback } from "react"
 
 // Terminal-Befehle und deren Verarbeitung.
 const KNOWN_COMMANDS = ["text"]
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const GAME_URL = `${import.meta.env.BASE_URL}erdbaerdefense/`
 const SHEPHERD_URL = `${import.meta.env.BASE_URL}shepherd.html`
@@ -24,6 +25,15 @@ export function useTerminalCommands() {
   const submit = useCallback(() => {
     const v = current.trim().toLowerCase()
     if (!v) return
+
+    // --- E-Mail-Adresse erkennen -> öffnet mailto: mit Betreff */
+    if (EMAIL_REGEX.test(v)) {
+      const mailto = `mailto:${v}?subject=Botschaft%20über%20Terminal&body=Hallo%20Daniel,%0A%0A`
+      window.open(mailto, "_blank", "noopener")
+      pushLines([v, "// E-Mail geöffnet //"])
+      setCurrent("")
+      return
+    }
 
     // --- "go to war?" beantworten ---
     if (warPrompt) {
@@ -58,7 +68,7 @@ export function useTerminalCommands() {
         pushLines([v, "// ZUGRIFF VERWEIGERT //", "go to war? [y/n]"])
         setWarPrompt(true)
       } else {
-        pushLines([v, "// text //"]);
+        pushLines([v, "// text //"])
       }
       setCurrent("")
       return

@@ -19,6 +19,10 @@ export function useScrollRevealStage(ref, { offset } = {}) {
   const captionY = useTransform(scrollYProgress, [0.5, 1], ["36%", "0%"])
   const captionOpacity = useTransform(scrollYProgress, [0.55, 0.8, 1], [0, 0.6, 1])
 
+  // Link-Reveal: erscheint als LETZTES Element (bei ~90% Scroll)
+  const linkY = useTransform(scrollYProgress, [0.8, 0.95, 1], ["20px", "10px", "0px"])
+  const linkOpacity = useTransform(scrollYProgress, [0.8, 0.95, 1], [0, 0.5, 1])
+
   const glow = useTransform(scrollYProgress, [0.3, 0.7, 1], [0.15, 0.5, 0.72])
   const glowShadow = useTransform(glow, (g) => `0 0 ${30 + g * 80}px rgba(192,38,211,${g})`)
   const imgFilter = useTransform(imgBlur, (b) => `blur(${b}px)`)
@@ -33,6 +37,8 @@ export function useScrollRevealStage(ref, { offset } = {}) {
     panelOpacity,
     captionY,
     captionOpacity,
+    linkY,
+    linkOpacity,
     glow,
     glowShadow,
     imgFilter,

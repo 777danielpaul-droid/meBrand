@@ -15,6 +15,7 @@
 
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-mono: "Space Mono", ui-monospace, monospace;
+  --font-road-rage: "Road Rage", cursive;
 
   /* Runic is only for SVG glyphs in RunenText, not for layout text. */
   --font-runic: "Noto Sans Runic", ui-monospace, monospace;

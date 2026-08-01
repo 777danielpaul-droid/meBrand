@@ -67,7 +67,7 @@ export default function SecretWeapon() {
                     href={s.name.de}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-neon hover:text-cyan transition-colors underline decoration-cyan/50 hover:decoration-cyan"
+                    className="text-cyan hover:text-neon transition-colors underline decoration-cyan/50 hover:decoration-neon"
                   >
                     {s.name.de}
                   </a>
@@ -82,8 +82,8 @@ export default function SecretWeapon() {
               style={{ y: panelY, opacity: panelOpacity }}
               className="relative z-20 mx-auto max-w-3xl"
             >
-              <div className="rounded-2xl neon-border glass card p-10 sm:p-14 text-center">
-                <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05]">
+              <div className="rounded-none bg-transparent">
+                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#6d28d9]">
                   My first game
                 </h2>
               </div>
