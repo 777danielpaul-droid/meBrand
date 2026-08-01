@@ -1,6 +1,7 @@
 // ZENTRALE CONTENT-DATEI — hier alle Texte/Links ändern, keine Komponenten anfassen.
 // Jeder Text hat ein `de` (Default) und ein `en` (englische Variante).
 // Alle Werte sind bewusst auf "textN" neutralisiert — bitte hier mit echten Inhalten ersetzen.
+// Nummerierung läuft durchgängig text1–textN über content.js und alle JSX-Komponenten.
 export const site = {
   // --- BRAND & NAVIGATION ---
   brand: { de: "text1", en: "text2" },

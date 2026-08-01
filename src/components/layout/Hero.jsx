@@ -26,7 +26,6 @@ export default function Hero() {
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full pointer-events-none">
         <div className="relative">
           {/* HeadtitleLine + Copy + CTAs */}
-
           <motion.p
             custom={0}
             initial="hidden"
@@ -90,8 +89,8 @@ export default function Hero() {
               style={{ y: useTransform(scrollY, [0, 800], [0, 60]) }}
               className="absolute bottom-8 right-8 hidden lg:block mono-label text-bone/30"
             >
-              {/* [T213] */}
-              text213
+              {/* [T168] */}
+              text168
             </motion.div>
           </motion.div>
         </div>

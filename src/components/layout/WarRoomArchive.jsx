@@ -10,8 +10,8 @@ import { useArchiveCardPosition } from "../motion/useArchiveCardPosition"
 
 const FACTIONS = {
   erdbaeren: {
-    name: "text", // [T171]
-    nameEn: "text", // [T172]
+    name: "text189",
+    nameEn: "text190",
     color: "#c026d3",
     stats: [
       { k: "text-1", v: 98 },
@@ -19,11 +19,11 @@ const FACTIONS = {
       { k: "text-3", v: 97 },
       { k: "text-4", v: 9 },
     ],
-    verdict: "text", // [T173]
+    verdict: "text191",
   },
   milchmaeuse: {
-    name: "text", // [T174]
-    nameEn: "text", // [T175]
+    name: "text192",
+    nameEn: "text193",
     color: "#22d3ee",
     stats: [
       { k: "text-1", v: 99 },
@@ -31,7 +31,7 @@ const FACTIONS = {
       { k: "text-3", v: 88 },
       { k: "text-4", v: 3 },
     ],
-    verdict: "text", // [T176]
+    verdict: "text194",
   },
 }
 
@@ -92,7 +92,7 @@ function InterceptCard({ msg, delay, z }) {
       >
         <div className="flex items-center justify-between mb-4">
           <span className="mono-label text-cyan">{msg.code}</span>
-          <span className="text-bone/35">{open ? (mode === "en" ? "text" /* [T177] */ : "text" /* [T178] */) : (mode === "en" ? "text" /* [T179] */ : "text" /* [T180] */)}</span>
+          <span className="text-bone/35">{open ? (mode === "en" ? "text195" : "text196") : (mode === "en" ? "text197" : "text198")}</span>
         </div>
         <RunenText text={msg.cipher} className="text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[4.5rem]" />
         <AnimatePresence initial={false}>
@@ -196,10 +196,10 @@ export default function WarRoomArchive() {
             <div className="absolute inset-0 hud-grid opacity-50" aria-hidden="true" />
             <div className="relative min-h-full max-w-7xl mx-auto px-5 sm:px-8 flex flex-col justify-start sm:justify-center py-12">
               <Reveal className="mb-8 text-center">
-                <p className="mono-label text-neon mb-4">{/* [T167] */} // text //</p>
+                <p className="mono-label text-neon mb-4">/* [T199] */ // text199 //</p>
                 <h2 className="font-display font-bold text-4xl sm:text-6xl tracking-tight">
-                  <span className="glitch" data-text="text" role="img" aria-label="text">{/* [T168] [T169] */}
-                    <T en="text" /* [T181] */>text /* [T170] */</T>
+                  <span className="glitch" data-text="text200" role="img" aria-label="text201">
+                    <T en="text202">text203</T>
                   </span>
                 </h2>
               </Reveal>
@@ -222,8 +222,8 @@ export default function WarRoomArchive() {
               </div>
               <Reveal className="mb-8 text-center">
                 <p className="mono-label text-bone/30">
-                  <T en="text" /* [T182] */>
-                    text /* [T183] */
+                  <T en="text204">
+                    text205
                   </T>
                 </p>
               </Reveal>
@@ -245,7 +245,7 @@ export default function WarRoomArchive() {
                     <h3 className="font-display font-bold text-2xl" style={{ color: f.color }}>
                       <T en={f.nameEn}>{f.name}</T>
                     </h3>
-                    <span className="mono-label text-bone/40">{/* [T184] */} text</span>
+                    <span className="mono-label text-bone/40">/* [T206] */ text206</span>
                   </div>
 
                   <div className="space-y-5">
@@ -255,7 +255,7 @@ export default function WarRoomArchive() {
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-white/10">
-                    <p className="mono-label text-bone/40 mb-2">{/* [T185] */} text</p>
+                    <p className="mono-label text-bone/40 mb-2">/* [T207] */ text207</p>
                     <p
                       className="font-display font-bold text-lg glitch"
                       data-text={f.verdict}
@@ -276,7 +276,7 @@ export default function WarRoomArchive() {
                       boxShadow: votes.mine === active ? `0 0 30px ${f.color}55` : "none",
                     }}
                   >
-                    <T en="text" /* [T186] */>text /* [T187] */</T>
+                    <T en="text208">text209</T>
                     <span className="tabular-nums text-bone/90">
                       {active === "erdbaeren" ? votes.erdbaeren : votes.milchmaeuse}
                     </span>
@@ -285,7 +285,7 @@ export default function WarRoomArchive() {
               </motion.div>
 
               <Reveal className="mt-8 text-center">
-                <p className="mono-label text-bone/30">{/* [T188] */} text</p>
+                <p className="mono-label text-bone/30">/* [T210] */ text210</p>
               </Reveal>
             </div>
           </div>
