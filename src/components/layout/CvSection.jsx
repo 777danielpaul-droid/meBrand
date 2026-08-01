@@ -189,11 +189,11 @@ export default function CvSection() {
             variants={stagger}
             className="flex-shrink-0"
           >
-            <div className="w-48 h-48 rounded-xl overflow-hidden border border-neon/30 shadow-[0_0_40px_rgba(123,30,43,0.3)]">
+            <div className="w-48 h-48 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(109,38,217,0.3)]">
               <img
                 src={c.portrait}
                 alt={c.name.de}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-300"
                 loading="lazy"
               />
             </div>

@@ -48,8 +48,8 @@ export default function SecretWeapon() {
                 >
                   {/* [T178] */}
                   <img
-                    src={asset("/erdbaer-herz.jpg")}
-                    alt="text178"
+                    src={asset("/hitisop-cover.png")}
+                    alt="HITisOP Cover"
                     className="w-full h-[48vh] sm:h-[54vh] object-cover"
                     loading="lazy"
                   />

@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { titleLine } from "../motion/variants"
 import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
-import { T } from "../RunenText"
+import { T, default as RunenText } from "../RunenText"
 
 const TITLE_SHADOW =
   "2px 2px rgba(0,0,0,0.55), 4px 4px rgba(0,0,0,0.5), 6px 6px rgba(0,0,0,0.45), " +
@@ -42,29 +42,54 @@ export default function Hero() {
             style={{ filter: TITLE_SHADOW }}
           >
             <motion.span custom={1} initial="hidden" animate="show" variants={titleLine} className="block">
-              <T en={h.title.en}>{h.title.de.split("\n")[0]}</T>
+              <RunenText text="DANIEL" className="text-cyan block" />
             </motion.span>
             <motion.span custom={2} initial="hidden" animate="show" variants={titleLine} className="block">
-              <span className="text-cyan block">
-                Daniel
-              </span>
-            </motion.span>
-            <motion.span custom={3} initial="hidden" animate="show" variants={titleLine} className="block">
-              <span className="text-cyan block">
-                Paul
-              </span>
+              <RunenText text="PAUL" className="text-cyan block" />
             </motion.span>
           </h1>
 
+          {/* Lead-Titel (linksbündig) */}
           <motion.p
             custom={4}
             initial="hidden"
             animate="show"
             variants={titleLine}
-            className="mt-8 text-lg sm:text-xl text-bone/70 max-w-2xl leading-relaxed"
+            className="mt-4 text-xl sm:text-2xl text-bone/80 font-display max-w-2xl"
           >
-            <T en={h.lead.en}>{h.lead.de}</T>
+            <T en={h.lead.title.en}>{h.lead.title.de}</T>
           </motion.p>
+
+          {/* Lead-Haupttext (linksbündig) */}
+          <motion.p
+            custom={4.5}
+            initial="hidden"
+            animate="show"
+            variants={titleLine}
+            className="mt-4 text-lg sm:text-xl text-bone/70 max-w-2xl leading-relaxed"
+          >
+            <T en={h.lead.body.en}>{h.lead.body.de}</T>
+          </motion.p>
+
+          {/* Skill-Tags */}
+          {h.skills && (
+            <motion.div
+              custom={4.5}
+              initial="hidden"
+              animate="show"
+              variants={titleLine}
+              className="mt-4 flex flex-wrap gap-x-3 gap-y-1.5"
+            >
+              {h.skills.map((s, i) => (
+                <span
+                  key={i}
+                  className="mono-label text-xs text-cyan/70 bg-cyan/5 border border-cyan/15 rounded px-2 py-0.5"
+                >
+                  <T en={s.en}>{s.de}</T>
+                </span>
+              ))}
+            </motion.div>
+          )}
 
           <motion.div
             custom={5}

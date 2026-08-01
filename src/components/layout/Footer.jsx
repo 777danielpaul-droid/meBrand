@@ -15,34 +15,36 @@ export default function Footer() {
 
   return (
     <motion.footer
-      style={{ borderTopColor: "rgba(192,38,211,1)", boxShadow: borderGlow }}
-      className="border-t-4 bg-ink"
+      initial={{ y: 80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      style={{ borderBottomColor: "rgba(192,38,211,1)", boxShadow: borderGlow }}
+      className="fixed bottom-0 inset-x-0 z-50 header-glow"
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-3">
-          <span className="text-2xl leading-none" aria-hidden="true">🐻</span>
-          <span className="font-display font-bold tracking-[0.18em] text-sm">
-            <T en={site.brand.en}>{site.brand.de}</T>
-          </span>
-        </div>
+      <nav className="backdrop-blur-md bg-ink/40 border-t border-white/10 glass">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-2 flex items-center justify-between">
+          <a href="#top" className="flex items-center gap-3 group">
+            <span className="relative grid place-items-center w-8 h-8 rounded-md bg-neon/15 border border-neon/40">
+              <span className="text-base leading-none" aria-hidden="true">🐻</span>
+            </span>
+            <span className="font-display font-bold tracking-[0.18em] text-sm">
+              <T en={site.brand.en}>{site.brand.de}</T>
+            </span>
+          </a>
 
-        <nav className="flex items-center gap-6 sm:gap-10" aria-label="Footer">
-          {f.links.map((l, index) => (
-            <a
-              key={index}
-              href={l.href}
-              className="text-bone/70 hover:text-neon transition-colors text-sm font-medium tracking-wide"
-            >
-              <T en={l.label.en}>{l.label.de}</T>
-            </a>
-          ))}
-        </nav>
-      </div>
-      <div className="border-t border-white/5">
-        <p className="max-w-7xl mx-auto px-5 sm:px-8 py-5 mono-label text-bone/35">
-          <T en={f.note.en}>{f.note.de}</T>
-        </p>
-      </div>
+          <div className="flex items-center gap-4 sm:gap-6">
+            {f.links.map((l, index) => (
+              <a
+                key={index}
+                href={l.href}
+                className="mono-label text-cyan hover:text-cyan transition-colors text-sm font-medium"
+              >
+                <T en={l.label.en}>{l.label.de}</T>
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
     </motion.footer>
   )
 }

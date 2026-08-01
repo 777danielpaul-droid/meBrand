@@ -16,14 +16,33 @@ export const site = {
 
   // --- HERO ---
   hero: {
-    eyebrow: { de: "text15", en: "text16" },
+    eyebrow: { de: "", en: "" },
     title: {
-      de: "text17\ntext18",
-      en: "text19\ntext20",
+      de: "",
+      en: "",
     },
-    lead: { de: "text21", en: "text22" },
+    lead: {
+      title: {
+        de: "Technical Prototyper · AI Engineer · Full-Stack Developer · AI Automation Specialist",
+        en: "Technical Prototyper · AI Engineer · Full-Stack Developer · AI Automation Specialist",
+      },
+      body: {
+        de: "Ich entwickle produktionsnahe Prototypen mit React, Python und modernen KI-Technologien. Von der ersten Idee bis zur skalierbaren Anwendung entstehen Lösungen, die Prozesse automatisieren und echte Probleme lösen bis zum fertigen Produkt.",
+        en: "I turn ideas into intelligent software. With React, Python, and modern LLMs, I build powerful AI applications, agents, and automations — fast to validate, production-ready, and scalable from day one.",
+      },
+    },
+    // Skill-Beziehungen — erscheinen als Tag-Liste unter dem Lead-Text im Hero
+    skills: [
+      { de: "React / Vite / Tailwind", en: "React / Vite / Tailwind" },
+      { de: "Python & Backend-Logik", en: "Python & backend logic" },
+      { de: "Spec-driven Prototyping", en: "Spec-driven prototyping" },
+      { de: "CI/CD Deployment", en: "CI/CD deployment" },
+    ],
     primaryCta: { label: { de: "text23", en: "text24" }, href: "#terminal" },
-    secondaryCta: { label: { de: "text25", en: "text26" }, href: "#fraktionen" },
+    secondaryCta: {
+      label: { de: "text25", en: "text26" },
+      href: "#fraktionen",
+    },
   },
 
   // --- FRACTUREN ---
@@ -106,27 +125,59 @@ export const site = {
     eyebrow: { de: "text95", en: "text96" },
     title: { de: "text97", en: "text98" },
     entries: [
-      { code: "text99", title: { de: "text100", en: "text101" }, text: { de: "text102", en: "text103" } },
-      { code: "text104", title: { de: "text105", en: "text106" }, text: { de: "text107", en: "text108" } },
-      { code: "text109", title: { de: "text110", en: "text111" }, text: { de: "text112", en: "text113" } },
-      { code: "text114", title: { de: "text115", en: "text116" }, text: { de: "text117", en: "text118" } },
+      {
+        code: "text99",
+        title: { de: "text100", en: "text101" },
+        text: { de: "text102", en: "text103" },
+      },
+      {
+        code: "text104",
+        title: { de: "text105", en: "text106" },
+        text: { de: "text107", en: "text108" },
+      },
+      {
+        code: "text109",
+        title: { de: "text110", en: "text111" },
+        text: { de: "text112", en: "text113" },
+      },
+      {
+        code: "text114",
+        title: { de: "text115", en: "text116" },
+        text: { de: "text117", en: "text118" },
+      },
     ],
     intercepts: {
       eyebrow: { de: "text119", en: "text120" },
       title: { de: "text121", en: "text122" },
       hint: { de: "text123", en: "text124" },
       messages: [
-        { code: "text125", cipher: "text126", plain: { de: "text127", en: "text128" } },
-        { code: "text129", cipher: "text130", plain: { de: "text131", en: "text132" } },
-        { code: "text133", cipher: "text134", plain: { de: "text135", en: "text136" } },
-        { code: "text137", cipher: "text138", plain: { de: "text139", en: "text140" } },
+        {
+          code: "text125",
+          cipher: "text126",
+          plain: { de: "text127", en: "text128" },
+        },
+        {
+          code: "text129",
+          cipher: "text130",
+          plain: { de: "text131", en: "text132" },
+        },
+        {
+          code: "text133",
+          cipher: "text134",
+          plain: { de: "text135", en: "text136" },
+        },
+        {
+          code: "text137",
+          cipher: "text138",
+          plain: { de: "text139", en: "text140" },
+        },
       ],
     },
   },
 
   // --- FOOTER ---
   footer: {
-    note: { de: "text141", en: "text142" },
+    note: { de: "", en: "" },
     links: [
       { label: { de: "text143", en: "text144" }, href: "#impressum" },
       { label: { de: "text145", en: "text146" }, href: "#privacy" },
@@ -142,11 +193,7 @@ export const site = {
       city: "text151",
       email: "text152",
     },
-    impressum: [
-      "text153",
-      "text154",
-      "text155",
-    ],
+    impressum: ["text153", "text154", "text155"],
     agb: [
       { h: "text156", t: "text157" },
       { h: "text158", t: "text159" },
@@ -158,4 +205,4 @@ export const site = {
       { h: "text166", t: "text167" },
     ],
   },
-}
+};
