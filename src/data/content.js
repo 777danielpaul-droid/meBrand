@@ -114,7 +114,7 @@ export const site = {
   // --- SCHLACHT ---
   battleMeta: {
     eyebrow: { de: "text87", en: "text88" },
-    caption: { de: "text89", en: "text90" },
+    caption: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text90" },
     titleCover: { de: "Humble-Bee", en: "text92" },
     coverBody: { de: "Projekt", en: "text94" },
   },
@@ -185,6 +185,13 @@ export const site = {
     ],
   },
 
+  // --- KONTAKT-SEKTION (Überschriften/Intro) ---
+  contact: {
+    eyebrow: { de: "text180", en: "text181" },
+    title: { de: "text182", en: "text183" },
+    intro: { de: "text184", en: "text185" },
+  },
+
   // --- RECHTLICHES (privat / non-kommerziell) ---
   legal: {
     provider: {
@@ -204,5 +211,17 @@ export const site = {
       { h: "text164", t: "text165" },
       { h: "text166", t: "text167" },
     ],
+  },
+};
+
+// --- PROFIL (für Contact.jsx & Portrait) ---
+export const profile = {
+  name: { de: "Daniel Paul", en: "Daniel Paul" },
+  portrait: "/portrait.png",
+  contact: {
+    phone: "+49 151 67575229",
+    email: "paul-daniel@t-online.de",
+    address: { de: "Imhoffstücken 18, 21423 Winsen", en: "Imhoffstücken 18, 21423 Winsen, Germany" },
+    github: "https://github.com/777danielpaul-droid",
   },
 };

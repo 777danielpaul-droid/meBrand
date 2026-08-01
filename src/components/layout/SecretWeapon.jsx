@@ -62,7 +62,7 @@ export default function SecretWeapon() {
                 style={{ y: captionY, opacity: captionOpacity }}
                 className="relative z-30 -mt-6 sm:-mt-8 text-center max-w-2xl"
               >
-                <h3 className="font-display font-bold text-4xl sm:text-6xl neon-text">
+                <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl neon-text">
                   <a
                     href={s.name.de}
                     target="_blank"

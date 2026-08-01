@@ -71,7 +71,14 @@ export default function Battle() {
                 className="relative z-30 -mt-6 sm:-mt-8 text-center max-w-3xl"
               >
                 <p className="battle-caption text-bone/80 text-sm sm:text-base max-w-3xl leading-relaxed">
-                  <T en={s.caption.en}>{s.caption.de}</T>
+                  <a
+                    href={s.caption.de}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-neon hover:text-cyan transition-colors underline decoration-cyan/50 hover:decoration-cyan text-2xl sm:text-3xl md:text-4xl font-bold"
+                  >
+                    humble-bee.de
+                  </a>
                 </p>
               </motion.div>
             </div>
