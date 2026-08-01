@@ -36,7 +36,7 @@ export default function SecretWeapon() {
           <div className="relative w-full max-w-5xl mx-auto px-5 sm:px-8 h-full flex items-center justify-center">
             {/* REVEAL-SPALTE (unter dem Panel): Bild + Caption gestapelt, am Ende komplett sichtbar */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10">
-              <p className="mono-label text-gold">Projekte</p>
+              <p className="mono-label text-gold">Projekte • Scroll to reveal</p>
 
               <motion.div
                 style={{ y: imgY, scale: imgScale, opacity: imgOpacity, filter: imgFilter }}
@@ -72,8 +72,6 @@ export default function SecretWeapon() {
                     {s.name.de}
                   </a>
                 </h3>
-                <p className="mt-3 text-bone/80 text-lg max-w-xl mx-auto"><T en={s.subtitle.en}>{s.subtitle.de}</T></p>
-                <p className="mt-5 text-bone/65 leading-relaxed max-w-2xl mx-auto"><T en={s.body.en}>{s.body.de}</T></p>
               </motion.div>
             </div>
 

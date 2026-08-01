@@ -10,8 +10,8 @@ export const site = {
     { label: { de: "Start", en: "Home" }, href: "#hero" },
     { label: { de: "Terminal", en: "Terminal" }, href: "#terminal" },
     { label: { de: "Profil", en: "Profile" }, href: "#profile" },
-    { label: { de: "Geheimwaffe", en: "Secret Weapon" }, href: "#secret-weapon" },
-    { label: { de: "Schlacht", en: "Battle" }, href: "#battle" },
+    { label: { de: "HITisOP", en: "Secret Weapon" }, href: "#secret-weapon" },
+    { label: { de: "HumbleBee", en: "Battle" }, href: "#battle" },
   ],
 
   // --- HERO ---
@@ -87,15 +87,13 @@ export const site = {
   // --- GEHEIMWAFFE ---
   secret: {
     name: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text78" },
-    subtitle: { de: "text79", en: "text80" },
-    body: { de: "text81", en: "text82" },
     titleCover: { de: "text83", en: "text84" },
     coverBody: { de: "text85", en: "text86" },
   },
 
   // --- SCHLACHT ---
   battleMeta: {
-    eyebrow: { de: "Projekte", en: "text88" },
+    eyebrow: { de: "Projekte • Scroll to reveal", en: "text88" },
     caption: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text90" },
     titleCover: { de: "Humble-Bee", en: "text92" },
     coverBody: { de: "Projekt", en: "text94" },
