@@ -682,3 +682,13 @@
 [data-theme="light"] #archiv {
   background-color: rgba(243, 240, 251, 0.85) !important;
 }
+
+/* Canvas Starfield: bunte, funkelnde Sterne als Hintergrund (z-Index 1, hinter #root:2) */
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+}
