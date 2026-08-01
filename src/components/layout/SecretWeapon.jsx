@@ -36,7 +36,7 @@ export default function SecretWeapon() {
           <div className="relative w-full max-w-5xl mx-auto px-5 sm:px-8 h-full flex items-center justify-center">
             {/* REVEAL-SPALTE (unter dem Panel): Bild + Caption gestapelt, am Ende komplett sichtbar */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10">
-              <p className="mono-label text-gold">// text //</p>
+              <p className="mono-label text-gold">/* [T199] */ // text199 //</p>
 
               <motion.div
                 style={{ y: imgY, scale: imgScale, opacity: imgOpacity, filter: imgFilter }}
@@ -46,9 +46,10 @@ export default function SecretWeapon() {
                   style={{ boxShadow: glowShadow }}
                   className="relative rounded-2xl overflow-hidden border border-white/10 w-full max-w-2xl"
                 >
+                  {/* [T200] */}
                   <img
                     src={asset("/erdbaer-herz.jpg")}
-                    alt="text"
+                    alt="text200"
                     className="w-full h-[48vh] sm:h-[54vh] object-cover"
                     loading="lazy"
                   />
@@ -80,7 +81,8 @@ export default function SecretWeapon() {
                 </h2>
                 <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>
                 <p className="mono-label text-neon mt-8 text-sm tracking-[0.2em]">
-                  ↓ text
+                  {/* [T201] */}
+                  ↓ text201
                 </p>
               </div>
             </motion.div>

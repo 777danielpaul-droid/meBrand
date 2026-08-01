@@ -46,9 +46,10 @@ export default function Battle() {
                   style={{ boxShadow: glowShadow }}
                   className="relative rounded-2xl overflow-hidden border border-white/10 w-full max-w-3xl"
                 >
+                  {/* [T193] */}
                   <img
                     src={asset(site.battle)}
-                    alt="text"
+                    alt="text193"
                     className="w-full h-[48vh] sm:h-[54vh] object-cover"
                     loading="lazy"
                   />
@@ -57,10 +58,10 @@ export default function Battle() {
 
                   {/* HUD-Fraktions-Marker */}
                   <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 mono-label text-bone/90 border border-white/20 bg-ink/50 backdrop-blur px-3 py-1.5 rounded-sm">
-                    <span className="w-2 h-2 rounded-full bg-neon" /> text — text
+                    <span className="w-2 h-2 rounded-full bg-neon" /> text195 — text196
                   </div>
                   <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2 mono-label text-bone/90 border border-white/20 bg-ink/50 backdrop-blur px-3 py-1.5 rounded-sm">
-                    text — text <span className="w-2 h-2 rounded-full bg-neon" />
+                    text197 — text198 <span className="w-2 h-2 rounded-full bg-neon" />
                   </div>
                 </motion.div>
               </motion.div>
@@ -86,7 +87,7 @@ export default function Battle() {
                 </h2>
                 <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>
                 <p className="mono-label text-neon mt-8 text-sm tracking-[0.2em]">
-                  ↓ text
+                  ↓ text194
                 </p>
               </div>
             </motion.div>

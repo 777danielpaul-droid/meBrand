@@ -90,7 +90,8 @@ export default function Hero() {
               style={{ y: useTransform(scrollY, [0, 800], [0, 60]) }}
               className="absolute bottom-8 right-8 hidden lg:block mono-label text-bone/30"
             >
-              text
+              {/* [T213] */}
+              text213
             </motion.div>
           </motion.div>
         </div>

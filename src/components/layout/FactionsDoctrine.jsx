@@ -52,7 +52,7 @@ function MilchmausVideo({ baseUrl }) {
       onPointerLeave={stop}
       onClick={start}
       className="absolute inset-0 z-[8] cursor-pointer"
-      title="text"
+      title="text202"
     >
       <video
         ref={videoRef}
@@ -126,7 +126,7 @@ function BattleVideo({ baseUrl }) {
       onPointerLeave={stop}
       onClick={start}
       className="absolute inset-0 z-[8] cursor-pointer"
-      title="text"
+      title="text203"
     >
       <video
         ref={videoRef}
@@ -146,7 +146,7 @@ export default function FactionsDoctrine() {
   return (
     <section id="fraktionen" className="relative z-20 phase-gated">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-12 sm:py-20 relative z-20">
-        <p className="mono-label text-gold mb-4">// text //</p>
+        <p className="mono-label text-gold mb-4">// text204 //</p>
         <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight mb-12">
           <T en="Two powers. One Earth.">Zwei Mächte. Eine Erde.</T>
         </h2>

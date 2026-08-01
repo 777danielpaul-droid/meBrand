@@ -56,12 +56,13 @@ export default function Navbar({ termOpen, setTermOpen }) {
               onClick={() => setTermOpen((v) => !v)}
               className="inline-flex mono-label bg-ink text-cyan border border-cyan/50 hover:bg-cyan/10 transition-colors px-3 py-1.5 rounded-sm"
             >
-              text
+              {/* [T205] */}
+              text205
             </button>
 
             <button
               type="button"
-              aria-label={mode === "de" ? "text" : mode === "en" ? "text" : "text"}
+              aria-label={mode === "de" ? "text206" : mode === "en" ? "text207" : "text208"}
               onClick={cycleLang}
               className={`grid place-items-center w-9 h-9 rounded-md border text-bone transition-colors ${
                 mode === "runes" ? "border-neon/60 text-neon" : "border-white/10 hover:border-neon/50"
@@ -74,7 +75,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
 
             <button
               type="button"
-              aria-label={theme === "dark" ? "text" : "text"}
+              aria-label={theme === "dark" ? "text209" : "text210"}
               onClick={onToggle}
               className="grid place-items-center w-9 h-9 rounded-md border border-white/10 hover:border-neon/50 text-bone transition-colors"
             >
@@ -83,7 +84,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
 
             <button
               type="button"
-              aria-label="text"
+              aria-label="text211"
               onClick={() => setOpen((v) => !v)}
               className="md:hidden grid place-items-center w-9 h-9 rounded-md border border-white/20 text-bone hover:border-neon/50"
             >
@@ -121,7 +122,8 @@ export default function Navbar({ termOpen, setTermOpen }) {
                     onClick={() => { setOpen(false); setTermOpen((v) => !v) }}
                     className="mono-label text-cyan"
                   >
-                    text
+                    {/* [T212] */}
+                    text212
                   </button>
                 </li>
               </ul>

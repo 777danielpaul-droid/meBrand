@@ -1,152 +1,160 @@
 // ZENTRALE CONTENT-DATEI — hier alle Texte/Links ändern, keine Komponenten anfassen.
 // Jeder Text hat ein `de` (Default) und ein `en` (englische Variante).
-// Alle Werte sind bewusst auf "text" neutralisiert — bitte hier mit echten Inhalten ersetzen.
+// Alle Werte sind bewusst auf "textN" neutralisiert — bitte hier mit echten Inhalten ersetzen.
 export const site = {
-  brand: { de: "text", en: "text" },
-  tagline: { de: "text", en: "text" },
+  // --- BRAND & NAVIGATION ---
+  brand: { de: "text1", en: "text2" },
+  tagline: { de: "text3", en: "text4" },
   nav: [
-    { label: { de: "text", en: "text" }, href: "#top" },
-    { label: { de: "text", en: "text" }, href: "#terminal" },
-    { label: { de: "text", en: "text" }, href: "#fraktionen" },
-    { label: { de: "text", en: "text" }, href: "#konflikt" },
-    { label: { de: "text", en: "text" }, href: "#kriegskonsole" },
+    { label: { de: "text5", en: "text6" }, href: "#top" },
+    { label: { de: "text7", en: "text8" }, href: "#terminal" },
+    { label: { de: "text9", en: "text10" }, href: "#fraktionen" },
+    { label: { de: "text11", en: "text12" }, href: "#konflikt" },
+    { label: { de: "text13", en: "text14" }, href: "#kriegskonsole" },
   ],
 
+  // --- HERO ---
   hero: {
-    eyebrow: { de: "text", en: "text" },
+    eyebrow: { de: "text15", en: "text16" },
     title: {
-      de: "text\ntext",
-      en: "text\ntext",
+      de: "text17\ntext18",
+      en: "text19\ntext20",
     },
-    lead: { de: "text", en: "text" },
-    primaryCta: { label: { de: "text", en: "text" }, href: "#terminal" },
-    secondaryCta: { label: { de: "text", en: "text" }, href: "#fraktionen" },
+    lead: { de: "text21", en: "text22" },
+    primaryCta: { label: { de: "text23", en: "text24" }, href: "#terminal" },
+    secondaryCta: { label: { de: "text25", en: "text26" }, href: "#fraktionen" },
   },
 
+  // --- FRACTUREN ---
   factions: [
     {
       id: "erdbaeren",
       accent: "neon",
-      name: { de: "text", en: "text" },
-      role: { de: "text", en: "text" },
-      quote: { de: "text", en: "text" },
+      name: { de: "text27", en: "text28" },
+      role: { de: "text29", en: "text30" },
+      quote: { de: "text31", en: "text32" },
       traits: [
-        { de: "text", en: "text" },
-        { de: "text", en: "text" },
-        { de: "text", en: "text" },
-        { de: "text", en: "text" },
+        { de: "text33", en: "text34" },
+        { de: "text35", en: "text36" },
+        { de: "text37", en: "text38" },
+        { de: "text39", en: "text40" },
       ],
       image: "/erdbaer-bear.jpg",
     },
     {
       id: "milchmaeuse",
       accent: "cyan",
-      name: { de: "text", en: "text" },
-      role: { de: "text", en: "text" },
-      quote: { de: "text", en: "text" },
+      name: { de: "text41", en: "text42" },
+      role: { de: "text43", en: "text44" },
+      quote: { de: "text45", en: "text46" },
       traits: [
-        { de: "text", en: "text" },
-        { de: "text", en: "text" },
-        { de: "text", en: "text" },
-        { de: "text", en: "text" },
+        { de: "text47", en: "text48" },
+        { de: "text49", en: "text50" },
+        { de: "text51", en: "text52" },
+        { de: "text53", en: "text54" },
       ],
       image: "/milchmaus-mouse.jpg",
     },
   ],
 
+  // --- KONFLIKT ---
   conflict: {
-    eyebrow: { de: "text", en: "text" },
-    title: { de: "text", en: "text" },
-    body: { de: "text", en: "text" },
+    eyebrow: { de: "text55", en: "text56" },
+    title: { de: "text57", en: "text58" },
+    body: { de: "text59", en: "text60" },
     aspects: [
       {
-        side: { de: "text", en: "text" },
+        side: { de: "text61", en: "text62" },
         items: [
-          { de: "text", en: "text" },
-          { de: "text", en: "text" },
-          { de: "text", en: "text" },
+          { de: "text63", en: "text64" },
+          { de: "text65", en: "text66" },
+          { de: "text67", en: "text68" },
         ],
       },
       {
-        side: { de: "text", en: "text" },
+        side: { de: "text69", en: "text70" },
         items: [
-          { de: "text", en: "text" },
-          { de: "text", en: "text" },
-          { de: "text", en: "text" },
+          { de: "text71", en: "text72" },
+          { de: "text73", en: "text74" },
+          { de: "text75", en: "text76" },
         ],
       },
     ],
   },
 
+  // --- GEHEIMWAFFE ---
   secret: {
-    name: { de: "text", en: "text" },
-    subtitle: { de: "text", en: "text" },
-    body: { de: "text", en: "text" },
-    titleCover: { de: "text", en: "text" },
-    coverBody: { de: "text", en: "text" },
+    name: { de: "text77", en: "text78" },
+    subtitle: { de: "text79", en: "text80" },
+    body: { de: "text81", en: "text82" },
+    titleCover: { de: "text83", en: "text84" },
+    coverBody: { de: "text85", en: "text86" },
   },
 
+  // --- SCHLACHT ---
   battleMeta: {
-    eyebrow: { de: "text", en: "text" },
-    caption: { de: "text", en: "text" },
-    titleCover: { de: "text", en: "text" },
-    coverBody: { de: "text", en: "text" },
+    eyebrow: { de: "text87", en: "text88" },
+    caption: { de: "text89", en: "text90" },
+    titleCover: { de: "text91", en: "text92" },
+    coverBody: { de: "text93", en: "text94" },
   },
   battle: "/erdbaer-battle.jpg",
 
+  // --- ARCHIV ---
   archive: {
-    eyebrow: { de: "text", en: "text" },
-    title: { de: "text", en: "text" },
+    eyebrow: { de: "text95", en: "text96" },
+    title: { de: "text97", en: "text98" },
     entries: [
-      { code: "text", title: { de: "text", en: "text" }, text: { de: "text", en: "text" } },
-      { code: "text", title: { de: "text", en: "text" }, text: { de: "text", en: "text" } },
-      { code: "text", title: { de: "text", en: "text" }, text: { de: "text", en: "text" } },
-      { code: "text", title: { de: "text", en: "text" }, text: { de: "text", en: "text" } },
+      { code: "text99", title: { de: "text100", en: "text101" }, text: { de: "text102", en: "text103" } },
+      { code: "text104", title: { de: "text105", en: "text106" }, text: { de: "text107", en: "text108" } },
+      { code: "text109", title: { de: "text110", en: "text111" }, text: { de: "text112", en: "text113" } },
+      { code: "text114", title: { de: "text115", en: "text116" }, text: { de: "text117", en: "text118" } },
     ],
     intercepts: {
-      eyebrow: { de: "text", en: "text" },
-      title: { de: "text", en: "text" },
-      hint: { de: "text", en: "text" },
+      eyebrow: { de: "text119", en: "text120" },
+      title: { de: "text121", en: "text122" },
+      hint: { de: "text123", en: "text124" },
       messages: [
-        { code: "text", cipher: "text", plain: { de: "text", en: "text" } },
-        { code: "text", cipher: "text", plain: { de: "text", en: "text" } },
-        { code: "text", cipher: "text", plain: { de: "text", en: "text" } },
-        { code: "text", cipher: "text", plain: { de: "text", en: "text" } },
+        { code: "text125", cipher: "text126", plain: { de: "text127", en: "text128" } },
+        { code: "text129", cipher: "text130", plain: { de: "text131", en: "text132" } },
+        { code: "text133", cipher: "text134", plain: { de: "text135", en: "text136" } },
+        { code: "text137", cipher: "text138", plain: { de: "text139", en: "text140" } },
       ],
     },
   },
 
+  // --- FOOTER ---
   footer: {
-    note: { de: "text", en: "text" },
+    note: { de: "text141", en: "text142" },
     links: [
-      { label: { de: "text", en: "text" }, href: "#impressum" },
-      { label: { de: "text", en: "text" }, href: "#privacy" },
-      { label: { de: "text", en: "text" }, href: "#terminal" },
+      { label: { de: "text143", en: "text144" }, href: "#impressum" },
+      { label: { de: "text145", en: "text146" }, href: "#privacy" },
+      { label: { de: "text147", en: "text148" }, href: "#terminal" },
     ],
   },
 
   // --- RECHTLICHES (privat / non-kommerziell) ---
   legal: {
     provider: {
-      name: "text",
-      street: "text",
-      city: "text",
-      email: "text",
+      name: "text149",
+      street: "text150",
+      city: "text151",
+      email: "text152",
     },
     impressum: [
-      "text",
-      "text",
-      "text",
+      "text153",
+      "text154",
+      "text155",
     ],
     agb: [
-      { h: "text", t: "text" },
-      { h: "text", t: "text" },
-      { h: "text", t: "text" },
+      { h: "text156", t: "text157" },
+      { h: "text158", t: "text159" },
+      { h: "text160", t: "text161" },
     ],
     privacy: [
-      { h: "text", t: "text" },
-      { h: "text", t: "text" },
-      { h: "text", t: "text" },
+      { h: "text162", t: "text163" },
+      { h: "text164", t: "text165" },
+      { h: "text166", t: "text167" },
     ],
   },
 }
