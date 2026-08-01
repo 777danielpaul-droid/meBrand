@@ -6,6 +6,7 @@ import Conflict from "./components/layout/Conflict"
 import SecretWeapon from "./components/layout/SecretWeapon"
 import Battle from "./components/layout/Battle"
 import WarRoomArchive from "./components/layout/WarRoomArchive"
+import CvSection from "./components/layout/CvSection"
 import Footer from "./components/layout/Footer"
 import SpaceStage from "./components/SpaceStage"
 import MoonLayer from "./components/MoonLayer"
@@ -26,6 +27,7 @@ export default function App() {
       <TerminalCard open={termOpen} onClose={() => setTermOpen(false)} />
       <main>
         <Hero />
+        <CvSection />
         <FactionsDoctrine />
         <Conflict />
         <SecretWeapon />

@@ -1,0 +1,258 @@
+import { motion } from "framer-motion"
+import { stagger, EASE } from "../motion/variants"
+import { cvData } from "../../data/cv"
+import { T } from "../RunenText"
+
+// SkillBar: wiederverwendbarer Balken mit glühendem Effekt.
+// Farbe ist ein CSS-Farbstring (z.B. "#c026d3").
+function SkillBar({ label, level, color, index }) {
+  return (
+    <motion.div
+      custom={index}
+      variants={stagger}
+      className="mb-3 last:mb-0"
+    >
+      <div className="flex justify-between mono-label text-xs text-bone/60 mb-1">
+        <T>{label}</T>
+        <span>{level}%</span>
+      </div>
+      <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: `${level}%` }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: EASE, delay: 0.1 + index * 0.08 }}
+          className="h-full rounded-full relative"
+          style={{
+            background: `linear-gradient(90deg, ${color}60, ${color})`,
+          }}
+        >
+          <div
+            className="absolute inset-0 rounded-full opacity-70"
+            style={{
+              boxShadow: `0 0 8px ${color}, 0 0 16px ${color}40`,
+            }}
+          />
+        </motion.div>
+      </div>
+    </motion.div>
+  )
+}
+
+// CvSection — ergänzende Business-Card-Sektion mit Daniel Pauls Profil-Daten.
+// Erscheint im Space-Theme-Fluss zwischen Battle und WarRoomArchive.
+export default function CvSection() {
+  const c = cvData
+
+  return (
+    <section
+      id="cv"
+      className="relative z-20 py-28 bg-ink/10 border-y border-white/5 phase-gated"
+    >
+      <div className="absolute inset-0 hud-grid opacity-10" aria-hidden="true" />
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 relative z-10">
+        {/* Header */}
+        <motion.p
+          custom={0}
+          initial="hidden"
+          whileInView="show"
+          variants={stagger}
+          className="mono-label text-gold mb-4"
+        >
+          /* Profil */
+        </motion.p>
+        <motion.h2
+          custom={1}
+          initial="hidden"
+          whileInView="show"
+          variants={stagger}
+          className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-neon mb-6"
+        >
+          Daniel Paul
+        </motion.h2>
+        <motion.p
+          custom={2}
+          initial="hidden"
+          whileInView="show"
+          variants={stagger}
+          className="text-bone/70 text-lg leading-relaxed mb-12 max-w-2xl"
+        >
+          <T en={c.role.en}>{c.role.de}</T>
+        </motion.p>
+
+        {/* Portrait + Kontakt in zwei Spalten */}
+        <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start mb-20">
+          <motion.div
+            custom={3}
+            initial="hidden"
+            whileInView="show"
+            variants={stagger}
+            className="flex-shrink-0"
+          >
+            <div className="w-48 h-48 rounded-xl overflow-hidden border border-neon/30 shadow-[0_0_40px_rgba(192,38,211,0.3)]">
+              <img
+                src={c.portrait}
+                alt={c.name.de}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            custom={4}
+            initial="hidden"
+            whileInView="show"
+            variants={stagger}
+            className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full"
+          >
+            <div className="space-y-4">
+              <div>
+                <span className="mono-label text-xs text-bone/40">E-Mail</span>
+                <a
+                  href={`mailto:${c.contact.email}`}
+                  className="block text-bone/80 hover:text-neon transition-colors mt-1"
+                >
+                  {c.contact.email}
+                </a>
+              </div>
+              <div>
+                <span className="mono-label text-xs text-bone/40">Telefon</span>
+                <span
+                  className="block text-bone/80 mt-1 numRotate"
+                  aria-label={c.contact.phone}
+                  style={{ direction: "rtl", unicodeBidi: "bidi-override" }}
+                >
+                  {c.contact.phone.split("").reverse().join("")}
+                </span>
+              </div>
+              <div>
+                <span className="mono-label text-xs text-bone/40">Standort</span>
+                <span className="block text-bone/80 mt-1">
+                  <T en={c.contact.address.en}>{c.contact.address.de}</T>
+                </span>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <span className="mono-label text-xs text-bone/40">GitHub</span>
+                <a
+                  href={c.contact.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-bone/80 hover:text-neon transition-colors mt-1"
+                >
+                  github.com/777danielpaul-droid
+                </a>
+              </div>
+              <div>
+                <span className="mono-label text-xs text-bone/40">Tools</span>
+                <div className="flex flex-wrap gap-1.5 mt-1">
+                  {c.tools.map((t) => (
+                    <span
+                      key={t}
+                      className="mono-label text-[9px] text-bone/30"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Skill-Balken */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={stagger}
+          className="mb-20"
+        >
+          <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-6">
+            Technische Skills
+          </h3>
+          {c.skills.map((s, i) => (
+            <SkillBar
+              key={s.name.de}
+              label={s.name.de}
+              level={s.level}
+              color={s.color}
+              index={i}
+            />
+          ))}
+        </motion.div>
+
+        {/* Soft Skills */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={stagger}
+          className="mb-20"
+        >
+          <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-6">
+            Sprachen
+          </h3>
+          {c.softSkills.map((s, i) => (
+            <SkillBar
+              key={s.name.de}
+              label={s.name.de}
+              level={s.level}
+              color={s.color}
+              index={i}
+            />
+          ))}
+        </motion.div>
+
+        {/* Projekte-Vorschau */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+        >
+          <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-6">
+            Projekte
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {c.projects.map((p, i) => (
+              <motion.div
+                key={p.id}
+                custom={i}
+                variants={stagger}
+                className="rounded-xl neon-border glass card p-6 hover:border-neon/50 transition-colors"
+              >
+                <div className="flex justify-between items-baseline mb-2">
+                  <h4 className="font-display font-bold text-bone/90">
+                    <T en={p.title.en}>{p.title.de}</T>
+                  </h4>
+                  <span className="mono-label text-xs text-bone/40">
+                    {p.date.de}
+                  </span>
+                </div>
+                <p className="mono-label text-cyan text-xs mb-2">
+                  <T en={p.role.en}>{p.role.de}</T>
+                </p>
+                <p className="text-sm text-bone/70 leading-relaxed line-clamp-3">
+                  <T en={p.desc.en}>{p.desc.de}</T>
+                </p>
+                {p.url && (
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-block mono-label text-xs text-cyan hover:text-neon transition-colors"
+                  >
+                    ↗ {p.url.replace("https://", "").replace("https://", "")}
+                  </a>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}

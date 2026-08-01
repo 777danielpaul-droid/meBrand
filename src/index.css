@@ -50,7 +50,8 @@
   #fraktionen,
   #schlacht,
   #konsole,
-  #archiv {
+  #archiv,
+  #cv {
     background-color: rgba(7, 6, 13, 0.85) !important;
   }
   ::selection {
@@ -326,7 +327,6 @@
 
 /* ===== SCANNER ENTFERNT ===== */
 
-/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .glitch::before,
   .glitch::after,
@@ -335,7 +335,12 @@
   }
 }
 
-/* ===== RUNEN-SCHRIFT ===== */
+/* numRotate: Telefonnummer im Quellcode rückwärts (Bot-Schutz),
+   im Browser korrekt gelesen via direction:rtl + bidi-override */
+.numRotate {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
 .runen {
   display: flex;
   flex-wrap: wrap;
@@ -441,7 +446,8 @@
 [data-theme="light"] #fraktionen,
 [data-theme="light"] #schlacht,
 [data-theme="light"] #konsole,
-[data-theme="light"] #archiv {
+[data-theme="light"] #archiv,
+[data-theme="light"] #cv {
   background-color: rgba(243, 240, 251, 0.85) !important;
 }
 
