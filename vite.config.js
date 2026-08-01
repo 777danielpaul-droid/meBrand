@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
-    base: mode === 'production' ? '/ErdBaeren2/' : '/',
+    base: mode === "production" ? "/tryy/" : "/",
     plugins: [react(), tailwindcss()],
     server: { host: true },
     build: {
