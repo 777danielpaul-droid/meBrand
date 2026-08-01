@@ -63,18 +63,13 @@ function ProjectCardRadial({ p, index, count, progress }) {
       const naturalLeft = r.left - x.get()
       const center = g.left + g.width / 2 - (naturalLeft + r.width / 2)
 
-      // Radial nach außen bei Progress > 0.15
-      let factor = 1
-      if (p < 0.15) factor = 0
-      else if (p > 0.5) factor = 1
-      else {
-        const t = (p - 0.15) / (0.5 - 0.15)
-        factor = t
-      }
+      // Karten starten auseinander (factor=1 bei p=0), sammeln sich beim Scrollen zur Mitte (factor=0 bei p=0.5+)
+      let factor = 1 - p * 2  // p=0 → 1, p=0.5 → 0, p>0.5 → 0
+      if (factor < 0) factor = 0
+      if (factor > 1) factor = 1
 
-      // Karten nach oben schieben und rotieren leicht
       x.set(factor * center)
-      opacity.set(1 - factor * 0.2)
+      opacity.set(0.8 + factor * 0.2)
     }
 
     apply(progress.get())
@@ -83,8 +78,8 @@ function ProjectCardRadial({ p, index, count, progress }) {
   }, [progress, x, opacity])
 
   const rel = index - (count - 1) / 2
-  // Leichte Rotation, die sich beim Scrollen entfaltet
-  const rotate = useTransform(progress, [0.15, 0.5], [rel * 8, 0])
+  // Rotation: am Anfang leicht, verschwindet beim Scrollen (sammelt sich zur Mitte)
+  const rotate = useTransform(progress, [0, 0.5], [rel * 8, 0])
 
   return (
     <motion.div
