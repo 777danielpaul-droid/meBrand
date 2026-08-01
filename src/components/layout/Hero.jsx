@@ -17,7 +17,7 @@ export default function Hero() {
   const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
 
   return (
-    <section id="top" className="hero-holo relative bg-theatre overflow-hidden motion-reveal">
+    <section id="hero" className="hero-holo relative bg-theatre overflow-hidden motion-reveal">
       <motion.div
         style={{ y: blobY, opacity: blobOpacity }}
         className="absolute top-24 right-[-6rem] w-[18rem] h-[18rem] sm:w-[28rem] sm:h-[28rem] rounded-full bg-neon/25 blur-[60px] sm:blur-[120px]"

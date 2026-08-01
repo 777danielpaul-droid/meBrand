@@ -145,7 +145,7 @@ export default function CvSection() {
 
   return (
     <section
-      id="cv"
+    id="profile"
       ref={cvRef}
       className="relative z-20 py-28 bg-ink/10 border-y border-white/5 phase-gated"
     >

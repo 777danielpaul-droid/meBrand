@@ -7,11 +7,11 @@ export const site = {
   brand: { de: "text1", en: "text2" },
   tagline: { de: "text3", en: "text4" },
   nav: [
-    { label: { de: "text5", en: "text6" }, href: "#top" },
-    { label: { de: "text7", en: "text8" }, href: "#terminal" },
-    { label: { de: "text9", en: "text10" }, href: "#fraktionen" },
-    { label: { de: "text11", en: "text12" }, href: "#konflikt" },
-    { label: { de: "text13", en: "text14" }, href: "#kriegskonsole" },
+    { label: { de: "Start", en: "Home" }, href: "#hero" },
+    { label: { de: "Terminal", en: "Terminal" }, href: "#terminal" },
+    { label: { de: "Profil", en: "Profile" }, href: "#profile" },
+    { label: { de: "Geheimwaffe", en: "Secret Weapon" }, href: "#secret-weapon" },
+    { label: { de: "Schlacht", en: "Battle" }, href: "#battle" },
   ],
 
   // --- HERO ---

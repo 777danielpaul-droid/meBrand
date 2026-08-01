@@ -4,7 +4,6 @@ import Hero from "./components/layout/Hero"
 import SecretWeapon from "./components/layout/SecretWeapon"
 import Battle from "./components/layout/Battle"
 import CvSection from "./components/layout/CvSection"
-import WarRoomArchive from "./components/layout/WarRoomArchive"
 import Footer from "./components/layout/Footer"
 import SpaceStage from "./components/SpaceStage"
 import MoonLayer from "./components/MoonLayer"
@@ -28,7 +27,6 @@ export default function App() {
         <CvSection />
         <SecretWeapon />
         <Battle />
-        <WarRoomArchive />
       </main>
       <Footer />
     </LangProvider>
