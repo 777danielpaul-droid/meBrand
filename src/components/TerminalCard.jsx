@@ -60,7 +60,7 @@ export default function TerminalCard({ open, onClose }) {
           >
           <div
             className={
-              "mx-5 sm:mx-8 mb-6 rounded-xl neon-border glass sheen " +
+              "mx-5 sm:mx-8 mb-6 mt-20 rounded-xl neon-border glass sheen " +
               "terminal-scanlines text-bone font-mono text-sm " +
               "flex flex-col h-[60vh] max-h-[70vh]"
             }
@@ -69,7 +69,7 @@ export default function TerminalCard({ open, onClose }) {
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
               <div className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" aria-hidden="true" />
-                <span>// text //</span>
+                <span>// Email //</span>
               </div>
               <button
                 type="submit"
@@ -89,8 +89,7 @@ export default function TerminalCard({ open, onClose }) {
             >
               {lines.length === 0 && (
                 <p className="text-bone/30 text-xs leading-relaxed">
-                  // Knack den Code um das uralte Geheimnis zu offenbaren //
-                  → text
+                  → Email:
                 </p>
               )}
 
