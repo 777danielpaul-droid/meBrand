@@ -115,8 +115,8 @@ export const site = {
   battleMeta: {
     eyebrow: { de: "text87", en: "text88" },
     caption: { de: "text89", en: "text90" },
-    titleCover: { de: "text91", en: "text92" },
-    coverBody: { de: "text93", en: "text94" },
+    titleCover: { de: "Humble-Bee", en: "text92" },
+    coverBody: { de: "Projekt", en: "text94" },
   },
   battle: "/erdbaer-battle.jpg",
 

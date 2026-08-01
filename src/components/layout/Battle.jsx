@@ -86,10 +86,6 @@ export default function Battle() {
                   <T en={s.titleCover.en}>{s.titleCover.de}</T>
                 </h2>
                 <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>
-                <p className="mono-label text-neon mt-8 text-sm tracking-[0.2em]">
-                  {/* [T185] */}
-                  ↓ text185
-                </p>
               </div>
             </motion.div>
           </div>
