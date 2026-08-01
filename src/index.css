@@ -237,16 +237,10 @@
 
 /* ===== NEON TEXT ===== */
 .neon-text {
-  background: linear-gradient(
-    92deg,
-    var(--color-neon-soft),
-    var(--color-cyan) 55%,
-    var(--color-gold-soft)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 38px rgba(192, 38, 211, 0.45);
+  color: var(--color-neon);
+  text-shadow:
+    0 0 14px rgba(192, 38, 211, 0.55),
+    0 0 30px rgba(192, 38, 211, 0.35);
 }
 .text-glow-neon {
   text-shadow:
@@ -527,9 +521,6 @@
 }
 
 /* Neon-Text-Glow im Light Mode reduziert */
-[data-theme="light"] .neon-text {
-  text-shadow: 0 0 18px rgba(192, 38, 211, 0.22);
-}
 [data-theme="light"] .text-glow-neon {
   text-shadow: 0 0 14px rgba(192, 38, 211, 0.28);
 }
