@@ -388,25 +388,9 @@
   mix-blend-mode: screen;
   z-index: 50;
 }
-.hero-holo::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(175, 240, 255, 0.9),
-    transparent
-  );
-  box-shadow: 0 0 12px rgba(150, 230, 255, 0.85);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 51;
-  animation: holo-scan 5.5s linear infinite;
-}
+/* Scanner-Overlay entfernt — .hero-holo behält das ::after Scanline-Band für Struktur */
+
+/* ===== TITLE ===== */
 @keyframes holo-flicker {
   0%,
   88%,
@@ -472,25 +456,12 @@
       0 0 130px rgba(217, 70, 239, 0.32);
   }
 }
-@keyframes holo-scan {
-  0% {
-    top: 0%;
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  92% {
-    opacity: 1;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-  }
-}
+
+/* ===== SCANNER ENTFERNT ===== */
+
+/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
-  .title-rainbow,
-  .hero-holo::before {
+  .title-rainbow {
     animation: none;
     opacity: 1;
   }
