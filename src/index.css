@@ -241,31 +241,7 @@
   position: relative;
   overflow: hidden;
 }
-.sheen::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    100deg,
-    transparent,
-    rgba(255, 255, 255, 0.18),
-    transparent
-  );
-  transform: skewX(-18deg);
-  animation: sweep 6s ease-in-out infinite;
-}
-@keyframes sweep {
-  0%,
-  100% {
-    left: -60%;
-  }
-  50% {
-    left: 120%;
-  }
-}
+/* Sweep-Effekt entfernt — .sheen behält nur noch das relative position:relative für Kind-Positionierung */
 
 /* ===== NEON TEXT ===== */
 .neon-text {
