@@ -4,9 +4,9 @@ import { stagger, EASE } from "../motion/variants"
 import { cvData } from "../../data/cv"
 import { T } from "../RunenText"
 
-// SkillBar: wiederverwendbarer Balken mit glühendem Effekt.
+// SkillBar: wiederverwendbarer Balken mit glühendem Effekt und Icon.
 // Farbe ist ein CSS-Farbstring (z.B. "#c026d3").
-function SkillBar({ label, level, color, index }) {
+function SkillBar({ label, level, color, icon, index }) {
   return (
     <motion.div
       custom={index}
@@ -14,7 +14,20 @@ function SkillBar({ label, level, color, index }) {
       className="mb-3 last:mb-0"
     >
       <div className="flex justify-between mono-label text-xs text-bone/60 mb-1">
-        <T>{label}</T>
+        <span className="flex items-center gap-2">
+          {icon && (
+            <svg
+              viewBox="0 0 24 24"
+              className="w-4 h-4 flex-shrink-0"
+              style={{ color }}
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d={icon} />
+            </svg>
+          )}
+          <T>{label}</T>
+        </span>
         <span>{level}%</span>
       </div>
       <div className="h-2 rounded-full bg-white/5 overflow-hidden">
@@ -234,13 +247,22 @@ export default function CvSection() {
               </div>
               <div>
                 <span className="mono-label text-xs text-bone/40">Tools</span>
-                <div className="flex flex-wrap gap-1.5 mt-1">
+                <div className="flex flex-wrap gap-3 mt-1">
                   {c.tools.map((t) => (
                     <span
-                      key={t}
-                      className="mono-label text-[9px] text-bone/30"
+                      key={t.name}
+                      className="mono-label text-[9px] text-bone/30 flex items-center gap-1"
                     >
-                      {t}
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="w-3 h-3"
+                        style={{ color: "#c026d3" }}
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d={t.icon} />
+                      </svg>
+                      {t.name}
                     </span>
                   ))}
                 </div>
@@ -266,6 +288,7 @@ export default function CvSection() {
               label={s.name.de}
               level={s.level}
               color={s.color}
+              icon={s.icon}
               index={i}
             />
           ))}
@@ -288,6 +311,7 @@ export default function CvSection() {
               label={s.name.de}
               level={s.level}
               color={s.color}
+              icon={s.icon}
               index={i}
             />
           ))}
