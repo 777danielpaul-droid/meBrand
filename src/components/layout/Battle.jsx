@@ -56,14 +56,7 @@ export default function Battle() {
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/30" />
                   <div className="absolute inset-0 bg-gradient-to-br from-neon/10 via-transparent to-cyan/10 mix-blend-screen" />
 
-                  {/* HUD-Fraktions-Marker */}
-                  <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 mono-label text-bone/90 border border-white/20 bg-ink/50 backdrop-blur px-3 py-1.5 rounded-sm">
-                    <span className="w-2 h-2 rounded-full bg-neon" /> text181 — text182
-                  </div>
-                  <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-2 mono-label text-bone/90 border border-white/20 bg-ink/50 backdrop-blur px-3 py-1.5 rounded-sm">
-                    text183 — text184 <span className="w-2 h-2 rounded-full bg-neon" />
-                  </div>
-                </motion.div>
+                  </motion.div>
               </motion.div>
 
               <motion.div
