@@ -166,7 +166,7 @@ export default function CvSection() {
           initial="hidden"
           whileInView="show"
           variants={stagger}
-          className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-neon mb-6"
+          className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-cyan mb-6"
         >
           Daniel Paul
         </motion.h2>
@@ -189,7 +189,7 @@ export default function CvSection() {
             variants={stagger}
             className="flex-shrink-0"
           >
-            <div className="w-48 h-48 rounded-xl overflow-hidden border border-neon/30 shadow-[0_0_40px_rgba(192,38,211,0.3)]">
+            <div className="w-48 h-48 rounded-xl overflow-hidden border border-neon/30 shadow-[0_0_40px_rgba(123,30,43,0.3)]">
               <img
                 src={c.portrait}
                 alt={c.name.de}
@@ -256,7 +256,7 @@ export default function CvSection() {
                       <svg
                         viewBox="0 0 24 24"
                         className="w-3 h-3"
-                        style={{ color: "#c026d3" }}
+                        style={{ color: "#6d28d9" }}
                         fill="currentColor"
                         aria-hidden="true"
                       >
