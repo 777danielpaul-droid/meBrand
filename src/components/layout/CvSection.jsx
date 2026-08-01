@@ -1,4 +1,5 @@
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
+import { useRef, useLayoutEffect } from "react"
 import { stagger, EASE } from "../motion/variants"
 import { cvData } from "../../data/cv"
 import { T } from "../RunenText"
@@ -39,14 +40,105 @@ function SkillBar({ label, level, color, index }) {
   )
 }
 
+// ProjectCardRadial: Projekt-Karte mit radialer Stapel-Animation beim Scrollen.
+// Beim Scrollen schieben die Karten sich radial auseinander und ordnen sich –
+// ähnlich dem Archiv-Effekt, aber mit anderen Scroll-Offsets für die CV-Sektion.
+function ProjectCardRadial({ p, index, count, progress }) {
+  const cardRef = useRef(null)
+  const x = useMotionValue(0)
+  const opacity = useMotionValue(1)
+
+  // Radial-Position: Karten mittig, nach oben verschoben beim Scrollen
+  useLayoutEffect(() => {
+    const card = cardRef.current
+    const grid = card && card.parentElement
+    if (!grid) return
+
+    const apply = (p) => {
+      const stacked = window.matchMedia("(min-width: 1024px)").matches
+      if (!stacked) return
+
+      const g = grid.getBoundingClientRect()
+      const r = card.getBoundingClientRect()
+      const naturalLeft = r.left - x.get()
+      const center = g.left + g.width / 2 - (naturalLeft + r.width / 2)
+
+      // Radial nach außen bei Progress > 0.15
+      let factor = 1
+      if (p < 0.15) factor = 0
+      else if (p > 0.5) factor = 1
+      else {
+        const t = (p - 0.15) / (0.5 - 0.15)
+        factor = t
+      }
+
+      // Karten nach oben schieben und rotieren leicht
+      x.set(factor * center)
+      opacity.set(1 - factor * 0.2)
+    }
+
+    apply(progress.get())
+    const off = progress.on("change", apply)
+    return off
+  }, [progress, x, opacity])
+
+  const rel = index - (count - 1) / 2
+  // Leichte Rotation, die sich beim Scrollen entfaltet
+  const rotate = useTransform(progress, [0.15, 0.5], [rel * 8, 0])
+
+  return (
+    <motion.div
+      ref={cardRef}
+      custom={index}
+      variants={stagger}
+      style={{ x, rotate, opacity }}
+      className="rounded-xl neon-border glass card p-6 hover:border-neon/50 transition-colors group"
+    >
+      <div className="flex justify-between items-baseline mb-2">
+        <h4 className="font-display font-bold text-bone/90 group-hover:text-neon transition-colors">
+          <T en={p.title.en}>{p.title.de}</T>
+        </h4>
+        <span className="mono-label text-xs text-bone/40">
+          {p.date.de}
+        </span>
+      </div>
+      <p className="mono-label text-cyan text-xs mb-2">
+        <T en={p.role.en}>{p.role.de}</T>
+      </p>
+      <p className="text-sm text-bone/70 leading-relaxed line-clamp-3">
+        <T en={p.desc.en}>{p.desc.de}</T>
+      </p>
+      {p.url && (
+        <a
+          href={p.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-block mono-label text-xs text-cyan hover:text-neon transition-colors"
+        >
+          ↗ {p.url.replace("https://", "")}
+        </a>
+      )}
+    </motion.div>
+  )
+}
+
 // CvSection — ergänzende Business-Card-Sektion mit Daniel Pauls Profil-Daten.
 // Erscheint im Space-Theme-Fluss zwischen Battle und WarRoomArchive.
 export default function CvSection() {
   const c = cvData
+  const cvRef = useRef(null)
+  const projectsGridRef = useRef(null)
+
+  // Scroll-Linked Progress für die Karten-Stapel-Animation
+  const { scrollYProgress } = useScroll({
+    target: cvRef,
+    offset: ["start start", "end end"],
+  })
 
   return (
     <section
       id="cv"
+      ref={cvRef}
       className="relative z-20 py-28 bg-ink/10 border-y border-white/5 phase-gated"
     >
       <div className="absolute inset-0 hud-grid opacity-10" aria-hidden="true" />
@@ -206,7 +298,7 @@ export default function CvSection() {
           ))}
         </motion.div>
 
-        {/* Projekte-Vorschau */}
+        {/* Projekte-Vorschau mit radialer Karten-Stapel-Animation */}
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -216,39 +308,15 @@ export default function CvSection() {
           <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-6">
             Projekte
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div ref={projectsGridRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
             {c.projects.map((p, i) => (
-              <motion.div
+              <ProjectCardRadial
                 key={p.id}
-                custom={i}
-                variants={stagger}
-                className="rounded-xl neon-border glass card p-6 hover:border-neon/50 transition-colors"
-              >
-                <div className="flex justify-between items-baseline mb-2">
-                  <h4 className="font-display font-bold text-bone/90">
-                    <T en={p.title.en}>{p.title.de}</T>
-                  </h4>
-                  <span className="mono-label text-xs text-bone/40">
-                    {p.date.de}
-                  </span>
-                </div>
-                <p className="mono-label text-cyan text-xs mb-2">
-                  <T en={p.role.en}>{p.role.de}</T>
-                </p>
-                <p className="text-sm text-bone/70 leading-relaxed line-clamp-3">
-                  <T en={p.desc.en}>{p.desc.de}</T>
-                </p>
-                {p.url && (
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-block mono-label text-xs text-cyan hover:text-neon transition-colors"
-                  >
-                    ↗ {p.url.replace("https://", "").replace("https://", "")}
-                  </a>
-                )}
-              </motion.div>
+                p={p}
+                index={i}
+                count={c.projects.length}
+                progress={scrollYProgress}
+              />
             ))}
           </div>
         </motion.div>
