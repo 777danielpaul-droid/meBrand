@@ -114,8 +114,7 @@
   }
   .glitch::before,
   .glitch::after,
-  .sheen::after,
-  .bg-theatre::before {
+  .sheen::after {
     display: none;
   }
 }
@@ -147,33 +146,7 @@
      scheint hinter dem Hero durch. Der body-Ink fängt den Rest auf. */
   position: relative;
 }
-.bg-theatre::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  background:
-    radial-gradient(
-      40% 30% at 30% 30%,
-      rgba(192, 38, 211, 0.2),
-      transparent 70%
-    ),
-    radial-gradient(
-      35% 25% at 70% 60%,
-      rgba(34, 211, 238, 0.16),
-      transparent 70%
-    );
-  filter: blur(40px);
-  animation: aurora 16s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-@keyframes aurora {
-  0% {
-    transform: translate3d(-4%, -2%, 0) scale(1);
-  }
-  100% {
-    transform: translate3d(5%, 3%, 0) scale(1.1);
-  }
-}
+/* Aurora-Animation entfernt - Regenbogeneffekt */
 
 /* ===== TERMINAL ===== */
 
@@ -395,8 +368,7 @@
 @media (prefers-reduced-motion: reduce) {
   .glitch::before,
   .glitch::after,
-  .sheen::after,
-  .bg-theatre::before {
+  .sheen::after {
     display: none;
   }
 }
@@ -483,19 +455,6 @@
       600px 500px at 70% 60%,
       rgba(245, 197, 66, 0.12),
       transparent 60%
-    );
-}
-[data-theme="light"] .bg-theatre::before {
-  background:
-    radial-gradient(
-      40% 30% at 30% 30%,
-      rgba(192, 38, 211, 0.12),
-      transparent 70%
-    ),
-    radial-gradient(
-      35% 25% at 70% 60%,
-      rgba(34, 211, 238, 0.1),
-      transparent 70%
     );
 }
 
