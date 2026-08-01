@@ -471,6 +471,11 @@
   animation: uv-backglow-pulse 2s ease-in-out infinite;
 }
 
+/* Permanenten UV-Glow für Header */
+.header-glow {
+  box-shadow: var(--tw-shadow-backglow);
+}
+
 @keyframes uv-backglow-pulse {
   0%, 100% {
     box-shadow: 0 0 8px rgba(138, 43, 226, 0.5), 
