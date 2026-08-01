@@ -16,7 +16,7 @@ export default function Hero() {
   const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
 
   return (
-    <section id="top" className="hero-holo relative bg-theatre grain overflow-hidden motion-reveal">
+    <section id="top" className="hero-holo relative bg-theatre overflow-hidden motion-reveal">
       <motion.div
         style={{ y: blobY, opacity: blobOpacity }}
         className="absolute top-24 right-[-6rem] w-[18rem] h-[18rem] sm:w-[28rem] sm:h-[28rem] rounded-full bg-neon/25 blur-[60px] sm:blur-[120px]"
@@ -40,10 +40,10 @@ export default function Hero() {
             className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words"
             style={{ filter: TITLE_SHADOW }}
           >
-            <motion.span custom={1} initial="hidden" animate="show" variants={titleLine} className="block title-rainbow">
+            <motion.span custom={1} initial="hidden" animate="show" variants={titleLine} className="block">
               <T en={h.title.en}>{h.title.de.split("\n")[0]}</T>
             </motion.span>
-            <motion.span custom={2} initial="hidden" animate="show" variants={titleLine} className="block title-rainbow">
+            <motion.span custom={2} initial="hidden" animate="show" variants={titleLine} className="block">
               <T en={h.title.en}>{h.title.de.split("\n")[1] || ""}</T>
             </motion.span>
           </h1>
