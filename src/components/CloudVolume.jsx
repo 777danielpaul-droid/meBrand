@@ -67,10 +67,10 @@ float snoise(vec3 v){
   return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
 }
 
-// ---------- fbm (4 Oktaven: Kompromiss Qualität/Performance) ----------
+// ---------- fbm (3 Oktaven: Optimierter Kompromiss für Performance) ----------
 float fbm(vec3 p){
   float v = 0.0, a = 0.5;
-  for(int i=0;i<4;i++){ v += a * snoise(p); p *= 2.03; a *= 0.5; }
+  for(int i=0;i<3;i++){ v += a * snoise(p); p *= 2.03; a *= 0.5; }
   return v;
 }
 
@@ -129,7 +129,7 @@ void main(){
 
   // --- Tiefe durch Transparenz-Gradient (oben satt, nach unten wischern) ---
   float vN = clamp((uv.y - botY) / 0.26, 0.0, 1.0);
-  float vFall = mix(1.0, 0.35, 1.0 - vN);  // unten auslaufend
+  float vFall = mix(1.0, 0.55, 1.0 - vN);  // unten auslaufend, aber stärker sichtbar
   float edge = smoothstep(0.0, 0.5, body);
   float alpha = cloud * vFall * edge;
   alpha = clamp(alpha, 0.0, 1.0);
@@ -158,7 +158,7 @@ void main(){
   float botBreaker = smoothstep(0.36, 0.66, botGap);
   botCloud *= mix(1.0, botBreaker, 0.36);
   botCloud = clamp(botCloud, 0.0, 1.0);
-  float botAlpha = clamp(botCloud * 1.0, 0.0, 1.0);
+  float botAlpha = clamp(botCloud * 1.15, 0.0, 1.0); // Stärkere Sichtbarkeit unten
 
   // ===== Zwei kleine LILA Wolken in den oberen Ecken (links + rechts) =====
   // WIE DIE HAUPTWOLKEN: Domain-Warp (n1/n2/n3) fuer fliessendes Morphen,
@@ -227,7 +227,7 @@ void main(){
   float mixN = fbm(vec3(p * 3.4 + vec2(t * 0.6, t * 0.4), t * 1.0)) * 0.5 + 0.5;
   float mixMask = (mixN - 0.5) * 1.2;  // -0.6..+0.6 Wind
   // MEHR TÜRKIS: turkMask stark Richtung Türkis biasen (Lila nur dezenter Schimmer)
-  float turkMask = clamp(tAlpha + mixMask + 0.40, 0.0, 1.0);
+  float turkMask = clamp(tAlpha + mixMask + 0.55, 0.0, 1.0); // Mehr Türkis-Dominanz
   vec3 col = cornerCol;
   col = mix(col, turkCol, clamp(turkMask, 0.0, 1.0));   // türkis DOMINANT, lila schimmert
 
@@ -304,7 +304,7 @@ export default function CloudVolume() {
     let last = 0;
     let visible = false;
     let renderIdleGuard = 0;
-    const FRAME = 1000 / 30;
+    const FRAME = 1000 / 60; // 60 FPS für flüssigere Animation
     const start = performance.now();
     const render = (now) => {
       raf = requestAnimationFrame(render);
