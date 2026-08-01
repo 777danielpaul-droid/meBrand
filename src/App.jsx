@@ -1,7 +1,6 @@
 import { useState } from "react"
 import Navbar from "./components/layout/Navbar"
 import Hero from "./components/layout/Hero"
-import Conflict from "./components/layout/Conflict"
 import SecretWeapon from "./components/layout/SecretWeapon"
 import Battle from "./components/layout/Battle"
 import CvSection from "./components/layout/CvSection"
@@ -27,7 +26,6 @@ export default function App() {
       <main>
         <Hero />
         <CvSection />
-        <Conflict />
         <SecretWeapon />
         <Battle />
         <WarRoomArchive />

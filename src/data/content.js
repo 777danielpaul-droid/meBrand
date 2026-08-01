@@ -82,24 +82,6 @@ export const site = {
     eyebrow: { de: "text55", en: "text56" },
     title: { de: "text57", en: "text58" },
     body: { de: "text59", en: "text60" },
-    aspects: [
-      {
-        side: { de: "text61", en: "text62" },
-        items: [
-          { de: "text63", en: "text64" },
-          { de: "text65", en: "text66" },
-          { de: "text67", en: "text68" },
-        ],
-      },
-      {
-        side: { de: "text69", en: "text70" },
-        items: [
-          { de: "text71", en: "text72" },
-          { de: "text73", en: "text74" },
-          { de: "text75", en: "text76" },
-        ],
-      },
-    ],
   },
 
   // --- GEHEIMWAFFE ---

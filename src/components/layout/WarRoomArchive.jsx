@@ -1,64 +1,64 @@
-import { useState, useRef, useLayoutEffect } from "react"
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue } from "framer-motion"
+import { useRef, useLayoutEffect, useState } from "react"
+import { motion, useScroll, useTransform, useMotionValue, AnimatePresence } from "framer-motion"
 import Reveal from "../motion/Reveal"
 import { site } from "../../data/content"
+import { T } from "../RunenText"
 import { EASE } from "../motion/variants"
-import { useVotes, castVote } from "../../lib/votes"
-import RunenText, { T } from "../RunenText"
-import { useLang } from "../RunenContext"
-import { useArchiveCardPosition } from "../motion/useArchiveCardPosition"
+import RunenText from "../RunenText"
 
-const FACTIONS = {
-  erdbaeren: {
-    name: "text189",
-    nameEn: "text190",
-    color: "#c026d3",
-    stats: [
-      { k: "text-1", v: 98 },
-      { k: "text-2", v: 100 },
-      { k: "text-3", v: 97 },
-      { k: "text-4", v: 9 },
-    ],
-    verdict: "text191",
-  },
-  milchmaeuse: {
-    name: "text192",
-    nameEn: "text193",
-    color: "#22d3ee",
-    stats: [
-      { k: "text-1", v: 99 },
-      { k: "text-2", v: 96 },
-      { k: "text-3", v: 88 },
-      { k: "text-4", v: 3 },
-    ],
-    verdict: "text194",
-  },
-}
+// ArchiveCard: Karten mit radialer Stapel-Animation beim Scrollen.
+function ArchiveCard({ entry, index, count, progress }) {
+  const cardRef = useRef(null)
+  const x = useMotionValue(0)
+  const rotate = useMotionValue(0)
+  const opacity = useMotionValue(1)
 
-function StatBar({ k, v, color }) {
+  useLayoutEffect(() => {
+    const card = cardRef.current
+    const grid = card && card.parentElement
+    if (!grid) return
+
+    const apply = () => {
+      const stacked = window.matchMedia("(min-width: 768px)").matches
+      if (!stacked) return
+      const g = grid.getBoundingClientRect()
+      const r = card.getBoundingClientRect()
+      const center = g.left + g.width / 2 - (r.left + r.width / 2)
+      const rel = index - (count - 1) / 2
+      const p = progress.get()
+      let factor = 1 - p * 2
+      if (factor < 0) factor = 0
+      if (factor > 1) factor = 1
+      x.set(factor * center + rel * 8)
+      rotate.set(rel * 6 * (1 - factor))
+      opacity.set(0.8 + factor * 0.2)
+    }
+
+    apply()
+    const off = progress.on("change", apply)
+    return off
+  }, [progress, x, rotate, opacity, index, count])
+
   return (
-    <div>
-      <div className="flex justify-between mono-label text-bone/60 mb-1">
-        <span>{k}</span>
-        <span style={{ color }}>{v}%</span>
-      </div>
-      <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${v}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: EASE }}
-          className="h-full rounded-full bar-pulse"
-          style={{ background: color }}
-        />
-      </div>
-    </div>
+    <motion.article
+      ref={cardRef}
+      style={{ x, rotate, opacity, zIndex: count - index }}
+      className="rounded-xl neon-border glass card p-6 hover:border-gold/40 transition-colors"
+    >
+      <div className="mono-label text-neon">{entry.code}</div>
+      <h3 className="font-display font-semibold text-lg mt-3 text-bone">
+        <T>{entry.title.de}</T>
+      </h3>
+      <p className="mt-3 text-sm text-bone/60 leading-relaxed">
+        <T>{entry.text.de}</T>
+      </p>
+    </motion.article>
   )
 }
 
+// InterceptCard: Interaktive Karten mit Chiffre-Entschlüsselung.
 function InterceptCard({ msg, delay, z }) {
   const [open, setOpen] = useState(false)
-  const { mode } = useLang()
   const ref = useRef(null)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -92,7 +92,9 @@ function InterceptCard({ msg, delay, z }) {
       >
         <div className="flex items-center justify-between mb-4">
           <span className="mono-label text-cyan">{msg.code}</span>
-          <span className="text-bone/35">{open ? (mode === "en" ? "text195" : "text196") : (mode === "en" ? "text197" : "text198")}</span>
+          <span className="text-bone/35">
+            {open ? "Verbergen" : "Entschlüsseln"}
+          </span>
         </div>
         <RunenText text={msg.cipher} className="text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[4.5rem]" />
         <AnimatePresence initial={false}>
@@ -104,7 +106,7 @@ function InterceptCard({ msg, delay, z }) {
               transition={{ duration: 0.4, ease: EASE }}
               className="overflow-hidden text-bone/80 font-display text-lg italic border-t border-white/10 pt-4"
             >
-              „{mode === "en" ? msg.plain.en : msg.plain.de}“
+              „{msg.plain.de}“
             </motion.p>
           )}
         </AnimatePresence>
@@ -125,9 +127,15 @@ function Intercepts({ data }) {
   return (
     <div className="mt-16">
       <Reveal className="mb-8" variant="up">
-        <p className="mono-label text-cyan mb-3"><T en={data.eyebrow.en}>{data.eyebrow.de}</T></p>
-        <h3 className="font-display font-bold text-3xl sm:text-4xl tracking-tight"><T en={data.title.en}>{data.title.de}</T></h3>
-        <p className="mt-3 text-sm text-bone/50"><T en={data.hint.en}>{data.hint.de}</T></p>
+        <p className="mono-label text-cyan mb-3">
+          <T>{data.eyebrow.de}</T>
+        </p>
+        <h3 className="font-display font-bold text-3xl sm:text-4xl tracking-tight">
+          <T>{data.title.de}</T>
+        </h3>
+        <p className="mt-3 text-sm text-bone/50">
+          <T>{data.hint.de}</T>
+        </p>
       </Reveal>
       <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-4">
         {data.messages.map((m) => {
@@ -139,42 +147,7 @@ function Intercepts({ data }) {
   )
 }
 
-function ArchiveCard({ entry, index, count, progress }) {
-  const cardRef = useRef(null)
-  const { x, rotate, opacity } = useArchiveCardPosition(cardRef, index, count, progress)
-
-  return (
-    <motion.article
-      ref={cardRef}
-      style={{ x, rotate, opacity, zIndex: count - index }}
-      className="rounded-xl neon-border glass card p-6 hover:border-gold/40 transition-colors"
-    >
-      <div className="mono-label text-neon">{entry.code}</div>
-      <h3 className="font-display font-semibold text-lg mt-3 text-bone"><T en={entry.title.en}>{entry.title.de}</T></h3>
-      <p className="mt-3 text-sm text-bone/60 leading-relaxed"><T en={entry.text.en}>{entry.text.de}</T></p>
-    </motion.article>
-  )
-}
-
 export default function WarRoomArchive() {
-  const [active, setActive] = useState("erdbaeren")
-  const [busy, setBusy] = useState(false)
-  const votes = useVotes()
-  const f = FACTIONS[active]
-
-  const handleVote = async (key) => {
-    if (busy) return
-    setBusy(true)
-    try {
-      await castVote(key)
-      setActive(key)
-    } catch {
-      /* Fehler still — Status bleibt unverändert */
-    } finally {
-      setBusy(false)
-    }
-  }
-
   const ref = useRef(null)
   const archiveGridRef = useRef(null)
   const { scrollYProgress } = useScroll({
@@ -184,121 +157,20 @@ export default function WarRoomArchive() {
 
   const sector2Y = useTransform(scrollYProgress, [0.2, 0.55], ["100%", "0%"])
 
-  const glow = useTransform(scrollYProgress, [0, 0.5, 1], [0.25, 0.7, 0.25])
-  const glowShadow = useTransform(glow, (g) => `0 0 ${30 + g * 70}px rgba(192,38,211,${g})`)
-
   return (
-    <section ref={ref} id="kriegskonsole" className="relative phase-gated">
+    <section ref={ref} id="archiv" className="relative phase-gated">
       <div className="relative h-[280vh]">
         <div className="sticky top-0 h-screen overflow-y-auto sm:overflow-hidden">
-
           <div className="absolute inset-0 z-10 bg-ink-soft border-y border-white/5 overflow-y-auto sm:overflow-hidden">
             <div className="absolute inset-0 hud-grid opacity-50" aria-hidden="true" />
-            <div className="relative min-h-full max-w-7xl mx-auto px-5 sm:px-8 flex flex-col justify-start sm:justify-center py-12">
-              <Reveal className="mb-8 text-center">
-                <p className="mono-label text-neon mb-4">/* [T199] */ // text199 //</p>
-                <h2 className="font-display font-bold text-4xl sm:text-6xl tracking-tight">
-                  <span className="glitch" data-text="text200" role="img" aria-label="text201">
-                    <T en="text202">text203</T>
-                  </span>
-                </h2>
-              </Reveal>
-
-              <div className="flex flex-wrap justify-center gap-4 mb-4">
-                {Object.entries(FACTIONS).map(([key, fac]) => (
-                  <button
-                    key={key}
-                    onClick={() => setActive(key)}
-                    className={`mono-label px-6 py-3 rounded-sm border transition-all ${
-                      active === key
-                        ? "border-neon bg-neon/15 text-bone"
-                        : "border-white/15 text-bone/50 hover:text-bone/80"
-                    }`}
-                    style={active === key ? { boxShadow: `0 0 30px ${fac.color}55` } : {}}
-                  >
-                    {<T en={fac.nameEn}>{fac.name}</T>}
-                  </button>
-                ))}
-              </div>
-              <Reveal className="mb-8 text-center">
-                <p className="mono-label text-bone/30">
-                  <T en="text204">
-                    text205
-                  </T>
-                </p>
-              </Reveal>
-
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE }}
-                className="max-w-3xl mx-auto w-full rounded-2xl neon-border glass card p-8 relative overflow-hidden"
-                style={{ boxShadow: glowShadow }}
-              >
-                <div
-                  className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[100px] opacity-40"
-                  style={{ background: f.color }}
-                />
-                <div className="relative">
-                  <div className="flex items-center justify-between mb-8">
-                    <h3 className="font-display font-bold text-2xl" style={{ color: f.color }}>
-                      <T en={f.nameEn}>{f.name}</T>
-                    </h3>
-                    <span className="mono-label text-bone/40">/* [T206] */ text206</span>
-                  </div>
-
-                  <div className="space-y-5">
-                    {f.stats.map((s) => (
-                      <StatBar key={s.k} {...s} color={f.color} />
-                    ))}
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-white/10">
-                    <p className="mono-label text-bone/40 mb-2">/* [T207] */ text207</p>
-                    <p
-                      className="font-display font-bold text-lg glitch"
-                      data-text={f.verdict}
-                      style={{ color: f.color }}
-                    >
-                      {f.verdict}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => handleVote(active)}
-                    disabled={busy}
-                    className="mt-8 w-full mono-label px-6 py-4 rounded-sm border transition-all disabled:opacity-60 flex items-center justify-center gap-3"
-                    style={{
-                      borderColor: f.color,
-                      color: f.color,
-                      background: `${f.color}12`,
-                      boxShadow: votes.mine === active ? `0 0 30px ${f.color}55` : "none",
-                    }}
-                  >
-                    <T en="text208">text209</T>
-                    <span className="tabular-nums text-bone/90">
-                      {active === "erdbaeren" ? votes.erdbaeren : votes.milchmaeuse}
-                    </span>
-                  </button>
-                </div>
-              </motion.div>
-
-              <Reveal className="mt-8 text-center">
-                <p className="mono-label text-bone/30">/* [T210] */ text210</p>
-              </Reveal>
-            </div>
-          </div>
-
-          <motion.div
-            id="archiv"
-            style={{ y: sector2Y }}
-            className="absolute inset-0 z-20 bg-ink-soft/10 border-t border-white/10 overflow-y-auto overflow-x-hidden archiv-scroll"
-          >
-            <div className="min-h-full max-w-7xl mx-auto px-5 sm:px-8 flex flex-col justify-center py-12">
+            <div className="relative min-h-full max-w-7xl mx-auto px-5 sm:px-8 flex flex-col justify-center py-12">
               <Reveal className="mb-12" variant="up">
-                <p className="mono-label text-gold mb-4"><T en={site.archive.eyebrow.en}>{site.archive.eyebrow.de}</T></p>
-                <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight"><T en={site.archive.title.en}>{site.archive.title.de}</T></h2>
+                <p className="mono-label text-gold mb-4">
+                  <T>{site.archive.eyebrow.de}</T>
+                </p>
+                <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight">
+                  <T>{site.archive.title.de}</T>
+                </h2>
               </Reveal>
 
               <div ref={archiveGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -315,8 +187,16 @@ export default function WarRoomArchive() {
 
               <Intercepts data={site.archive.intercepts} />
             </div>
-          </motion.div>
+          </div>
 
+          <motion.div
+            style={{ y: sector2Y }}
+            className="absolute inset-0 z-20 bg-ink-soft/10 border-t border-white/10 overflow-y-auto overflow-x-hidden archiv-scroll"
+          >
+            <div className="min-h-full max-w-7xl mx-auto px-5 sm:px-8 flex flex-col justify-center py-12">
+              {/* Archiv-Inhalt */}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

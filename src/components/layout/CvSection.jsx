@@ -316,28 +316,6 @@ export default function CvSection() {
           ))}
         </motion.div>
 
-        {/* Projekte-Vorschau mit radialer Karten-Stapel-Animation */}
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={stagger}
-        >
-          <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-6">
-            Projekte
-          </h3>
-          <div ref={projectsGridRef} className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
-            {c.projects.map((p, i) => (
-              <ProjectCardRadial
-                key={p.id}
-                p={p}
-                index={i}
-                count={c.projects.length}
-                progress={scrollYProgress}
-              />
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   )
