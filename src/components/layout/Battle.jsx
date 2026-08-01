@@ -70,9 +70,9 @@ export default function Battle() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ y: linkY, opacity: linkOpacity }}
-                className="font-road-rage text-cyan hover:text-neon transition-colors text-2xl sm:text-3xl md:text-4xl font-bold underline decoration-cyan/30"
+                className="font-road-rage text-cyan hover:text-neon transition-colors text-2xl sm:text-3xl md:text-4xl font-bold underline decoration-cyan/30 link-pulse"
               >
-                Save the bees
+                Save the bees — humble-bee.de
               </motion.a>
             </motion.div>
             </div>
@@ -83,7 +83,7 @@ export default function Battle() {
               className="relative z-20 mx-auto max-w-3xl"
             >
               <div className="rounded-none bg-transparent">
-                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#6d28d9]">
+                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#6d28d9] link-pulse">
                   <T en={s.titleCover.en}>{s.titleCover.de}</T>
                 </h2>
                 <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>

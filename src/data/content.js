@@ -95,7 +95,7 @@ export const site = {
 
   // --- SCHLACHT ---
   battleMeta: {
-    eyebrow: { de: "text87", en: "text88" },
+    eyebrow: { de: "Projekte", en: "text88" },
     caption: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text90" },
     titleCover: { de: "Humble-Bee", en: "text92" },
     coverBody: { de: "Projekt", en: "text94" },

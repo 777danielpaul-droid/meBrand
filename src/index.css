@@ -292,6 +292,17 @@
   animation: pulse-bar 1.6s ease-in-out infinite;
 }
 
+/* Text blinkt zwischen Türkis und Lila */
+@keyframes text-pulse {
+  0% { color: #22d3ee; }
+  50% { color: #6d28d9; }
+  100% { color: #22d3ee; }
+}
+.text-pulse,
+.link-pulse {
+  animation: text-pulse 2s ease-in-out infinite;
+}
+
 /* ===== HERO ===== */
 .hero-holo {
   position: relative;

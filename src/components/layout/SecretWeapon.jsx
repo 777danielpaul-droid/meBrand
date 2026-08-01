@@ -36,7 +36,7 @@ export default function SecretWeapon() {
           <div className="relative w-full max-w-5xl mx-auto px-5 sm:px-8 h-full flex items-center justify-center">
             {/* REVEAL-SPALTE (unter dem Panel): Bild + Caption gestapelt, am Ende komplett sichtbar */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10">
-              <p className="mono-label text-gold">/* [T177] */ // text177 //</p>
+              <p className="mono-label text-gold">Projekte</p>
 
               <motion.div
                 style={{ y: imgY, scale: imgScale, opacity: imgOpacity, filter: imgFilter }}
@@ -67,7 +67,7 @@ export default function SecretWeapon() {
                     href={s.name.de}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-cyan hover:text-neon transition-colors underline decoration-cyan/50 hover:decoration-neon"
+                    className="text-cyan hover:text-neon transition-colors underline decoration-cyan/50 hover:decoration-neon font-road-rage text-pulse link-pulse"
                   >
                     {s.name.de}
                   </a>
@@ -83,7 +83,7 @@ export default function SecretWeapon() {
               className="relative z-20 mx-auto max-w-3xl"
             >
               <div className="rounded-none bg-transparent">
-                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#6d28d9]">
+                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#6d28d9] link-pulse">
                   My first game
                 </h2>
               </div>

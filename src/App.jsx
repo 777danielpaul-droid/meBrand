@@ -6,7 +6,6 @@ import Battle from "./components/layout/Battle"
 import CvSection from "./components/layout/CvSection"
 import Footer from "./components/layout/Footer"
 import SpaceStage from "./components/SpaceStage"
-import MoonLayer from "./components/MoonLayer"
 import CloudVolume from "./components/CloudVolume"
 import TerminalCard from "./components/TerminalCard"
 import { ScrollProgress } from "./components/motion/ScrollFX"
@@ -16,7 +15,6 @@ export default function App() {
   const [termOpen, setTermOpen] = useState(false)
   return (
     <LangProvider>
-      <MoonLayer />
       <SpaceStage />
       <CloudVolume />
       <ScrollProgress />
