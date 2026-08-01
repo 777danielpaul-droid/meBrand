@@ -121,27 +121,8 @@
 
 /* ===== AURORA BACKDROP ===== */
 .bg-theatre {
-  background:
-    radial-gradient(
-      1000px 700px at 80% -10%,
-      rgba(192, 38, 211, 0.28),
-      transparent 55%
-    ),
-    radial-gradient(
-      900px 800px at 5% 10%,
-      rgba(124, 58, 237, 0.22),
-      transparent 55%
-    ),
-    radial-gradient(
-      800px 700px at 50% 120%,
-      rgba(34, 211, 238, 0.14),
-      transparent 55%
-    ),
-    radial-gradient(
-      600px 500px at 70% 60%,
-      rgba(245, 197, 66, 0.1),
-      transparent 60%
-    );
+  /* Einheitlicher dunkler Hintergrund ohne Regenbogeneffekt */
+  background: var(--color-ink);
   /* KEINE opake lineare Basisfläche mehr -> die Milchstraße (z-index:-10)
      scheint hinter dem Hero durch. Der body-Ink fängt den Rest auf. */
   position: relative;
@@ -432,31 +413,6 @@
 }
 
 /* Helle Variante — keine Overlays mehr notwendig */
-
-/* Helle Variante des Aurora-Hintergrunds */
-[data-theme="light"] .bg-theatre {
-  background:
-    radial-gradient(
-      1000px 700px at 80% -10%,
-      rgba(192, 38, 211, 0.16),
-      transparent 55%
-    ),
-    radial-gradient(
-      900px 800px at 5% 10%,
-      rgba(124, 58, 237, 0.14),
-      transparent 55%
-    ),
-    radial-gradient(
-      800px 700px at 50% 120%,
-      rgba(34, 211, 238, 0.12),
-      transparent 55%
-    ),
-    radial-gradient(
-      600px 500px at 70% 60%,
-      rgba(245, 197, 66, 0.12),
-      transparent 60%
-    );
-}
 
 /* Glass im Light Mode: dunkle Karte auf hellem BG (weißer Text drauf) */
 [data-theme="light"] .glass {
