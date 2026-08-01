@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { titleLine } from "../motion/variants"
 import { site } from "../../data/content"
+import { cvData } from "../../data/cv"
 import { T } from "../RunenText"
 
 const TITLE_SHADOW =
@@ -44,12 +45,19 @@ export default function Hero() {
               <T en={h.title.en}>{h.title.de.split("\n")[0]}</T>
             </motion.span>
             <motion.span custom={2} initial="hidden" animate="show" variants={titleLine} className="block">
-              <T en={h.title.en}>{h.title.de.split("\n")[1] || ""}</T>
+              <span className="text-cyan block">
+                Daniel
+              </span>
+            </motion.span>
+            <motion.span custom={3} initial="hidden" animate="show" variants={titleLine} className="block">
+              <span className="text-cyan block">
+                Paul
+              </span>
             </motion.span>
           </h1>
 
           <motion.p
-            custom={3}
+            custom={4}
             initial="hidden"
             animate="show"
             variants={titleLine}
@@ -59,7 +67,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            custom={4}
+            custom={5}
             initial="hidden"
             animate="show"
             variants={titleLine}
@@ -67,7 +75,7 @@ export default function Hero() {
           >
             <a
               href={h.primaryCta.href}
-              className="mono-label bg-neon hover:bg-neon-2 transition-colors text-white px-6 py-3 rounded-sm shadow-[0_0_40px_rgba(192,38,211,0.45)]"
+              className="mono-label bg-cyan hover:bg-cyan/80 transition-colors text-ink px-6 py-3 rounded-sm shadow-[0_0_40px_rgba(34,211,238,0.45)]"
             >
               <T en={h.primaryCta.label.en}>{h.primaryCta.label.de}</T>
             </a>
