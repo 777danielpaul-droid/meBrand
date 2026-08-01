@@ -19,11 +19,7 @@ export default function Conflict() {
           {c.aspects.map((side, i) => (
             <Reveal key={i} delay={i * 0.1} variant={i % 2 === 0 ? "left" : "right"}>
               <div
-                className={`rounded-2xl neon-border glass p-8 h-full ${
-                  side.side === "MILCHMÄUSE"
-                    ? "border-cyan/30 bg-panel"
-                    : "border-neon/30 bg-panel"
-                }`}
+                className={`rounded-2xl neon-border glass card p-8 h-full ${side.side === "MILCHMÄUSE" ? "border-cyan/30 bg-panel" : "border-neon/30 bg-panel"}`}
               >
                 <div
                   className={`mono-label mb-6 ${

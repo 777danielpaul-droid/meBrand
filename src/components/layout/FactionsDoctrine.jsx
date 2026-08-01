@@ -172,7 +172,7 @@ export default function FactionsDoctrine() {
                   },
                 }}
                 whileHover={{ y: -6, transition: { duration: 0.4, ease: EASE } }}
-                className={`group relative rounded-2xl neon-border glass sheen overflow-hidden hover:${a.border} transition-colors`}
+                className={`group relative rounded-2xl neon-border glass card overflow-hidden hover:${a.border} transition-colors`}
               >
                 <div className="relative isolate h-60 sm:h-72 overflow-hidden">
                   {f.id === "milchmaeuse" ? (

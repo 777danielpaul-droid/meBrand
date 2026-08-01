@@ -87,7 +87,7 @@ function InterceptCard({ msg, delay, z }) {
     >
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full text-left rounded-xl neon-border glass p-6 transition-colors hover:border-cyan/40 focus:outline-none focus:border-cyan/60"
+        className="w-full text-left rounded-xl neon-border glass card p-6 transition-colors hover:border-cyan/40 focus:outline-none focus:border-cyan/60"
         aria-expanded={open}
       >
         <div className="flex items-center justify-between mb-4">
@@ -147,7 +147,7 @@ function ArchiveCard({ entry, index, count, progress }) {
     <motion.article
       ref={cardRef}
       style={{ x, rotate, opacity, zIndex: count - index }}
-      className="rounded-xl neon-border glass p-6 hover:border-gold/40 transition-colors"
+      className="rounded-xl neon-border glass card p-6 hover:border-gold/40 transition-colors"
     >
       <div className="mono-label text-neon">{entry.code}</div>
       <h3 className="font-display font-semibold text-lg mt-3 text-bone"><T en={entry.title.en}>{entry.title.de}</T></h3>
@@ -233,7 +233,7 @@ export default function WarRoomArchive() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: EASE }}
-                className="max-w-3xl mx-auto w-full rounded-2xl neon-border glass sheen p-8 relative overflow-hidden"
+                className="max-w-3xl mx-auto w-full rounded-2xl neon-border glass card p-8 relative overflow-hidden"
                 style={{ boxShadow: glowShadow }}
               >
                 <div

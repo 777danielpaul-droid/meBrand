@@ -81,7 +81,7 @@ export default function Battle() {
               style={{ y: panelY, opacity: panelOpacity }}
               className="relative z-20 mx-auto max-w-3xl"
             >
-              <div className="rounded-2xl neon-border glass sheen p-10 sm:p-14 text-center">
+              <div className="rounded-2xl neon-border glass card p-10 sm:p-14 text-center">
                 <h2 className="font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05]">
                   <T en={s.titleCover.en}>{s.titleCover.de}</T>
                 </h2>
