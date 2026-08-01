@@ -219,11 +219,10 @@ export default function CvSection() {
               <div>
                 <span className="mono-label text-xs text-bone/40">Telefon</span>
                 <span
-                  className="block text-bone/80 mt-1 numRotate"
+                  className="block text-bone/80 mt-1"
                   aria-label={c.contact.phone}
-                  style={{ direction: "rtl", unicodeBidi: "bidi-override" }}
                 >
-                  {c.contact.phone.split("").reverse().join("")}
+                  {c.contact.phone}
                 </span>
               </div>
               <div>

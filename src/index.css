@@ -335,12 +335,8 @@
   }
 }
 
-/* numRotate: Telefonnummer im Quellcode rückwärts (Bot-Schutz),
-   im Browser korrekt gelesen via direction:rtl + bidi-override */
-.numRotate {
-  direction: rtl;
-  unicode-bidi: bidi-override;
-}
+/* numRotate wurde entfernt — Telefonnummer wird normal (linksbündig) angezeigt,
+   Bot-Schutz läuft über aria-label vs. sichtbarer Text. */
 .runen {
   display: flex;
   flex-wrap: wrap;
