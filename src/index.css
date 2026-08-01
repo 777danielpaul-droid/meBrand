@@ -46,13 +46,9 @@
 
   /* CLS: Preserve overall section coverage so phase-gated reveals
      don't cause big layout jumps. */
-  #konflikt,
-  #geheimwaffe,
-  #fraktionen,
-  #schlacht,
-  #konsole,
-  #archiv,
-  #cv {
+  #profile,
+  #secret-weapon,
+  #battle {
     background-color: rgba(7, 6, 13, 0.85) !important;
   }
   ::selection {
@@ -114,22 +110,14 @@
   .milkyway {
     opacity: 0.85;
   }
-  .glitch::before,
-  .glitch::after,
-  .sheen::after {
-    display: none;
-  }
 }
 
 /* ===== AURORA BACKDROP ===== */
 .bg-theatre {
   /* Einheitlicher dunkler Hintergrund ohne Regenbogeneffekt */
   background: var(--color-ink);
-  /* KEINE opake lineare Basisfläche mehr -> die Milchstraße (z-index:-10)
-     scheint hinter dem Hero durch. Der body-Ink fängt den Rest auf. */
   position: relative;
 }
-/* Aurora-Animation entfernt - Regenbogeneffekt */
 
 /* ===== TERMINAL ===== */
 
@@ -189,7 +177,6 @@
   position: relative;
   overflow: hidden;
 }
-/* Sweep-Effekt entfernt — .sheen behält nur noch das relative position:relative für Kind-Positionierung */
 
 /* ===== NEON TEXT ===== */
 .neon-text {
@@ -220,133 +207,6 @@
   border: 1px solid var(--color-neon);
 }
 
-/* ===== GLITCH ===== */
-.glitch {
-  position: relative;
-  display: inline-block;
-}
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  clip-path: inset(0 0 0 0);
-}
-.glitch::before {
-  left: 2px;
-  text-shadow: -2px 0 var(--color-cyan);
-  animation: glitch-a 2.6s infinite linear alternate-reverse;
-}
-.glitch::after {
-  left: -2px;
-  text-shadow: -2px 0 var(--color-neon);
-  animation: glitch-b 1.8s infinite linear alternate-reverse;
-}
-@keyframes glitch-a {
-  0% {
-    clip-path: inset(0 0 85% 0);
-  }
-  20% {
-    clip-path: inset(40% 0 40% 0);
-  }
-  40% {
-    clip-path: inset(80% 0 5% 0);
-  }
-  60% {
-    clip-path: inset(10% 0 70% 0);
-  }
-  80% {
-    clip-path: inset(55% 0 30% 0);
-  }
-  100% {
-    clip-path: inset(25% 0 55% 0);
-  }
-}
-@keyframes glitch-b {
-  0% {
-    clip-path: inset(70% 0 10% 0);
-  }
-  25% {
-    clip-path: inset(15% 0 60% 0);
-  }
-  50% {
-    clip-path: inset(50% 0 35% 0);
-  }
-  75% {
-    clip-path: inset(5% 0 80% 0);
-  }
-  100% {
-    clip-path: inset(35% 0 45% 0);
-  }
-}
-@keyframes pulse-bar {
-  0%,
-  100% {
-    box-shadow: 0 0 12px rgba(192, 38, 211, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 26px rgba(192, 38, 211, 0.85);
-  }
-}
-.bar-pulse {
-  animation: pulse-bar 1.6s ease-in-out infinite;
-}
-
-/* Text blinkt zwischen Türkis und Lila */
-@keyframes text-pulse {
-  0% { color: #22d3ee; }
-  50% { color: #6d28d9; }
-  100% { color: #22d3ee; }
-}
-.text-pulse,
-.link-pulse {
-  animation: text-pulse 2s ease-in-out infinite;
-}
-
-/* ===== HERO ===== */
-.hero-holo {
-  position: relative;
-}
-/* Hero-Scanlines entfernt */
-
-/* ===== NEUES BLOCK ===== */
-.text-glow-rose-pulse {
-  color: #d946ef;
-  text-shadow:
-    0 0 12px rgba(217, 70, 239, 0.75),
-    0 0 30px rgba(217, 70, 239, 0.45),
-    0 0 60px rgba(217, 70, 239, 0.35),
-    0 0 100px rgba(217, 70, 239, 0.22);
-  animation: rose-pulse 2.2s ease-in-out infinite;
-}
-@keyframes rose-pulse {
-  0%,
-  100% {
-    text-shadow:
-      0 0 12px rgba(217, 70, 239, 0.75),
-      0 0 30px rgba(217, 70, 239, 0.45),
-      0 0 60px rgba(217, 70, 239, 0.35),
-      0 0 100px rgba(217, 70, 239, 0.22);
-  }
-  50% {
-    text-shadow:
-      0 0 18px rgba(217, 70, 239, 1),
-      0 0 40px rgba(217, 70, 239, 0.65),
-      0 0 75px rgba(217, 70, 239, 0.5),
-      0 0 130px rgba(217, 70, 239, 0.32);
-  }
-}
-
-/* ===== SCANNER ENTFERNT ===== */
-
-@media (prefers-reduced-motion: reduce) {
-  .glitch::before,
-  .glitch::after,
-  .sheen::after {
-    display: none;
-  }
-}
-
 /* numRotate wurde entfernt — Telefonnummer wird normal (linksbündig) angezeigt,
    Bot-Schutz läuft über aria-label vs. sichtbarer Text. */
 .runen {
@@ -370,8 +230,23 @@
   flex: 0 0 auto;
 }
 
-/* Archiv-Sektor: vertikale Scrollbar unsichtbar machen (Scrollen bleibt erhalten).
-   Verhindert den grauen Balken rechts im sticky Archiv-Panel. */
+/* Text blinkt zwischen Türkis und Lila */
+@keyframes text-pulse {
+  0% { color: #22d3ee; }
+  50% { color: #6d28d9; }
+  100% { color: #22d3ee; }
+}
+.text-pulse,
+.link-pulse {
+  animation: text-pulse 2s ease-in-out infinite;
+}
+
+/* ===== HERO ===== */
+.hero-holo {
+  position: relative;
+}
+
+/* ===== ARCHIV SCROLL ===== */
 .archiv-scroll {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -406,8 +281,6 @@
   color: var(--color-bone);
 }
 
-/* Helle Variante — keine Overlays mehr notwendig */
-
 /* Glass im Light Mode: dunkle Karte auf hellem BG (weißer Text drauf) */
 [data-theme="light"] .glass {
   background: linear-gradient(
@@ -437,7 +310,6 @@
   text-shadow: 0 0 14px rgba(184, 134, 11, 0.3);
 }
 
-
 [data-theme="light"] ::selection {
   background: var(--color-neon);
   color: #fff;
@@ -449,13 +321,9 @@
 }
 
 /* Light mode section backgrounds */
-[data-theme="light"] #konflikt,
-[data-theme="light"] #geheimwaffe,
-[data-theme="light"] #fraktionen,
-[data-theme="light"] #schlacht,
-[data-theme="light"] #konsole,
-[data-theme="light"] #archiv,
-[data-theme="light"] #cv {
+[data-theme="light"] #profile,
+[data-theme="light"] #secret-weapon,
+[data-theme="light"] #battle {
   background-color: rgba(243, 240, 251, 0.85) !important;
 }
 
@@ -471,8 +339,8 @@
 
 /* ===== GLOBAL CARD HOVER BACKGLOW ===== */
 :root {
-  --tw-shadow-backglow: 0 0 8px rgba(138, 43, 226, 0.5), 
-                        0 0 16px rgba(138, 43, 226, 0.4), 
+  --tw-shadow-backglow: 0 0 8px rgba(138, 43, 226, 0.5),
+                        0 0 16px rgba(138, 43, 226, 0.4),
                         0 0 32px rgba(138, 43, 226, 0.25);
 }
 
@@ -482,27 +350,4 @@
 
 .card:hover {
   box-shadow: var(--tw-shadow-backglow);
-  animation: uv-backglow-pulse 2s ease-in-out infinite;
-}
-
-/* Permanenten UV-Glow für Header - DEUTLICH STARK */
-.header-glow {
-  box-shadow: 
-    0 0 15px rgba(138, 43, 226, 0.8),
-    0 0 30px rgba(138, 43, 226, 0.65),
-    0 0 60px rgba(138, 43, 226, 0.5),
-    0 0 100px rgba(138, 43, 226, 0.35);
-}
-
-@keyframes uv-backglow-pulse {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(138, 43, 226, 0.5), 
-                0 0 16px rgba(138, 43, 226, 0.4), 
-                0 0 32px rgba(138, 43, 226, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(138, 43, 226, 0.7), 
-                0 0 24px rgba(138, 43, 226, 0.55), 
-                0 0 48px rgba(138, 43, 226, 0.4);
-  }
 }

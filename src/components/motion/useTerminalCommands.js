@@ -2,10 +2,13 @@ import { useState, useCallback } from "react"
 
 // Terminal-Befehle und deren Verarbeitung.
 const KNOWN_COMMANDS = ["text"]
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^@\s]+$/
 
-const GAME_URL = `${import.meta.env.BASE_URL}erdbaerdefense/`
-const SHEPHERD_URL = `${import.meta.env.BASE_URL}shepherd.html`
+// Externe Fallbacks für nicht-lokale Ressourcen.
+// (erdbaerdefense/ und shepherd.html sind lokale Assets, die noch nicht existieren.
+//  Diese zeigen eine 404 → stattdessen zuverlässige externe URL.)
+const GAME_URL = "https://humble-bee.de"
+const SHEPHERD_URL = "https://humble-bee.de"
 
 export function useTerminalCommands() {
   const [lines, setLines] = useState([])

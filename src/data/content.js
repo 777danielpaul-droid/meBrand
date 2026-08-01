@@ -8,7 +8,7 @@ export const site = {
   tagline: { de: "text3", en: "text4" },
   nav: [
     { label: { de: "Start", en: "Home" }, href: "#hero" },
-    { label: { de: "Terminal", en: "Terminal" }, href: "#terminal" },
+    { label: { de: "Terminal", en: "Terminal" }, href: "#" },
     { label: { de: "Profil", en: "Profile" }, href: "#profile" },
     { label: { de: "HITisOP", en: "Secret Weapon" }, href: "#secret-weapon" },
     { label: { de: "HumbleBee", en: "Battle" }, href: "#battle" },
@@ -38,10 +38,10 @@ export const site = {
       { de: "Spec-driven Prototyping", en: "Spec-driven prototyping" },
       { de: "CI/CD Deployment", en: "CI/CD deployment" },
     ],
-    primaryCta: { label: { de: "text23", en: "text24" }, href: "#terminal" },
+    primaryCta: { label: { de: "text23", en: "text24" }, href: "#" },
     secondaryCta: {
       label: { de: "text25", en: "text26" },
-      href: "#fraktionen",
+      href: "#battle",
     },
   },
 
@@ -159,9 +159,9 @@ export const site = {
   footer: {
     note: { de: "", en: "" },
     links: [
-      { label: { de: "text143", en: "text144" }, href: "#impressum" },
-      { label: { de: "text145", en: "text146" }, href: "#privacy" },
-      { label: { de: "text147", en: "text148" }, href: "#terminal" },
+      { label: { de: "text143", en: "text144" }, href: "/impressum.html" },
+      { label: { de: "text145", en: "text146" }, href: "/datenschutz.html" },
+      { label: { de: "text147", en: "text148" }, href: "#" },
     ],
   },
 

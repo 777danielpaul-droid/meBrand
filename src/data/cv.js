@@ -1,22 +1,16 @@
 // Zentrale Profil-Daten — ausschließlich DANIELs eigene Daten (keine Unternehmens-
 // Referenzen). Alle Werte stammen aus den Bewerbungsvorlagen im Ordner "Bewerbung_neu".
 // Diese Daten fließen als ergänzende CV-Sektion in die Space-Theme-Seite ein.
+import { profile } from "./content"
 
 export const cvData = {
-  name: { de: "Daniel Paul", en: "Daniel Paul" },
+  name: profile.name,
   role: {
     de: "Technical Prototyper — schnelle, produktionsnahe Demos mit React, Python und KI",
     en: "Technical Prototyper — rapid, production-ready demos with React, Python & AI",
   },
-
-  contact: {
-    address: { de: "Imhoffstücken 18, 21423 Winsen", en: "Imhoffstücken 18, 21423 Winsen, Germany" },
-    phone: "+49 151 67575229",
-    email: "paul-daniel@t-online.de",
-    github: "https://github.com/777danielpaul-droid",
-  },
-
-  portrait: "/portrait.png",
+  contact: profile.contact,
+  portrait: profile.portrait,
 
   // --- Skill-Balken (aus cv_diag.png / resume_en.html) ---
   // Werte sind Profil-Angaben von Daniel selbst.
