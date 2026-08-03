@@ -33,7 +33,6 @@
     color: var(--color-bone);
     font-family: var(--font-display);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
 
     /* CLS: Reserve a tiny visual-update budget so layout changes on
        phase changes/toggles don't jolt the viewport. */
