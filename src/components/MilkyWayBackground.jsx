@@ -11,7 +11,6 @@ export default function MilkyWayBackground() {
 
     let stars = [];
     let meteors = [];
-    let ship = null;
     let planets = [];
     let clusterGroups = [];
     let W, H, DPR;
@@ -124,20 +123,7 @@ export default function MilkyWayBackground() {
         });
       }
 
-      ship = {
-        x: Math.random() * W * 0.8 + W * 0.1,
-        y: Math.random() * H * 0.3 + H * 0.1,
-        vx: Math.random() < 0.5 ? rand(-0.9, -0.4) : rand(0.4, 0.9),
-        size: rand(8, 13),
-        a: rand(0.55, 0.85),
-        tw: rand(0.5, 1.2),
-        ph: Math.random() * Math.PI * 2,
-        blink: rand(0.8, 2.2),
-        curveAmp: rand(20, 55),
-        curveFreq: rand(0.35, 0.7),
-        curvePh: Math.random() * Math.PI * 2,
-        jetColor: Math.random() < 0.5 ? "120,180,255" : "0,220,255",
-      };
+      // ship wurde entfernt — kein kleiner Flieger mehr im Sternenhintergrund
 
       planets = [];
       const planetDefs = [
@@ -256,44 +242,7 @@ export default function MilkyWayBackground() {
         ctx.fill();
       }
 
-      if (ship) {
-        ship.x += ship.vx;
-        if (ship.x < -90) ship.x = W + 90;
-        if (ship.x > W + 90) ship.x = -90;
-        const baseY = Math.sin(t * ship.curveFreq + ship.curvePh) * ship.curveAmp;
-        const sy = ship.y + baseY;
-        const a = ship.a * (0.8 + 0.2 * Math.sin(t * ship.tw + ship.ph));
-        const pulse = 0.85 + 0.15 * Math.sin(t * ship.blink + ship.ph);
-        const s = ship.size;
-        ctx.save();
-        ctx.translate(ship.x, sy);
-        if (ship.vx < 0) {
-          ctx.scale(1, pulse);
-        } else {
-          ctx.scale(-1, -pulse);
-        }
-        ctx.beginPath();
-        ctx.moveTo(-s * 1.4, 0);
-        ctx.lineTo(s * 0.2, -s * 0.55);
-        ctx.lineTo(s * 0.05, 0);
-        ctx.lineTo(s * 0.2, s * 0.55);
-        ctx.closePath();
-        ctx.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`;
-        ctx.fill();
-        const jetLen = s * 3;
-        const jetGrad = ctx.createLinearGradient(s * 0.15, 0, s * 0.15 + jetLen, 0);
-        jetGrad.addColorStop(0, `rgba(${ship.jetColor},${(a * 0.95).toFixed(3)})`);
-        jetGrad.addColorStop(0.4, `rgba(${ship.jetColor},${(a * 0.6).toFixed(3)})`);
-        jetGrad.addColorStop(1, `rgba(${ship.jetColor},0)`);
-        ctx.beginPath();
-        ctx.moveTo(s * 0.15, -s * 0.35);
-        ctx.lineTo(s * 0.15 + jetLen, 0);
-        ctx.lineTo(s * 0.15, s * 0.35);
-        ctx.closePath();
-        ctx.fillStyle = jetGrad;
-        ctx.fill();
-        ctx.restore();
-      }
+      {/* ship wurde entfernt */}
 
       raf = requestAnimationFrame(draw);
     }

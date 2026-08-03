@@ -36,8 +36,8 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
     }
 
     const COLORS = [
-      { r: 138, g: 43, b: 226 },  // Lila
-      { r: 0, g: 240, b: 255 },   // Tiffany / Cyan
+      { r: 138, g: 43, b: 226 }, // Lila
+      { r: 0, g: 240, b: 255 }, // Tiffany / Cyan
     ];
 
     function emit() {
@@ -54,7 +54,9 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
           a: 0.2 + Math.random() * 0.3,
           life: 1,
           // Farb-Kanal für 2-farbigen Trail (Lila / Tiffany)
-          cr: c.r, cg: c.g, cb: c.b,
+          cr: c.r,
+          cg: c.g,
+          cb: c.b,
         });
       }
     }
@@ -95,7 +97,10 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
             drawY,
             p.r * 2.5,
           );
-          grad.addColorStop(0, `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`);
+          grad.addColorStop(
+            0,
+            `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`,
+          );
           grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`);
 
           ctx.fillStyle = grad;
@@ -112,7 +117,10 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
             p.y,
             p.r * 2.5,
           );
-          grad.addColorStop(0, `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`);
+          grad.addColorStop(
+            0,
+            `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`,
+          );
           grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`);
 
           ctx.fillStyle = grad;
@@ -142,7 +150,7 @@ export default function SpacecraftVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Emitter-Positionen: Trail 1 (83% W, 73% H) + Trail 2 (85% W, 69% H, 25° links)
-  useRocketTrail(emitterRef, isPlaying, { x: 0.83, y: 0.73 });
+  useRocketTrail(emitterRef, isPlaying, { x: 0.84, y: 0.73 });
   useRocketTrail(emitter2Ref, isPlaying, { x: 0.85, y: 0.69, rotation: -25 });
 
   useEffect(() => {
@@ -170,11 +178,13 @@ export default function SpacecraftVideo() {
     if (isPlaying) {
       vid.pause();
       vid.currentTime = 0;
+      setIsPlaying(false);
     } else {
       vid.currentTime = 0;
       vid.play().catch(() => {});
+      // RocketTrail startet 1 Sekunde nach Klick verzögert
+      setTimeout(() => setIsPlaying(true), 1000);
     }
-    setIsPlaying(!isPlaying);
   };
 
   return (
