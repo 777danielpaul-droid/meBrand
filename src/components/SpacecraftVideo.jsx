@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react"
 
 /**
  * Hook: erstellt einen Canvas-basierten Partikeleffekt (RocketTrail).
@@ -6,45 +6,45 @@ import { useEffect, useRef, useState } from "react";
  */
 function useRocketTrail(canvasRef, isPlaying, opts) {
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying) return
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    let W, H;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+    let W, H
 
     function setup() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      W = window.innerWidth
+      H = window.innerHeight
+      canvas.width = W * dpr
+      canvas.height = H * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
-    setup();
+    setup()
 
-    let particles = [];
-    let raf = 0;
-    let lastEmit = 0;
+    let particles = []
+    let raf = 0
+    let lastEmit = 0
 
     // Emitter-Position: dynamisch, weil W/H bei Resize neu berechnet werden
     function emitterPos() {
-      return { x: W * opts.x, y: H * opts.y };
+      return { x: W * opts.x, y: H * opts.y }
     }
 
     const COLORS = [
       { r: 138, g: 43, b: 226 }, // Lila
       { r: 0, g: 240, b: 255 }, // Tiffany / Cyan
-    ];
+    ]
 
     function emit() {
-      const { x, y } = emitterPos();
-      const count = 3 + Math.random() * 2;
+      const { x, y } = emitterPos()
+      const count = 3 + Math.random() * 2
       for (let i = 0; i < count; i++) {
-        const c = COLORS[(Math.random() * COLORS.length) | 0];
+        const c = COLORS[(Math.random() * COLORS.length) | 0]
         particles.push({
           x,
           y,
@@ -57,38 +57,38 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
           cr: c.r,
           cg: c.g,
           cb: c.b,
-        });
+        })
       }
     }
 
-    const rot = opts.rotation ? (opts.rotation * Math.PI) / 180 : 0;
+    const rot = opts.rotation ? (opts.rotation * Math.PI) / 180 : 0
 
     function animate() {
-      raf = requestAnimationFrame(animate);
-      ctx.clearRect(0, 0, W, H);
+      raf = requestAnimationFrame(animate)
+      ctx.clearRect(0, 0, W, H)
 
-      const now = performance.now();
+      const now = performance.now()
       if (now - lastEmit > 18) {
-        emit();
-        lastEmit = now;
+        emit()
+        lastEmit = now
       }
 
       for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.life -= 0.002;
+        const p = particles[i]
+        p.x += p.vx
+        p.y += p.vy
+        p.life -= 0.002
         if (p.life <= 0) {
-          particles.splice(i, 1);
-          continue;
+          particles.splice(i, 1)
+          continue
         }
 
         if (rot) {
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(rot);
-          const drawX = 0;
-          const drawY = 0;
+          ctx.save()
+          ctx.translate(p.x, p.y)
+          ctx.rotate(rot)
+          const drawX = 0
+          const drawY = 0
           const grad = ctx.createRadialGradient(
             drawX,
             drawY,
@@ -96,18 +96,18 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
             drawX,
             drawY,
             p.r * 2.5,
-          );
+          )
           grad.addColorStop(
             0,
             `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`,
-          );
-          grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`);
+          )
+          grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`)
 
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(drawX, drawY, p.r, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
+          ctx.fillStyle = grad
+          ctx.beginPath()
+          ctx.arc(drawX, drawY, p.r, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.restore()
         } else {
           const grad = ctx.createRadialGradient(
             p.x,
@@ -116,88 +116,98 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
             p.x,
             p.y,
             p.r * 2.5,
-          );
+          )
           grad.addColorStop(
             0,
             `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`,
-          );
-          grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`);
+          )
+          grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`)
 
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.fillStyle = grad
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+          ctx.fill()
         }
       }
     }
 
-    const onResize = () => setup();
-    window.addEventListener("resize", onResize);
+    const onResize = () => setup()
+    window.addEventListener("resize", onResize)
 
-    animate();
+    animate()
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-    };
-  }, [isPlaying, canvasRef, opts]);
+      cancelAnimationFrame(raf)
+      window.removeEventListener("resize", onResize)
+    }
+  }, [isPlaying, canvasRef, opts])
 }
 
 export default function SpacecraftVideo() {
-  const videoRef = useRef(null);
-  const emitterRef = useRef(null);
-  const emitter2Ref = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null)
+  const emitterRef = useRef(null)
+  const emitter2Ref = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
 
-  // Emitter-Positionen: Trail 1 (83% W, 73% H) + Trail 2 (85% W, 69% H, 25° links)
-  useRocketTrail(emitterRef, isPlaying, { x: 0.84, y: 0.73 });
-  useRocketTrail(emitter2Ref, isPlaying, { x: 0.85, y: 0.69, rotation: -25 });
+  // Emitter-Positionen: Trail 1 (84% W, 73% H) + Trail 2 (85% W, 69% H, 25° links)
+  useRocketTrail(emitterRef, isPlaying, { x: 0.84, y: 0.73 })
+  useRocketTrail(emitter2Ref, isPlaying, { x: 0.85, y: 0.69, rotation: -25 })
 
   useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid) return;
+    const vid = videoRef.current
+    if (!vid) return
 
-    let playedOnce = false;
+    // Auto-play: Video startet sofort beim Mount (ohne User-Klick)
+    vid
+      .play()
+      .catch(() => {
+        /* autostart blocked – Nutzer kann per Klick starten */
+      })
+
+    let playedOnce = false
 
     const handleEnded = () => {
-      if (!playedOnce) playedOnce = true;
+      if (!playedOnce) playedOnce = true
       if (vid.duration && isFinite(vid.duration)) {
-        vid.currentTime = Math.max(0, vid.duration - 1);
+        vid.currentTime = Math.max(0, vid.duration - 1)
       }
-      vid.play().catch(() => {});
-    };
+      vid.play().catch(() => {})
+    }
 
-    vid.addEventListener("ended", handleEnded);
-    return () => vid.removeEventListener("ended", handleEnded);
-  }, []);
+    vid.addEventListener("ended", handleEnded)
+    return () => vid.removeEventListener("ended", handleEnded)
+  }, [])
 
   const handleToggle = () => {
-    const vid = videoRef.current;
-    if (!vid) return;
+    const vid = videoRef.current
+    if (!vid) return
 
     if (isPlaying) {
-      vid.pause();
-      vid.currentTime = 0;
-      setIsPlaying(false);
+      vid.pause()
+      vid.currentTime = 0
+      setIsPlaying(false)
     } else {
-      vid.currentTime = 0;
-      vid.play().catch(() => {});
+      vid.currentTime = 0
+      vid.play().catch(() => {})
       // RocketTrail startet 1 Sekunde nach Klick verzögert
-      setTimeout(() => setIsPlaying(true), 1000);
+      setTimeout(() => setIsPlaying(true), 1000)
     }
-  };
+  }
 
   return (
     <>
-      {/* Klickfläche: das Raumschiff */}
+      {/* Klickfläche: das Raumschiff (enthält Video + ist klickbar) */}
       <div
         onClick={handleToggle}
-        className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto cursor-pointer"
-        style={{ zIndex: 1 }}
-        aria-hidden="true"
+        onKeyDown={(e) => e.key === "Enter" && handleToggle()}
+        className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto cursor-pointer z-[5]"
+        role="button"
+        tabIndex={0}
+        aria-label="Raumschiff starten / Animation abspielen"
       >
         <video
           ref={videoRef}
+          autoPlay
           muted
           loop={false}
           playsInline
@@ -209,6 +219,10 @@ export default function SpacecraftVideo() {
           <source
             src="/spacecraft-hero.webm?v=3"
             type="video/webm; codecs=vp8"
+          />
+          <source
+            src="/spacecraft-hero.mp4?v=3"
+            type="video/mp4"
           />
         </video>
       </div>
@@ -250,5 +264,5 @@ export default function SpacecraftVideo() {
         Klick 🖱️
       </div>
     </>
-  );
+  )
 }

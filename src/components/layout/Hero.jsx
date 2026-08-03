@@ -104,7 +104,7 @@ export default function Hero() {
               {h.skills.map((s, i) => (
                 <span
                   key={i}
-                  className="mono-label text-xs text-cyan/70 bg-cyan/5 border border-cyan/15 rounded px-2 py-0.5"
+                  className="mono-label text-xs text-cyan drop-shadow-[0_0_8px_rgba(0,0,0,0.7)] bg-ink/45 backdrop-blur-[2px] border border-cyan/25 rounded px-2 py-0.5"
                 >
                   <T en={s.en}>{s.de}</T>
                 </span>
