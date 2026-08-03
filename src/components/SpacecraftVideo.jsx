@@ -7,35 +7,30 @@ export default function SpacecraftVideo() {
     const vid = videoRef.current
     if (!vid) return
 
-    let isMounted = true
+    let playedOnce = false
 
+    // 1. Video bei Laden ab Sekunde 0 abspielen
     const handleLoadedMetadata = () => {
-      if (!isMounted) return
-      // Springe 1 Sekunde vor das Ende → dieser Abschnitt loopt sauber
-      if (vid.duration && isFinite(vid.duration)) {
-        vid.currentTime = Math.max(0, vid.duration - 1)
-      }
-      // Starte manuelle Wiedergabe (kein autoplay-Attribut mehr)
-      vid.play().catch(() => {
-        // Erlaubnis-Fehler sind meistens harmlos im Dev-Modus
-      })
+      vid.currentTime = 0
+      vid.play().catch(() => {})
     }
 
+    // 2. Nach erstem Durchlauf: letzte Sekunde loopen
     const handleEnded = () => {
-      if (!isMounted) return
-      // Springe zur letzten Sekunde, spiele erneut ab
+      if (!playedOnce) {
+        playedOnce = true
+      }
+      // Springe immer wieder 1s vor Ende → nahtfreier Loop
       if (vid.duration && isFinite(vid.duration)) {
         vid.currentTime = Math.max(0, vid.duration - 1)
-        vid.play().catch(() => {})
       }
+      vid.play().catch(() => {})
     }
 
     vid.addEventListener("loadedmetadata", handleLoadedMetadata)
     vid.addEventListener("ended", handleEnded)
 
     return () => {
-      isMounted = false
-      vid.pause()
       vid.removeEventListener("loadedmetadata", handleLoadedMetadata)
       vid.removeEventListener("ended", handleEnded)
     }
@@ -45,7 +40,7 @@ export default function SpacecraftVideo() {
     <video
       ref={videoRef}
       muted
-      loop={false}
+      loop={false}          // manuell steuern
       playsInline
       disablePictureInPicture
       preload="auto"
@@ -53,8 +48,8 @@ export default function SpacecraftVideo() {
       style={{ zIndex: 1 }}
       aria-hidden="true"
     >
-      {/* Cache-Buster ?v=2 zwingt Browser zum Neuladen */}
-      <source src="/spacecraft-hero.webm?v=2" type="video/webm; codecs=vp8" />
+      {/* Cache-Buster ?v=3 → Browser holt neue Runde */}
+      <source src="/spacecraft-hero.webm?v=3" type="video/webm; codecs=vp8" />
     </video>
   )
 }
