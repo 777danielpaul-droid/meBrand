@@ -2,13 +2,13 @@
 // gesetzt als data-theme auf <html>. Overlays (scanlines/crt/grain)
 // sind nur im Dark Mode aktiv (siehe index.css [data-theme="light"]).
 
-const KEY = "erdbaeren-theme";
+const KEY = "erdbaaren-theme";
 
 export function getInitialTheme() {
-  if (typeof window === "undefined") return "light"
-  const saved = localStorage.getItem(KEY)
-  if (saved === "dark" || saved === "light") return saved
-  return "light"
+  if (typeof window === "undefined") return "dark";
+  const saved = localStorage.getItem(KEY);
+  if (saved === "dark" || saved === "light") return saved;
+  return "dark"; // Darkmode als Standard
 }
 
 export function applyTheme(theme) {

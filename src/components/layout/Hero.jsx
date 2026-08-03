@@ -55,11 +55,18 @@ function SkillBar({ label, level, color, icon, index }) {
   )
 }
 
+// Titel-Schatten + lila Outline (RunenSchrift Hero-Überschrift)
+// Schatten für Tiefe + lila Kontur für bessere Sichtbarkeit über dem Video
 const TITLE_SHADOW =
-  "2px 2px rgba(0,0,0,0.55), 4px 4px rgba(0,0,0,0.5), 6px 6px rgba(0,0,0,0.45), " +
-  "8px 8px rgba(0,0,0,0.4), 10px 10px rgba(0,0,0,0.38), 12px 12px rgba(0,0,0,0.34), " +
-  "14px 14px rgba(0,0,0,0.3), 16px 16px rgba(0,0,0,0.28), 18px 18px rgba(0,0,0,0.25), " +
-  "20px 20px rgba(0,0,0,0.22), 24px 24px 10px rgba(0,0,0,0.3)"
+  // Tiefe: schwarzer Mehrfach-Schatten
+  "1px 1px rgba(0,0,0,0.6), 2px 2px rgba(0,0,0,0.55), 3px 3px rgba(0,0,0,0.5), " +
+  "4px 4px rgba(0,0,0,0.45), 6px 6px rgba(0,0,0,0.4), 8px 8px rgba(0,0,0,0.35), " +
+  "12px 12px rgba(0,0,0,0.3), 18px 18px rgba(0,0,0,0.25), 24px 24px 10px rgba(0,0,0,0.3)"
+
+// Separater lila Outline-Effekt via text-shadow (fällt nicht auf filter, sondern auf Text)
+// wird über className auf dem <h1> angewendet
+export const TITLE_OUTLINE =
+  "0 0 4px #6d28d9, 0 0 8px #6d28d9, 0 0 12px #a400ff, 0 0 16px #a400ff"
 
 export default function Hero() {
   const h = site.hero
@@ -82,8 +89,8 @@ export default function Hero() {
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
-            className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words"
-            style={{ filter: TITLE_SHADOW }}
+            className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words text-cyan"
+            style={{ filter: TITLE_SHADOW, textShadow: TITLE_OUTLINE }}
           >
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="block">
               <RunenText text="DANIEL" className="text-cyan block" />
@@ -133,11 +140,11 @@ export default function Hero() {
           >
             {/* Portrait */}
             <div className="flex-shrink-0">
-              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)]">
+              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(109,38,217,0.3)]">
                 <img
                   src={c.portrait}
                   alt={c.name.de}
-                  className="w-full h-full object-cover opacity-80"
+                  className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
                   loading="lazy"
                 />
               </div>
