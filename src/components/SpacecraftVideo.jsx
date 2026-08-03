@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 
-// Partikel-Empfehlungen für Staub/Nebel
-const PARTICLE_COUNT = 120
-const EMITTER_X = 0.5   // 50% des Video-Bereichs (am Heck-Mittelpunkt)
-const EMITTER_Y = 1.0   // 100% → ganz unten (Heck)
-
 export default function SpacecraftVideo() {
   const videoRef = useRef(null)
   const emitterRef = useRef(null)
@@ -44,35 +39,35 @@ export default function SpacecraftVideo() {
 
   // Partikel-Effekt am Heck
   useEffect(() => {
+    if (!isPlaying) return   // Canvas nur öffnen wenn Video spielt
     const canvas = emitterRef.current
     if (!canvas) return
 
     const ctx = canvas.getContext("2d")
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
 
+    // Feste Canvas-Größe (in Pixels) — immer sichtbar
+    canvas.width = 200 * dpr
+    canvas.height = 100 * dpr
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+    const W = 200
+    const H = 100
+
     let particles = []
     let raf = 0
     let lastEmit = 0
-    let W = 0
-    let H = 0
 
-    function resize() {
-      const rect = canvas.parentElement.getBoundingClientRect()
-      W = rect.width
-      H = rect.height
-      canvas.width = W * dpr
-      canvas.height = H * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      // Neu initialisieren
-      particles = []
-    }
+    // Emitter am unteren Rand, mittig
+    const EMITTER_X = W / 2
+    const EMITTER_Y = H * 0.95
 
     function emit() {
       const count = 3 + Math.random() * 2
       for (let i = 0; i < count; i++) {
         particles.push({
-          x: W * 0.5,     // mittig am Heck
-          y: H * 0.95,
+          x: EMITTER_X,
+          y: EMITTER_Y,
           vx: 0.3 + Math.random() * 0.8,   // ✅ Rechts
           vy: 0.2 + Math.random() * 0.5,   // ✅ Runter
           r: 0.5 + Math.random() * 1.8,
@@ -87,7 +82,7 @@ export default function SpacecraftVideo() {
       ctx.clearRect(0, 0, W, H)
 
       const now = performance.now()
-      if (now - lastEmit > 18) {   // ca. 60fps / 3-5 Partikel pro Frame
+      if (now - lastEmit > 18) {
         emit()
         lastEmit = now
       }
@@ -102,7 +97,7 @@ export default function SpacecraftVideo() {
           continue
         }
 
-        // Staub/Nebel Look: weicher Kreis mit leichtem Orangeton
+        // Staub/Nebel Look
         const grad = ctx.createRadialGradient(
           p.x, p.y, 0,
           p.x, p.y, p.r * 2.5
@@ -117,15 +112,12 @@ export default function SpacecraftVideo() {
       }
     }
 
-    resize()
-    window.addEventListener("resize", resize)
     animate()
 
     return () => {
       cancelAnimationFrame(raf)
-      window.removeEventListener("resize", resize)
     }
-  }, [isPlaying])   // nur rendern wenn Video spielt
+  }, [isPlaying])
 
   return (
     <>
@@ -149,11 +141,13 @@ export default function SpacecraftVideo() {
           <source src="/spacecraft-hero.webm?v=3" type="video/webm; codecs=vp8" />
         </video>
 
-        {/* Partikel-Emitter Canvas am Heck */}
+        {/* Partikel-Emitter Canvas am unteren Rand des Videos */}
         {isPlaying && (
           <canvas
             ref={emitterRef}
-            className="absolute bottom-[4%] left-[50%] -translate-x-1/2 w-[20%] h-[10%]"
+            width="200"
+            height="100"
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[30%] h-auto"
             style={{ zIndex: 2, pointerEvents: "none" }}
             aria-hidden="true"
           />
