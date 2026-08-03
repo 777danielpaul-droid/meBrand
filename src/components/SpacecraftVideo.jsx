@@ -157,13 +157,8 @@ export default function SpacecraftVideo() {
     const vid = videoRef.current
     if (!vid) return
 
-    // Auto-play: Video startet sofort beim Mount (ohne User-Klick)
-    vid
-      .play()
-      .catch(() => {
-        /* autostart blocked – Nutzer kann per Klick starten */
-      })
-
+    // Video nicht automatisch abspielen — startet erst per Klick
+    // Dadurch startet auch der RocketTrail-Effekt gleichzeitig (handleToggle)
     let playedOnce = false
 
     const handleEnded = () => {
@@ -200,7 +195,6 @@ export default function SpacecraftVideo() {
       <div className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto pointer-events-none z-[5]">
         <video
           ref={videoRef}
-          autoPlay
           muted
           loop={false}
           playsInline
