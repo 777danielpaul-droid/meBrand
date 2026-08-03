@@ -4,7 +4,7 @@
 // Nummerierung läuft durchgängig text1–textN über content.js und alle JSX-Komponenten.
 export const site = {
   // --- BRAND & NAVIGATION ---
-  brand: { de: "text1", en: "text2" },
+  brand: { de: "Daniel Paul", en: "Daniel Paul" },
   tagline: { de: "text3", en: "text4" },
   nav: [
     { label: { de: "Start", en: "Home" }, href: "#hero" },
