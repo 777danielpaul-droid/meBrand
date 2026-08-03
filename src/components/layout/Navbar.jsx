@@ -57,7 +57,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
               className="inline-flex mono-label bg-ink text-cyan border border-cyan/50 hover:bg-cyan/10 transition-colors px-3 py-1.5 rounded-sm"
             >
               {/* [T169] */}
-              text169
+              details
             </button>
 
             <button

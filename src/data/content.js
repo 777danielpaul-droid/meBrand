@@ -8,10 +8,9 @@ export const site = {
   tagline: { de: "text3", en: "text4" },
   nav: [
     { label: { de: "Start", en: "Home" }, href: "#hero" },
-    { label: { de: "Terminal", en: "Terminal" }, href: "#" },
+    { label: { de: "Terminal", en: "Terminal" }, href: "#terminal" },
     { label: { de: "Profil", en: "Profile" }, href: "#profile" },
-    { label: { de: "HITisOP", en: "Secret Weapon" }, href: "#secret-weapon" },
-    { label: { de: "HumbleBee", en: "Battle" }, href: "#battle" },
+    { label: { de: "Projekte", en: "Projects" }, href: "#archiv" },
   ],
 
   // --- HERO ---
