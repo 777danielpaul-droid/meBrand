@@ -78,7 +78,7 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full h-full flex flex-col justify-center pointer-events-none">
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full h-full flex flex-col justify-center">
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
@@ -124,12 +124,12 @@ export default function Hero() {
             <T en={c.role.en}>{c.role.de}</T>
           </motion.p>
 
-          {/* Portrait + Kontaktdaten (zwei Spalten) */}
+          {/* Portrait + Kontaktdaten (zwei Spalten) — klickbar! */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start"
+            className="mt-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start pointer-events-auto"
           >
             {/* Portrait */}
             <div className="flex-shrink-0">
