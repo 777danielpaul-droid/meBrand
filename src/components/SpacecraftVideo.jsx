@@ -46,21 +46,21 @@ export default function SpacecraftVideo() {
     const ctx = canvas.getContext("2d")
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
 
-    // Feste Canvas-Größe (in Pixels) — immer sichtbar
-    canvas.width = 200 * dpr
-    canvas.height = 100 * dpr
+    // Feste Canvas-Größe — groß genug für freies Fliegen
+    canvas.width = 800 * dpr
+    canvas.height = 500 * dpr
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-    const W = 200
-    const H = 100
+    const W = 800
+    const H = 500
 
     let particles = []
     let raf = 0
     let lastEmit = 0
 
-    // Emitter am unteren Rand, mittig
+    // Emitter: direkt unterhalb des Videos, mittig ausgerichtet
     const EMITTER_X = W / 2
-    const EMITTER_Y = H * 0.95
+    const EMITTER_Y = H * 0.92
 
     function emit() {
       const count = 3 + Math.random() * 2
@@ -125,7 +125,7 @@ export default function SpacecraftVideo() {
       <div
         onClick={handleToggle}
         className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto cursor-pointer"
-        style={{ zIndex: 1, overflow: "visible" }}
+        style={{ zIndex: 1 }}
         aria-hidden="true"
       >
         <video
@@ -140,24 +140,24 @@ export default function SpacecraftVideo() {
         >
           <source src="/spacecraft-hero.webm?v=3" type="video/webm; codecs=vp8" />
         </video>
-
-        {/* Partikel-Emitter Canvas – überläuft frei über Video und Hero */}
-        {isPlaying && (
-          <canvas
-            ref={emitterRef}
-            width="800"
-            height="500"
-            className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[800px] h-[500px]"
-            style={{
-              zIndex: 1,
-              pointerEvents: "none",
-              overflow: "visible",
-              clipPath: "none"
-            }}
-            aria-hidden="true"
-          />
-        )}
       </div>
+
+      {/* Partikel-Emitter Canvas – direkt unterhalb des Videos, frei im Hero-Bereich }
+      {isPlaying && (
+        <canvas
+          ref={emitterRef}
+          width="800"
+          height="500"
+          className="absolute bottom-[42%] left-[50%] -translate-x-1/2 w-[800px] h-[500px]"
+          style={{
+            zIndex: 1,
+            pointerEvents: "none",
+            overflow: "visible",
+            clipPath: "none"
+          }}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Klick-Hinweis */}
       <div className="absolute top-[27%] left-[50%] -translate-x-1/2 -translate-y-full z-[9999] px-3 py-1 mono-label text-[10px] text-cyan/90 bg-ink/70 border border-cyan/40 rounded-sm pointer-events-none whitespace-nowrap animate-pulse">
