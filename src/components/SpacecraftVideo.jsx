@@ -148,7 +148,7 @@ export default function SpacecraftVideo() {
           ref={emitterRef}
           width="800"
           height="500"
-          className="absolute bottom-[42%] left-[50%] -translate-x-1/2 w-[800px] h-[500px]"
+          className="absolute top-[80%] left-[50%] -translate-x-1/2 w-[800px] h-[500px]"
           style={{
             zIndex: 1,
             pointerEvents: "none",
