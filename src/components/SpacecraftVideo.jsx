@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 
+// Partikel-Empfehlungen für Staub/Nebel
+const PARTICLE_COUNT = 120
+const EMITTER_X = 0.5   // 50% des Video-Bereichs (am Heck-Mittelpunkt)
+const EMITTER_Y = 1.0   // 100% → ganz unten (Heck)
+
 export default function SpacecraftVideo() {
   const videoRef = useRef(null)
+  const emitterRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
@@ -10,12 +16,8 @@ export default function SpacecraftVideo() {
 
     let playedOnce = false
 
-    // 2. Nach erstem Durchlauf: letzte Sekunde loopen
     const handleEnded = () => {
-      if (!playedOnce) {
-        playedOnce = true
-      }
-      // Springt immer wieder 1s vor Ende → nahtfreier Loop
+      if (!playedOnce) playedOnce = true
       if (vid.duration && isFinite(vid.duration)) {
         vid.currentTime = Math.max(0, vid.duration - 1)
       }
@@ -23,10 +25,7 @@ export default function SpacecraftVideo() {
     }
 
     vid.addEventListener("ended", handleEnded)
-
-    return () => {
-      vid.removeEventListener("ended", handleEnded)
-    }
+    return () => vid.removeEventListener("ended", handleEnded)
   }, [])
 
   const handleToggle = () => {
@@ -42,6 +41,91 @@ export default function SpacecraftVideo() {
     }
     setIsPlaying(!isPlaying)
   }
+
+  // Partikel-Effekt am Heck
+  useEffect(() => {
+    const canvas = emitterRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+
+    let particles = []
+    let raf = 0
+    let lastEmit = 0
+    let W = 0
+    let H = 0
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect()
+      W = rect.width
+      H = rect.height
+      canvas.width = W * dpr
+      canvas.height = H * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      // Neu initialisieren
+      particles = []
+    }
+
+    function emit() {
+      const count = 3 + Math.random() * 2
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: W * 0.5,     // mittig am Heck
+          y: H * 0.95,
+          vx: 0.3 + Math.random() * 0.8,   // ✅ Rechts
+          vy: 0.2 + Math.random() * 0.5,   // ✅ Runter
+          r: 0.5 + Math.random() * 1.8,
+          a: 0.2 + Math.random() * 0.3,
+          life: 1,
+        })
+      }
+    }
+
+    function animate() {
+      raf = requestAnimationFrame(animate)
+      ctx.clearRect(0, 0, W, H)
+
+      const now = performance.now()
+      if (now - lastEmit > 18) {   // ca. 60fps / 3-5 Partikel pro Frame
+        emit()
+        lastEmit = now
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]
+        p.x += p.vx
+        p.y += p.vy
+        p.life -= 0.004
+        if (p.life <= 0) {
+          particles.splice(i, 1)
+          continue
+        }
+
+        // Staub/Nebel Look: weicher Kreis mit leichtem Orangeton
+        const grad = ctx.createRadialGradient(
+          p.x, p.y, 0,
+          p.x, p.y, p.r * 2.5
+        )
+        grad.addColorStop(0, `rgba(255, 150, 80, ${p.a * p.life})`)
+        grad.addColorStop(1, `rgba(100, 120, 140, 0)`)
+
+        ctx.fillStyle = grad
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+
+    resize()
+    window.addEventListener("resize", resize)
+    animate()
+
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener("resize", resize)
+    }
+  }, [isPlaying])   // nur rendern wenn Video spielt
 
   return (
     <>
@@ -64,9 +148,19 @@ export default function SpacecraftVideo() {
         >
           <source src="/spacecraft-hero.webm?v=3" type="video/webm; codecs=vp8" />
         </video>
+
+        {/* Partikel-Emitter Canvas am Heck */}
+        {isPlaying && (
+          <canvas
+            ref={emitterRef}
+            className="absolute bottom-[4%] left-[50%] -translate-x-1/2 w-[20%] h-[10%]"
+            style={{ zIndex: 2, pointerEvents: "none" }}
+            aria-hidden="true"
+          />
+        )}
       </div>
 
-  {/* Klick-Hinweis direkt über dem Raumschiff — z-index 9999 für Vordergrund */}
+      {/* Klick-Hinweis */}
       <div className="absolute top-[27%] left-[50%] -translate-x-1/2 -translate-y-full z-[9999] px-3 py-1 mono-label text-[10px] text-cyan/90 bg-ink/70 border border-cyan/40 rounded-sm pointer-events-none whitespace-nowrap animate-pulse">
         Klick 🖱️
       </div>
