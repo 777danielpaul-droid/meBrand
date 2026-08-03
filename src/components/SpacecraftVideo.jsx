@@ -48,7 +48,7 @@ export default function SpacecraftVideo() {
       {/* Klickfläche: das Raumschiff */}
       <div
         onClick={handleToggle}
-        className="absolute top-[44%] left-[52%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto cursor-pointer"
+        className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto cursor-pointer"
         style={{ zIndex: 1 }}
         aria-hidden="true"
       >
