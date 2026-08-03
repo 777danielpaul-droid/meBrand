@@ -18,7 +18,7 @@ export default function Hero() {
   const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
 
   return (
-    <section id="hero" className="hero-holo relative overflow-hidden motion-reveal min-h-[56.25vw] h-screen max-h-[680px] bg-transparent">
+    <section id="hero" className="hero-holo relative motion-reveal min-h-[56.25vw] h-screen max-h-[680px] bg-transparent">
       <SpacecraftVideo />
 
       <motion.div
