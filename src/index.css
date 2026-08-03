@@ -41,6 +41,7 @@
   #root {
     position: relative;
     z-index: 1; /* Content über der Milchstraße (z-index:-1) */
+    overflow: visible; /* ✅ Canvas darf rausragen */
   }
 
   /* CLS: Preserve overall section coverage so phase-gated reveals
@@ -244,6 +245,7 @@
 .hero-holo {
   position: relative;
   background: transparent;
+  overflow: visible; /* ✅ Kein Abschneiden mehr */
 }
 
 /* Video-Maske: entferne den dunklen Hintergrund des Videos, sodass
