@@ -3,6 +3,7 @@ import { titleLine } from "../motion/variants"
 import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
+import SpacecraftVideo from "../SpacecraftVideo"
 
 const TITLE_SHADOW =
   "2px 2px rgba(0,0,0,0.55), 4px 4px rgba(0,0,0,0.5), 6px 6px rgba(0,0,0,0.45), " +
@@ -17,14 +18,16 @@ export default function Hero() {
   const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
 
   return (
-    <section id="hero" className="hero-holo relative bg-theatre overflow-hidden motion-reveal">
+    <section id="hero" className="hero-holo relative overflow-hidden motion-reveal min-h-[56.25vw] h-screen max-h-[680px] bg-transparent">
+      <SpacecraftVideo />
+
       <motion.div
         style={{ y: blobY, opacity: blobOpacity }}
         className="absolute top-24 right-[-6rem] w-[18rem] h-[18rem] sm:w-[28rem] sm:h-[28rem] rounded-full bg-neon/25 blur-[60px] sm:blur-[120px]"
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full pointer-events-none">
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full h-full flex flex-col justify-center pointer-events-none">
         <div className="relative">
           {/* HeadtitleLine + Copy + CTAs */}
           <motion.p

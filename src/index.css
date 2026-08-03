@@ -244,6 +244,33 @@
 /* ===== HERO ===== */
 .hero-holo {
   position: relative;
+  background: transparent;
+}
+
+/* Video-Maske: entferne den dunklen Hintergrund des Videos, sodass
+   das Sternenfeld durchscheint. screen-Blend-Modus + Luma-Key-Effekt. */
+.video-mask {
+  /* Entfernt helle/same Farbschläge — lässt nur das Raumschiff durchscheinen */
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.3) 30%,
+    rgba(0, 0, 0, 0.05) 60%,
+    rgba(0, 0, 0, 0.3) 85%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.3) 30%,
+    rgba(0, 0, 0, 0.05) 60%,
+    rgba(0, 0, 0, 0.3) 85%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
 }
 
 /* ===== ARCHIV SCROLL ===== */
