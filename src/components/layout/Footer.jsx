@@ -1,52 +1,63 @@
 import { motion } from "framer-motion"
 import { site } from "../../data/content"
 import { T } from "../RunenText"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 
 export default function Footer() {
   const f = site.footer
-  const footerRef = useRef(null)
-  const [isVisible, setIsVisible] = useState(false)
+  const [isActive, setIsActive] = useState(false)
 
-  // IntersectionObserver: aktiviert Glow nur, wenn Footer im Viewport ist (am Seitenende)
+  // Scroll-Triggered: Footer-Glow + volle Höhe, wenn Nutzer am Seitenende ist
+  // (Footer ist position:fixed → IntersectionObserver nicht geeignet)
   useEffect(() => {
-    const currentRef = footerRef.current
-    if (!currentRef) return
+    const handleScroll = () => {
+      const scrollThreshold =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight -
+        200 // 200px Toleranz vor Seitenende
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Wenn Footer mehr als 10% sichtbar ist → Glow aktivieren
-        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-          setIsVisible(true)
-        } else {
-          setIsVisible(false)
-        }
-      },
-      {
-        root: null,
-        threshold: [0, 0.1, 0.5], // Schwellen für granularere Reaktion
-        rootMargin: "-80% 0px 0px 0px", // Trigger, wenn Footer in unterer Drittel der Seite ist
+      setIsActive(window.scrollY >= scrollThreshold)
+    }
+
+    // Throttle für Performance: max. 15 FPS via requestAnimationFrame
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
       }
-    )
+    }
 
-    observer.observe(currentRef)
-    return () => observer.disconnect()
+    // Initial check
+    handleScroll()
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", handleScroll)
+    }
   }, [])
 
   return (
     <motion.footer
-      ref={footerRef}
       initial={{ y: 80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       style={{ borderBottomColor: "rgba(192,38,211,1)" }}
-      // Glow nur sichtbar, wenn Footer im Viewport (unten gescrollt)
-      className={`fixed bottom-0 inset-x-0 z-50 transition-all duration-500 ${
-        isVisible ? "footer-glow" : ""
+      // Minimiert: max-h-4px (nur dünne Bar) | Maximiert: max-h-40 + Glow
+      className={`fixed bottom-0 inset-x-0 z-50 overflow-hidden transition-all duration-500 ease-in-out ${
+        isActive
+          ? "footer-glow max-h-[120px]"
+          : "max-h-[4px]"
       }`}
     >
-      <nav className="backdrop-blur-md bg-ink/40 border-t border-white/10 glass">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-1 flex items-center justify-between">
+      <nav className="backdrop-blur-md bg-ink/40 border-t border-white/10 glass h-full">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-1 flex items-center justify-between h-full">
           <a href="#hero" className="flex items-center gap-3 group">
             <span className="relative grid place-items-center w-8 h-8 rounded-md bg-neon/15 border border-neon/40">
               <span className="text-base leading-none" aria-hidden="true">🐻</span>
