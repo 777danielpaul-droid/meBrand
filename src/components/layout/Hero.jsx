@@ -1,9 +1,59 @@
-import { motion, useScroll, useTransform } from "framer-motion"
-import { titleLine } from "../motion/variants"
+import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
+import { stagger, EASE } from "../motion/variants"
 import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import SpacecraftVideo from "../SpacecraftVideo"
+import { useRef, useLayoutEffect } from "react"
+
+// SkillBar: wiederverwendbarer Balken mit glühendem Effekt und Icon.
+// Farbe ist ein CSS-Farbstring (z.B. "#c026d3").
+function SkillBar({ label, level, color, icon, index }) {
+  return (
+    <motion.div
+      custom={index}
+      variants={stagger}
+      className="mb-3 last:mb-0"
+    >
+      <div className="flex justify-between mono-label text-xs text-bone/60 mb-1">
+        <span className="flex items-center gap-2">
+          {icon && (
+            <svg
+              viewBox="0 0 24 24"
+              className="w-4 h-4 flex-shrink-0"
+              style={{ color }}
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d={icon} />
+            </svg>
+          )}
+          <T>{label}</T>
+        </span>
+        <span>{level}%</span>
+      </div>
+      <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+        <motion.div
+          initial={{ width: 0 }}
+          whileInView={{ width: `${level}%` }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: EASE, delay: 0.1 + index * 0.08 }}
+          className="h-full rounded-full relative"
+          style={{
+            background: `linear-gradient(90deg, ${color}60, ${color})`,
+          }}
+        >
+          <div
+            className="absolute inset-0 rounded-full opacity-70"
+            style={{
+              boxShadow: `0 0 8px ${color}, 0 0 16px ${color}40`,
+            }}
+          />
+        </motion.div>
+      </div>
+    </motion.div>
+  )
+}
 
 const TITLE_SHADOW =
   "2px 2px rgba(0,0,0,0.55), 4px 4px rgba(0,0,0,0.5), 6px 6px rgba(0,0,0,0.45), " +
@@ -13,6 +63,7 @@ const TITLE_SHADOW =
 
 export default function Hero() {
   const h = site.hero
+  const c = cvData
   const { scrollY } = useScroll()
   const blobY = useTransform(scrollY, [0, 800], [0, 220])
   const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
@@ -29,58 +80,25 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full h-full flex flex-col justify-center pointer-events-none">
         <div className="relative">
-          {/* HeadtitleLine + Copy + CTAs */}
-          <motion.p
-            custom={0}
-            initial="hidden"
-            animate="show"
-            variants={titleLine}
-            className="mono-label text-neon mb-6"
-          >
-            <T en={h.eyebrow.en}>{h.eyebrow.de}</T>
-          </motion.p>
-
-          <h1
+          {/* Name + Lead (bleibt erhalten) */}
+          <motion.h1
             className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words"
             style={{ filter: TITLE_SHADOW }}
           >
-            <motion.span custom={1} initial="hidden" animate="show" variants={titleLine} className="block">
+            <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="block">
               <RunenText text="DANIEL" className="text-cyan block" />
             </motion.span>
-            <motion.span custom={2} initial="hidden" animate="show" variants={titleLine} className="block">
+            <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="block">
               <RunenText text="PAUL" className="text-cyan block" />
             </motion.span>
-          </h1>
+          </motion.h1>
 
-          {/* Lead-Titel (linksbündig) */}
-          <motion.p
-            custom={4}
-            initial="hidden"
-            animate="show"
-            variants={titleLine}
-            className="mt-4 text-xl sm:text-2xl text-bone/80 font-display max-w-2xl"
-          >
-            <T en={h.lead.title.en}>{h.lead.title.de}</T>
-          </motion.p>
-
-          {/* Lead-Haupttext (linksbündig) */}
-          <motion.p
-            custom={4.5}
-            initial="hidden"
-            animate="show"
-            variants={titleLine}
-            className="mt-4 text-lg sm:text-xl text-bone/70 max-w-2xl leading-relaxed"
-          >
-            <T en={h.lead.body.en}>{h.lead.body.de}</T>
-          </motion.p>
-
-          {/* Skill-Tags */}
+          {/* Skill-Tags (bleiben erhalten) */}
           {h.skills && (
             <motion.div
-              custom={4.5}
-              initial="hidden"
-              animate="show"
-              variants={titleLine}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
               className="mt-4 flex flex-wrap gap-x-3 gap-y-1.5"
             >
               {h.skills.map((s, i) => (
@@ -94,40 +112,120 @@ export default function Hero() {
             </motion.div>
           )}
 
-          <motion.div
-            custom={5}
-            initial="hidden"
-            animate="show"
-            variants={titleLine}
-            className="mt-10 flex flex-wrap gap-4 pointer-events-auto"
+          {/* === Profil-Inhalt hier eingefügt (statt der Hero-Texte) === */}
+
+          {/* Rolle / Titel */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-4 text-xl sm:text-2xl text-cyan font-display max-w-2xl"
           >
-            <a
-              href={h.primaryCta.href}
-              className="mono-label bg-cyan hover:bg-cyan/80 transition-colors text-ink px-6 py-3 rounded-sm shadow-[0_0_40px_rgba(34,211,238,0.45)]"
-            >
-              <T en={h.primaryCta.label.en}>{h.primaryCta.label.de}</T>
-            </a>
-            <a
-              href={h.secondaryCta.href}
-              className="mono-label border border-white/15 hover:border-gold/60 text-bone px-6 py-3 rounded-sm transition-colors"
-            >
-              <T en={h.secondaryCta.label.en}>{h.secondaryCta.label.de}</T>
-            </a>
+            <T en={c.role.en}>{c.role.de}</T>
+          </motion.p>
+
+          {/* Portrait + Kontaktdaten (zwei Spalten) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start"
+          >
+            {/* Portrait */}
+            <div className="flex-shrink-0">
+              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)]">
+                <img
+                  src={c.portrait}
+                  alt={c.name.de}
+                  className="w-full h-full object-cover opacity-80"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* Kontaktdaten */}
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div>
+                <span className="mono-label text-xs text-cyan/70">E-Mail</span>
+                <a
+                  href={`mailto:${c.contact.email}`}
+                  className="block text-cyan hover:text-neon transition-colors mt-1"
+                >
+                  {c.contact.email}
+                </a>
+              </div>
+              <div>
+                <span className="mono-label text-xs text-cyan/70">GitHub</span>
+                <a
+                  href={c.contact.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-cyan hover:text-neon transition-colors mt-1"
+                >
+                  github.com/777danielpaul-droid
+                </a>
+              </div>
+              <div>
+                <span className="mono-label text-xs text-cyan/70">Telefon</span>
+                <span
+                  className="block text-cyan mt-1"
+                  aria-label={c.contact.phone}
+                >
+                  {c.contact.phone}
+                </span>
+              </div>
+              <div>
+                <span className="mono-label text-xs text-cyan/70">Standort</span>
+                <span className="block text-cyan mt-1">
+                  <T en={c.contact.address.en}>{c.contact.address.de}</T>
+                </span>
+              </div>
+            </div>
           </motion.div>
 
+
+          {/* Technische Skills */}
           <motion.div
-            custom={5}
-            initial="hidden"
-            animate="show"
-            variants={titleLine}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="mt-8"
           >
-            <motion.div
-              style={{ y: useTransform(scrollY, [0, 800], [0, 60]) }}
-              className="absolute bottom-8 right-8 hidden lg:block mono-label text-bone/30"
-            >
-              {/* [T168] */}
-              text168
-            </motion.div>
+            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-4">
+              Technische Skills
+            </h3>
+            {c.skills.map((s, i) => (
+              <SkillBar
+                key={s.name.de}
+                label={s.name.de}
+                level={s.level}
+                color={s.color}
+                icon={s.icon}
+                index={i}
+              />
+            ))}
+          </motion.div>
+
+          {/* Sprachen */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+            className="mt-6"
+          >
+            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-4">
+              Sprachen
+            </h3>
+            {c.softSkills.map((s, i) => (
+              <SkillBar
+                key={s.name.de}
+                label={s.name.de}
+                level={s.level}
+                color={s.color}
+                icon={s.icon}
+                index={i}
+              />
+            ))}
           </motion.div>
         </div>
       </div>

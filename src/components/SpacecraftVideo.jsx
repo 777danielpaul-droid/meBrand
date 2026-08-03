@@ -246,7 +246,7 @@ export default function SpacecraftVideo() {
       )}
 
       {/* Klick-Hinweis */}
-      <div className="absolute top-[27%] left-[50%] -translate-x-1/2 -translate-y-full z-[9999] px-3 py-1 mono-label text-[10px] text-cyan/90 bg-ink/70 border border-cyan/40 rounded-sm pointer-events-none whitespace-nowrap animate-pulse">
+      <div className="absolute top-[52%] left-[45%] -translate-x-1/2 -translate-y-full z-[9999] px-3 py-1 mono-label text-[10px] text-cyan/90 bg-ink/70 border border-cyan/40 rounded-sm pointer-events-none whitespace-nowrap animate-pulse">
         Klick 🖱️
       </div>
     </>
