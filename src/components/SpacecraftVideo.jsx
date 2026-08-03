@@ -1,123 +1,181 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 
-export default function SpacecraftVideo() {
-  const videoRef = useRef(null)
-  const emitterRef = useRef(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-
+/**
+ * Hook: erstellt einen Canvas-basierten Partikeleffekt (RocketTrail).
+ * Liest canvasRef.current innerhalb von useEffect — nach DOM-Mount.
+ */
+function useRocketTrail(canvasRef, isPlaying, opts) {
   useEffect(() => {
-    const vid = videoRef.current
-    if (!vid) return
+    if (!isPlaying) return;
 
-    let playedOnce = false
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const handleEnded = () => {
-      if (!playedOnce) playedOnce = true
-      if (vid.duration && isFinite(vid.duration)) {
-        vid.currentTime = Math.max(0, vid.duration - 1)
-      }
-      vid.play().catch(() => {})
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    let W, H;
+
+    function setup() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    setup();
+
+    let particles = [];
+    let raf = 0;
+    let lastEmit = 0;
+
+    // Emitter-Position: dynamisch, weil W/H bei Resize neu berechnet werden
+    function emitterPos() {
+      return { x: W * opts.x, y: H * opts.y };
     }
 
-    vid.addEventListener("ended", handleEnded)
-    return () => vid.removeEventListener("ended", handleEnded)
-  }, [])
-
-  const handleToggle = () => {
-    const vid = videoRef.current
-    if (!vid) return
-
-    if (isPlaying) {
-      vid.pause()
-      vid.currentTime = 0
-    } else {
-      vid.currentTime = 0
-      vid.play().catch(() => {})
-    }
-    setIsPlaying(!isPlaying)
-  }
-
-  // Partikel-Effekt am Heck
-  useEffect(() => {
-    if (!isPlaying) return   // Canvas nur öffnen wenn Video spielt
-    const canvas = emitterRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext("2d")
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
-
-    // Feste Canvas-Größe — groß genug für freies Fliegen
-    canvas.width = 800 * dpr
-    canvas.height = 500 * dpr
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-
-    const W = 800
-    const H = 500
-
-    let particles = []
-    let raf = 0
-    let lastEmit = 0
-
-    // Emitter: direkt unterhalb des Videos, mittig ausgerichtet
-    const EMITTER_X = W / 2
-    const EMITTER_Y = H * 0.92
+    const COLORS = [
+      { r: 138, g: 43, b: 226 },  // Lila
+      { r: 0, g: 240, b: 255 },   // Tiffany / Cyan
+    ];
 
     function emit() {
-      const count = 3 + Math.random() * 2
+      const { x, y } = emitterPos();
+      const count = 3 + Math.random() * 2;
       for (let i = 0; i < count; i++) {
+        const c = COLORS[(Math.random() * COLORS.length) | 0];
         particles.push({
-          x: EMITTER_X,
-          y: EMITTER_Y,
-          vx: 0.3 + Math.random() * 0.8,   // ✅ Rechts
-          vy: 0.2 + Math.random() * 0.5,   // ✅ Runter
+          x,
+          y,
+          vx: 0.3 + Math.random() * 1.2,
+          vy: 0.2 + Math.random() * 0.8,
           r: 0.5 + Math.random() * 1.8,
           a: 0.2 + Math.random() * 0.3,
           life: 1,
-        })
+          // Farb-Kanal für 2-farbigen Trail (Lila / Tiffany)
+          cr: c.r, cg: c.g, cb: c.b,
+        });
       }
     }
 
-    function animate() {
-      raf = requestAnimationFrame(animate)
-      ctx.clearRect(0, 0, W, H)
+    const rot = opts.rotation ? (opts.rotation * Math.PI) / 180 : 0;
 
-      const now = performance.now()
+    function animate() {
+      raf = requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, W, H);
+
+      const now = performance.now();
       if (now - lastEmit > 18) {
-        emit()
-        lastEmit = now
+        emit();
+        lastEmit = now;
       }
 
       for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i]
-        p.x += p.vx
-        p.y += p.vy
-        p.life -= 0.004
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= 0.002;
         if (p.life <= 0) {
-          particles.splice(i, 1)
-          continue
+          particles.splice(i, 1);
+          continue;
         }
 
-        // Staub/Nebel Look
-        const grad = ctx.createRadialGradient(
-          p.x, p.y, 0,
-          p.x, p.y, p.r * 2.5
-        )
-        grad.addColorStop(0, `rgba(255, 150, 80, ${p.a * p.life})`)
-        grad.addColorStop(1, `rgba(100, 120, 140, 0)`)
+        if (rot) {
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(rot);
+          const drawX = 0;
+          const drawY = 0;
+          const grad = ctx.createRadialGradient(
+            drawX,
+            drawY,
+            0,
+            drawX,
+            drawY,
+            p.r * 2.5,
+          );
+          grad.addColorStop(0, `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`);
+          grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`);
 
-        ctx.fillStyle = grad
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fill()
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(drawX, drawY, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        } else {
+          const grad = ctx.createRadialGradient(
+            p.x,
+            p.y,
+            0,
+            p.x,
+            p.y,
+            p.r * 2.5,
+          );
+          grad.addColorStop(0, `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`);
+          grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`);
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     }
 
-    animate()
+    const onResize = () => setup();
+    window.addEventListener("resize", onResize);
+
+    animate();
 
     return () => {
-      cancelAnimationFrame(raf)
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [isPlaying, canvasRef, opts]);
+}
+
+export default function SpacecraftVideo() {
+  const videoRef = useRef(null);
+  const emitterRef = useRef(null);
+  const emitter2Ref = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Emitter-Positionen: Trail 1 (83% W, 73% H) + Trail 2 (85% W, 69% H, 25° links)
+  useRocketTrail(emitterRef, isPlaying, { x: 0.83, y: 0.73 });
+  useRocketTrail(emitter2Ref, isPlaying, { x: 0.85, y: 0.69, rotation: -25 });
+
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+
+    let playedOnce = false;
+
+    const handleEnded = () => {
+      if (!playedOnce) playedOnce = true;
+      if (vid.duration && isFinite(vid.duration)) {
+        vid.currentTime = Math.max(0, vid.duration - 1);
+      }
+      vid.play().catch(() => {});
+    };
+
+    vid.addEventListener("ended", handleEnded);
+    return () => vid.removeEventListener("ended", handleEnded);
+  }, []);
+
+  const handleToggle = () => {
+    const vid = videoRef.current;
+    if (!vid) return;
+
+    if (isPlaying) {
+      vid.pause();
+      vid.currentTime = 0;
+    } else {
+      vid.currentTime = 0;
+      vid.play().catch(() => {});
     }
-  }, [isPlaying])
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <>
@@ -138,22 +196,40 @@ export default function SpacecraftVideo() {
           className="w-full h-auto block"
           aria-hidden="true"
         >
-          <source src="/spacecraft-hero.webm?v=3" type="video/webm; codecs=vp8" />
+          <source
+            src="/spacecraft-hero.webm?v=3"
+            type="video/webm; codecs=vp8"
+          />
         </video>
       </div>
 
-      {/* Partikel-Emitter Canvas – direkt unterhalb des Videos, frei im Hero-Bereich }
+      {/* RocketTrail Canvas 1 — Vollbild, über Video */}
       {isPlaying && (
         <canvas
           ref={emitterRef}
-          width="800"
-          height="500"
-          className="absolute top-[80%] left-[50%] -translate-x-1/2 w-[800px] h-[500px]"
+          className="fixed inset-0 w-screen h-screen"
           style={{
-            zIndex: 1,
+            zIndex: 9999,
             pointerEvents: "none",
             overflow: "visible",
-            clipPath: "none"
+            clipPath: "none",
+            contain: "none",
+          }}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* RocketTrail Canvas 2 — Vollbild, 7% über Canvas 1 */}
+      {isPlaying && (
+        <canvas
+          ref={emitter2Ref}
+          className="fixed inset-0 w-screen h-screen"
+          style={{
+            zIndex: 9999,
+            pointerEvents: "none",
+            overflow: "visible",
+            clipPath: "none",
+            contain: "none",
           }}
           aria-hidden="true"
         />
@@ -164,5 +240,5 @@ export default function SpacecraftVideo() {
         Klick 🖱️
       </div>
     </>
-  )
+  );
 }

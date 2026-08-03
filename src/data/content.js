@@ -86,7 +86,10 @@ export const site = {
 
   // --- GEHEIMWAFFE ---
   secret: {
-    name: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text78" },
+    name: {
+      de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/",
+      en: "text78",
+    },
     titleCover: { de: "text83", en: "text84" },
     coverBody: { de: "text85", en: "text86" },
   },
@@ -94,7 +97,10 @@ export const site = {
   // --- SCHLACHT ---
   battleMeta: {
     eyebrow: { de: "Projekte • Scroll to reveal", en: "text88" },
-    caption: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text90" },
+    caption: {
+      de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/",
+      en: "text90",
+    },
     titleCover: { de: "Humble-Bee", en: "text92" },
     coverBody: { de: "Projekt", en: "text94" },
   },
@@ -134,22 +140,34 @@ export const site = {
         {
           code: "SIG-01",
           cipher: "ᛟᚠᚠ-W0R-ᛗE-ᚱU-ᚷHT",
-          plain: { de: "Position Gewinnen Sie rechts", en: "Advance position right flank" },
+          plain: {
+            de: "Position Gewinnen Sie rechts",
+            en: "Advance position right flank",
+          },
         },
         {
           code: "SIG-02",
           cipher: "ᛗI-ᚱI-ᚷHT-ᚠL-ᚨN-ᚲ",
-          plain: { de: "Mich rechts anflankieren", en: "Flank me from the right" },
+          plain: {
+            de: "Mich rechts anflankieren",
+            en: "Flank me from the right",
+          },
         },
         {
           code: "SIG-03",
           cipher: "ᚠAL-ᛚS-ᚷO-ᚱIGHT-ᛗE",
-          plain: { de: "Falle rechts mich gehen", en: "Ambush right, go for me" },
+          plain: {
+            de: "Falle rechts mich gehen",
+            en: "Ambush right, go for me",
+          },
         },
         {
           code: "SIG-04",
           cipher: "ᚱI-ᚷHT-ᚠL-ᚨN-ᚲ-CO-ᛗ",
-          plain: { de: "Rechts anflankieren mit CO", en: "Right flank with CO" },
+          plain: {
+            de: "Rechts anflankieren mit CO",
+            en: "Right flank with CO",
+          },
         },
       ],
     },
@@ -201,7 +219,10 @@ export const profile = {
   contact: {
     phone: "+49 151 67575229",
     email: "paul-daniel@t-online.de",
-    address: { de: "Imhoffstücken 18, 21423 Winsen", en: "Imhoffstücken 18, 21423 Winsen, Germany" },
+    address: {
+      de: "Imhoffstücken 18, 21423 Winsen",
+      en: "Imhoffstücken 18, 21423 Winsen, Germany",
+    },
     github: "https://github.com/777danielpaul-droid",
   },
 };
