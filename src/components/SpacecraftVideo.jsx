@@ -141,13 +141,13 @@ export default function SpacecraftVideo() {
           <source src="/spacecraft-hero.webm?v=3" type="video/webm; codecs=vp8" />
         </video>
 
-        {/* Partikel-Emitter Canvas am unteren Rand des Videos */}
+        {/* Partikel-Emitter Canvas – exakt am unteren Rand des Videos */}
         {isPlaying && (
           <canvas
             ref={emitterRef}
-            width="200"
-            height="100"
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[30%] h-auto"
+            width="350"
+            height="120"
+            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 w-[52%] h-auto"
             style={{ zIndex: 2, pointerEvents: "none" }}
             aria-hidden="true"
           />
