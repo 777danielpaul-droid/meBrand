@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react"
 /**
  * Hook: erstellt einen Canvas-basierten Partikeleffekt (RocketTrail).
  * Liest canvasRef.current innerhalb von useEffect — nach DOM-Mount.
+ *
+ * Partikel haben einen "Flash"-Effekt kurz vor ihrem Ablauf:
+ * Bei life < 0.05 wird Opacity + Helligkeit stark angehoben (Verpuffen).
  */
 function useRocketTrail(canvasRef, isPlaying, opts) {
   useEffect(() => {
@@ -48,10 +51,10 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
         particles.push({
           x,
           y,
-          vx: 0.3 + Math.random() * 1.2,
-          vy: 0.2 + Math.random() * 0.8,
+          vx: 0.2 + Math.random() * 0.8,
+          vy: 0.1 + Math.random() * 0.5,
           r: 0.5 + Math.random() * 1.8,
-          a: 0.2 + Math.random() * 0.3,
+          a: 0.3 + Math.random() * 0.4,
           life: 1,
           // Farb-Kanal für 2-farbigen Trail (Lila / Tiffany)
           cr: c.r,
@@ -62,6 +65,11 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
     }
 
     const rot = opts.rotation ? (opts.rotation * Math.PI) / 180 : 0
+
+    // Flash-Schwelle: Partikel "verpuffen" deutlich vor ihrem Ablauf
+    const FLASH_THRESHOLD = 0.2  // Beginnt bei 20% Restleben (früher erkennbar)
+    const FLASH_BOOST = 5      // 5x Helligkeit + Opacity beim Aufblitzen
+    const FLASH_RADIUS_BOOST = 2.5 // Radius vergrößert sich stark
 
     function animate() {
       raf = requestAnimationFrame(animate)
@@ -83,6 +91,16 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
           continue
         }
 
+        // Flash-Effekt deutlich vor dem Verschwinden (bei life < 20% Restleben)
+        const isInFlash = p.life < FLASH_THRESHOLD
+        const flashIntensity = isInFlash ? FLASH_BOOST * (1 - p.life / FLASH_THRESHOLD) : 0
+
+        // Effektive Werte (stark geboosted beim Flash)
+        const eAlpha = isInFlash
+          ? Math.min(1, flashIntensity * 0.15)  // Deckkraft hochfahren
+          : p.a * p.life
+        const eRadius = p.r * (isInFlash ? (1 + flashIntensity * 0.04) : 1)
+
         if (rot) {
           ctx.save()
           ctx.translate(p.x, p.y)
@@ -95,17 +113,17 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
             0,
             drawX,
             drawY,
-            p.r * 2.5,
+            eRadius * 2.5,
           )
           grad.addColorStop(
             0,
-            `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`,
+            `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${eAlpha})`,
           )
           grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`)
 
           ctx.fillStyle = grad
           ctx.beginPath()
-          ctx.arc(drawX, drawY, p.r, 0, Math.PI * 2)
+          ctx.arc(drawX, drawY, eRadius, 0, Math.PI * 2)
           ctx.fill()
           ctx.restore()
         } else {
@@ -115,17 +133,17 @@ function useRocketTrail(canvasRef, isPlaying, opts) {
             0,
             p.x,
             p.y,
-            p.r * 2.5,
+            eRadius * 2.5,
           )
           grad.addColorStop(
             0,
-            `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${p.a * p.life})`,
+            `rgba(${p.cr}, ${p.cg}, ${p.cb}, ${eAlpha})`,
           )
           grad.addColorStop(1, `rgba(${p.cr}, ${p.cg}, ${p.cb}, 0)`)
 
           ctx.fillStyle = grad
           ctx.beginPath()
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+          ctx.arc(p.x, p.y, eRadius, 0, Math.PI * 2)
           ctx.fill()
         }
       }
@@ -158,7 +176,6 @@ export default function SpacecraftVideo() {
     if (!vid) return
 
     // Video nicht automatisch abspielen — startet erst per Klick
-    // Dadurch startet auch der RocketTrail-Effekt gleichzeitig (handleToggle)
     let playedOnce = false
 
     const handleEnded = () => {
