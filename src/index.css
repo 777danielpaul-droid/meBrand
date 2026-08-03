@@ -391,9 +391,7 @@
 }
 
 /* ===== MAGIC CURSOR ===== */
-body {
-  cursor: none;
-}
+/* body { cursor: none; } wurde entfernt — JS-Feature für magic-cursor fehlt */
 
 .magic-cursor {
   position: fixed;
