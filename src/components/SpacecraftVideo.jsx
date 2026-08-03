@@ -196,15 +196,8 @@ export default function SpacecraftVideo() {
 
   return (
     <>
-      {/* Klickfläche: das Raumschiff (enthält Video + ist klickbar) */}
-      <div
-        onClick={handleToggle}
-        onKeyDown={(e) => e.key === "Enter" && handleToggle()}
-        className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto cursor-pointer z-[5]"
-        role="button"
-        tabIndex={0}
-        aria-label="Raumschiff starten / Animation abspielen"
-      >
+      {/* Raumschiff-Video (visuell, nicht klickbar — Klick kommt vom Hinweis-Button) */}
+      <div className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto pointer-events-none z-[5]">
         <video
           ref={videoRef}
           autoPlay
@@ -259,10 +252,17 @@ export default function SpacecraftVideo() {
         />
       )}
 
-      {/* Klick-Hinweis */}
-      <div className="absolute top-[52%] left-[45%] -translate-x-1/2 -translate-y-full z-[9999] px-3 py-1 mono-label text-[10px] text-cyan/90 bg-ink/70 border border-cyan/40 rounded-sm pointer-events-none whitespace-nowrap animate-pulse">
+      {/* Klick-Hinweis — echter Button, startet die Animation */}
+      <button
+        onClick={handleToggle}
+        onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleToggle()}
+        className="absolute top-[52%] left-[45%] -translate-x-1/2 -translate-y-full z-[9999] px-3 py-1 mono-label text-[10px] text-cyan/90 bg-ink/70 border border-cyan/40 rounded-sm cursor-pointer hover:bg-ink/80 hover:border-cyan/60 transition-colors whitespace-nowrap animate-pulse"
+        role="button"
+        tabIndex={0}
+        aria-label="Raumschiff starten / Animation abspielen"
+      >
         Klick 🖱️
-      </div>
+      </button>
     </>
   )
 }
