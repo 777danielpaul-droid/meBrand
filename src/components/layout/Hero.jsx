@@ -55,18 +55,13 @@ function SkillBar({ label, level, color, icon, index }) {
   )
 }
 
-// Titel-Schatten + lila Outline (RunenSchrift Hero-Überschrift)
-// Schatten für Tiefe + lila Kontur für bessere Sichtbarkeit über dem Video
+// Titel-Schatten für Tiefe (schwarzer Mehrfach-Schatten)
+// Lila Outline: via CSS text-stroke (echte Kontur, sichtbar über dem Text)
 const TITLE_SHADOW =
   // Tiefe: schwarzer Mehrfach-Schatten
   "1px 1px rgba(0,0,0,0.6), 2px 2px rgba(0,0,0,0.55), 3px 3px rgba(0,0,0,0.5), " +
   "4px 4px rgba(0,0,0,0.45), 6px 6px rgba(0,0,0,0.4), 8px 8px rgba(0,0,0,0.35), " +
   "12px 12px rgba(0,0,0,0.3), 18px 18px rgba(0,0,0,0.25), 24px 24px 10px rgba(0,0,0,0.3)"
-
-// Separater lila Outline-Effekt via text-shadow (fällt nicht auf filter, sondern auf Text)
-// wird über className auf dem <h1> angewendet
-export const TITLE_OUTLINE =
-  "0 0 4px #6d28d9, 0 0 8px #6d28d9, 0 0 12px #a400ff, 0 0 16px #a400ff"
 
 export default function Hero() {
   const h = site.hero
@@ -89,14 +84,14 @@ export default function Hero() {
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
-            className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words text-cyan"
-            style={{ filter: TITLE_SHADOW, textShadow: TITLE_OUTLINE }}
+            className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words text-cyan pulse-glow"
+            style={{}}
           >
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="block">
-              <RunenText text="DANIEL" className="text-cyan block" />
+              <RunenText text="DANIEL" className="block" />
             </motion.span>
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="block">
-              <RunenText text="PAUL" className="text-cyan block" />
+              <RunenText text="PAUL" className="block" />
             </motion.span>
           </motion.h1>
 

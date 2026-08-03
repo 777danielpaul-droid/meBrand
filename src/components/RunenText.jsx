@@ -108,11 +108,35 @@ function Glyph({ ch }) {
       className="runen-glyph"
       aria-hidden="true"
       fill="none"
-      stroke="currentColor"
-      strokeWidth="6"
+  stroke="#a400ff"
+      strokeWidth="3"
       strokeLinecap="round"
     >
-      {g}
+      <defs>
+        {/* Tiffany-Blau-Glow (#00f0ff) via echter SVG-Filter */}
+        {/* 1. feFlood erzeugt tiffanyblaues Raster → 2. mit SourceAlpha multiplizieren → 3. weichzeichnen */}
+        {/* 4. SourceGraphic (lila Stroke) darüber */}
+        <filter id="tiffany-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feFlood floodColor="#00f0ff" floodOpacity="0.65" result="glow" />
+          <feComposite in="glow" in2="SourceAlpha" operator="in" result="coloredGlow" />
+          <feGaussianBlur in="coloredGlow" stdDeviation="4" result="blurredGlow">
+            <animate
+              attributeName="stdDeviation"
+              values="3;5;3"
+              dur="3s"
+              repeatCount="indefinite"
+            />
+          </feGaussianBlur>
+          <feMerge>
+            <feMergeNode in="blurredGlow" />
+            <feMergeNode in="blurredGlow" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g filter="url(#tiffany-glow)" style={{ filter: "url(#tiffany-glow)" }}>
+        {g}
+      </g>
     </svg>
   )
 }

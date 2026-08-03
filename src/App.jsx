@@ -19,12 +19,12 @@ export default function App() {
       <ScrollProgress />
       <Navbar termOpen={termOpen} setTermOpen={setTermOpen} />
       <TerminalCard open={termOpen} onClose={() => setTermOpen(false)} />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <SecretWeapon />
         <Battle />
       </main>
-      <Footer />
+      <Footer className="footer-glow" />
     </LangProvider>
   )
 }
