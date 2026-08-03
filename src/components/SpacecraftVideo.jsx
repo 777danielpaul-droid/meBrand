@@ -125,7 +125,7 @@ export default function SpacecraftVideo() {
       <div
         onClick={handleToggle}
         className="absolute top-[44%] left-[56%] -translate-x-1/2 -translate-y-1/2 w-[64%] h-auto cursor-pointer"
-        style={{ zIndex: 1 }}
+        style={{ zIndex: 1, overflow: "visible" }}
         aria-hidden="true"
       >
         <video
