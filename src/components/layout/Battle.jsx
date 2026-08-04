@@ -39,7 +39,7 @@ export default function Battle() {
             {/* REVEAL-SPALTE (unter dem Panel): Bild + Figcaption gestapelt, am Ende komplett sichtbar */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10">
               {/* "Projekte • Scroll to reveal" — Tiffany-Blau (#00f0ff) */}
-              <p className="mono-label" style={{ color: "#00f0ff" }}><T en={s.eyebrow.en}>{s.eyebrow.de}</T></p>
+              <p className="mono-label" style={{ color: "#00f0ff", textShadow: "0 0 6px #00f0ff, 0 0 12px #2dd3ee" }}><T en={s.eyebrow.en}>{s.eyebrow.de}</T></p>
 
               <motion.div
                 style={{ y: imgY, scale: imgScale, opacity: imgOpacity, filter: imgFilter }}
