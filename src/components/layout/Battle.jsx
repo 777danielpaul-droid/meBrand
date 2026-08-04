@@ -38,7 +38,8 @@ export default function Battle() {
           <div className="relative w-full max-w-5xl mx-auto px-5 sm:px-8 h-full flex items-center justify-center">
             {/* REVEAL-SPALTE (unter dem Panel): Bild + Figcaption gestapelt, am Ende komplett sichtbar */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10">
-              <p className="mono-label text-neon"><T en={s.eyebrow.en}>{s.eyebrow.de}</T></p>
+              {/* "Projekte • Scroll to reveal" — Tiffany-Blau (#00f0ff) */}
+              <p className="mono-label text-cyan"><T en={s.eyebrow.en}>{s.eyebrow.de}</T></p>
 
               <motion.div
                 style={{ y: imgY, scale: imgScale, opacity: imgOpacity, filter: imgFilter }}
@@ -83,7 +84,8 @@ export default function Battle() {
               className="relative z-20 mx-auto max-w-3xl"
             >
               <div className="rounded-none bg-transparent">
-                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#6d28d9] link-pulse">
+                {/* "Humble-Bee" Titel — Lila (#a400ff) */}
+                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#a400ff] link-pulse">
                   <T en={s.titleCover.en}>{s.titleCover.de}</T>
                 </h2>
                 <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>
