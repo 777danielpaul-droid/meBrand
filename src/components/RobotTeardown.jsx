@@ -13,6 +13,7 @@ export default function RobotTeardown() {
   const pinRef = useRef(null)
   const imagesRef = useRef([])
   const frameCountRef = useRef(TOTAL_FRAMES)
+
   const [frameCount] = useState(() =>
     window.matchMedia("(max-width: 768px)").matches ? MOBILE_FRAMES : TOTAL_FRAMES
   )
@@ -41,9 +42,9 @@ export default function RobotTeardown() {
     ctx.imageSmoothingQuality = "high"
 
     const dpr = window.devicePixelRatio || 1
-    canvas.width = 1920 * dpr
-    canvas.height = 1080 * dpr
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    const srcWidth = 1920
+    const srcHeight = 1080
+    let currentProgress = 0
 
     const drawFrame = (progress) => {
       const count = frameCountRef.current
@@ -56,6 +57,20 @@ export default function RobotTeardown() {
       ctx.drawImage(img, (canvas.width - dw) / 2, (canvas.height - dh) / 2, dw, dh)
     }
 
+    const resizeCanvas = () => {
+      const rect = canvas.getBoundingClientRect()
+      canvas.width = Math.round(rect.width * dpr)
+      canvas.height = Math.round(rect.height * dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      drawFrame(currentProgress)
+    }
+
+    // Initial size + resize handling
+    resizeCanvas()
+    const resizeObserver = new ResizeObserver(resizeCanvas)
+    resizeObserver.observe(canvas)
+
+    // Draw first frame + setup trigger when images available
     let tween = null
     let initialized = false
 
@@ -66,21 +81,18 @@ export default function RobotTeardown() {
       initialized = true
 
       // Draw first frame
-      const first = imagesRef.current.find(Boolean)
-      if (first) {
-        const scale = Math.max(canvas.width / first.naturalWidth, canvas.height / first.naturalHeight)
-        const dw = first.naturalWidth * scale
-        const dh = first.naturalHeight * scale
-        ctx.drawImage(first, (canvas.width - dw) / 2, (canvas.height - dh) / 2, dw, dh)
-      }
+      drawFrame(0)
 
-      // Apple.com pattern: animated tween drives ScrollTrigger
+      // Apple.com pattern: dummy tween drives ScrollTrigger
       const dummy = { progress: 0 }
       tween = gsap.to(dummy, {
         progress: 1,
         duration: 1,
         ease: "none",
-        onUpdate: () => drawFrame(dummy.progress),
+        onUpdate: () => {
+          currentProgress = dummy.progress
+          drawFrame(dummy.progress)
+        },
         scrollTrigger: {
           trigger: pin,
           start: "top top",
@@ -101,21 +113,22 @@ export default function RobotTeardown() {
     // Cleanup
     return () => {
       clearInterval(poll)
+      resizeObserver.disconnect()
       if (tween) tween.kill()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [frameCount])
 
   return (
     <section className="relative w-full bg-black">
-      <div ref={pinRef} className="relative w-full" style={{ height: "200vh" }}>
+      <div ref={pinRef} className="relative w-full h-[200vh]">
         <canvas
           ref={canvasRef}
-          className="absolute top-0 left-0 w-full h-screen object-cover"
-          width="1920"
-          height="1080"
+          className="absolute top-0 left-0 w-full h-screen"
+          width={1920}
+          height={1080}
         />
       </div>
-
     </section>
   )
 }
