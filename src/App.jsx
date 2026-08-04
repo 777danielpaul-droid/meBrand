@@ -25,7 +25,6 @@ export default function App() {
         <Hero />
         <SecretWeapon />
         <RobotTeardown />
-        <SecretWeapon />
         <Battle />
       </main>
       <Footer className="footer-glow" />
