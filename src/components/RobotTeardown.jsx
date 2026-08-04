@@ -107,10 +107,6 @@ export default function RobotTeardown() {
 
   return (
     <section className="relative w-full bg-black">
-      <div className="h-screen flex items-center justify-center border-b border-gray-800">
-        <h2 className="text-white text-3xl md:text-5xl font-bold">Robot Teardown</h2>
-      </div>
-
       <div ref={pinRef} className="relative w-full" style={{ height: "200vh" }}>
         <canvas
           ref={canvasRef}
