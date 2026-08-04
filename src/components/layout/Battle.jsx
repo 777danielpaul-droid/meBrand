@@ -40,7 +40,6 @@ export default function Battle() {
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10">
               {/* "Projekte • Scroll to reveal" — Tiffany-Blau (#00f0ff) */}
               <p className="mono-label" style={{ color: "#00f0ff" }}><T en={s.eyebrow.en}>{s.eyebrow.de}</T></p>
-            </div>
 
               <motion.div
                 style={{ y: imgY, scale: imgScale, opacity: imgOpacity, filter: imgFilter }}
@@ -86,7 +85,7 @@ export default function Battle() {
             >
               <div className="rounded-none bg-transparent">
                 {/* "Humble-Bee" Titel — Lila (#a400ff) */}
-                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-[#a400ff] link-pulse">
+                <h2 className="font-road-rage font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] link-pulse" style={{ color: "#a400ff", textShadow: "0 0 8px #a400ff, 0 0 16px #6d28d9" }}>
                   <T en={s.titleCover.en}>{s.titleCover.de}</T>
                 </h2>
                 <p className="mt-6 text-bone/75 leading-relaxed text-lg"><T en={s.coverBody.en}>{s.coverBody.de}</T></p>
