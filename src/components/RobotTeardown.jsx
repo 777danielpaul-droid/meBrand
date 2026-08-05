@@ -50,8 +50,10 @@ export default function RobotTeardown() {
       const count = frameCountRef.current
       const img = imagesRef.current[Math.min(Math.floor(progress * (count - 1)), count - 1)]
       if (!img) return
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      const scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
+      ctx.fillStyle = "#07060d"
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      // contain: Bild passt komplett in die Canvas (kein Abschneiden oben/unten)
+      const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
       const dw = img.naturalWidth * scale
       const dh = img.naturalHeight * scale
       ctx.drawImage(img, (canvas.width - dw) / 2, (canvas.height - dh) / 2, dw, dh)
@@ -120,7 +122,7 @@ export default function RobotTeardown() {
   }, [frameCount])
 
   return (
-    <section className="relative w-full bg-black">
+    <section className="relative w-full bg-ink mt-[60vh]">{/* bg-ink (#07060d) für Dark-Theme-Harmonie */}
       <div ref={pinRef} className="relative w-full h-[200vh]">
         <canvas
           ref={canvasRef}
