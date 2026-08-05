@@ -122,7 +122,7 @@ export default function RobotTeardown() {
   }, [frameCount])
 
   return (
-    <section className="relative w-full bg-ink mt-[60vh]">{/* bg-ink (#07060d) für Dark-Theme-Harmonie */}
+    <section className="relative w-full mt-[20vh">{/* Transparent — Starfield durchscheint */}
       <div ref={pinRef} className="relative w-full h-[200vh]">
         <canvas
           ref={canvasRef}

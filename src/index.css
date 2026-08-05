@@ -49,7 +49,8 @@
   #profile,
   #secret-weapon,
   #battle {
-    background-color: rgba(7, 6, 13, 0.85) !important;
+    /* Transparent — lässt das globale Starfield vollständig durchscheinen */
+    background-color: transparent !important;
   }
   ::selection {
     background: var(--color-neon);
@@ -73,12 +74,17 @@
    unter dem Content (z:1). Scheinen durch die fast-transparenten Sections. */
 .cloud-volume {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;     /* Nur Hero-Area sichtbar */
+  overflow: hidden;
   z-index: 2;
   pointer-events: none;
-  mix-blend-mode: screen;
+  /* mix-blend-mode: screen durch opacity ersetzt — vermeidet farbige Kanten
+     am Canvas-Rand, die durch Screen-Blend mit dem Roboter-Teardown überlappen. */
+  opacity: 0.5;
+  --tw-blur: blur(0);
 }
 
 /* Das diffuse Galaxie-Band + Sternenfeld werden per Canvas
@@ -417,7 +423,7 @@
 [data-theme="light"] #profile,
 [data-theme="light"] #secret-weapon,
 [data-theme="light"] #battle {
-  background-color: rgba(243, 240, 251, 0.85) !important;
+  background-color: transparent !important;
 }
 
 /* Canvas Starfield: bunte, funkelnde Sterne als Hintergrund (z-Index 1, hinter #root:2) */
