@@ -239,6 +239,7 @@ export const profile = {
   portrait: "/portrait.png",
   contact: {
     phone: "+49 151 67575229",
+    phoneReverse: "92257576 151 94+",
     email: "paul-daniel@t-online.de",
     address: {
       de: "Imhoffstücken 18, 21423 Winsen",

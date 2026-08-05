@@ -4,7 +4,19 @@ import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import SpacecraftVideo from "../SpacecraftVideo"
-import { useRef, useLayoutEffect } from "react"
+import { useRef, useState, useEffect } from "react"
+
+// Telefonnummer: rückwärts im DOM, client-seitig rekonstruiert (Bot-Schutz).
+// Bei deaktiviertem JS bleibt aria-label erhalten; Scraper sehen Murks.
+function ObfuscatedPhone({ phone, phoneReverse }) {
+  const [display, setDisplay] = useState("")
+  useEffect(() => { setDisplay(phoneReverse.split("").reverse().join("")) }, [phoneReverse])
+  return (
+    <span className="block text-cyan mt-1" aria-label={phone} data-phone-reversed={phoneReverse}>
+      {display || "\u200B"}
+    </span>
+  )
+}
 
 // SkillBar: wiederverwendbarer Balken mit glühendem Effekt und Icon.
 // Farbe ist ein CSS-Farbstring (z.B. "#c026d3").
@@ -169,12 +181,10 @@ export default function Hero() {
               </div>
               <div>
                 <span className="mono-label text-xs text-cyan/70">Telefon</span>
-                <span
-                  className="block text-cyan mt-1"
-                  aria-label={c.contact.phone}
-                >
-                  {c.contact.phone}
-                </span>
+                <ObfuscatedPhone
+                  phone={c.contact.phone}
+                  phoneReverse={c.contact.phoneReverse}
+                />
               </div>
               <div>
                 <span className="mono-label text-xs text-cyan/70">Standort</span>

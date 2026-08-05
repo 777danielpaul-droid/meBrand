@@ -8,3 +8,6 @@ dist-ssr
 .env.*
 !.env.example
 npm-debug.log*
+
+# Generated animation frames (extracted from source video via ffmpeg)
+public/anim/
