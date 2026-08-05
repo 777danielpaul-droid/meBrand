@@ -1,8 +1,7 @@
 import { useState } from "react"
 import Navbar from "./components/layout/Navbar"
 import Hero from "./components/layout/Hero"
-import SecretWeapon from "./components/layout/SecretWeapon"
-import Battle from "./components/layout/Battle"
+import ScrollRevealSection from "./components/ScrollRevealSection"
 import Footer from "./components/layout/Footer"
 import SpaceStage from "./components/SpaceStage"
 import CloudVolume from "./components/CloudVolume"
@@ -10,6 +9,7 @@ import RobotTeardown from "./components/RobotTeardown"
 import TerminalCard from "./components/TerminalCard"
 import { ScrollProgress } from "./components/motion/ScrollFX"
 import { LangProvider } from "./components/RunenContext"
+import { site } from "./data/content"
 
 export default function App() {
   const [termOpen, setTermOpen] = useState(false)
@@ -23,9 +23,10 @@ export default function App() {
       <TerminalCard open={termOpen} onClose={() => setTermOpen(false)} />
       <main className="relative z-10">
         <Hero />
-        <SecretWeapon />
+        {site.revealSections.map((s) => (
+          <ScrollRevealSection key={s.id} section={s} />
+        ))}
         <RobotTeardown />
-        <Battle />
       </main>
       <Footer className="footer-glow" />
     </LangProvider>

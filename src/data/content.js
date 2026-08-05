@@ -83,7 +83,29 @@ export const site = {
     body: { de: "text59", en: "text60" },
   },
 
-  // --- GEHEIMWAFFE ---
+  // --- SCROLL-REVEAL SECTIONS (SecretWeapon + Battle) ---
+  // Generisches Datenmodell: beide Sektionen nutzen dieselbe
+  // Scroll-Enthüllungs-Animation (siehe ScrollRevealSection.jsx).
+  revealSections: [
+    {
+      id: "secret-weapon",
+      image: "/hitisop-cover.png",
+      link: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text78" },
+      linkLabel: { de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/", en: "text78" },
+      titleCover: { de: "My first game", en: "My first game" },
+      coverBody: { de: "text85", en: "text86" },
+    },
+    {
+      id: "battle",
+      image: "/battle-cover.png",
+      link: { de: "https://humble-bee.de", en: "https://humble-bee.de" },
+      linkLabel: { de: "Save the bees — humble-bee.de", en: "Save the bees — humble-bee.de" },
+      titleCover: { de: "Humble-Bee", en: "Humble-Bee" },
+      coverBody: { de: "Projekt", en: "Projekt" },
+    },
+  ],
+
+  // --- GEHEIMWAFFE (Legacy-Alias für revealSections[0]) ---
   secret: {
     name: {
       de: "https://hit-is-op-website-21oxq4fg0-chozen-core.vercel.app/",
@@ -93,7 +115,7 @@ export const site = {
     coverBody: { de: "text85", en: "text86" },
   },
 
-  // --- SCHLACHT ---
+  // --- SCHLACHT (Legacy-Alias für revealSections[1]) ---
   battleMeta: {
     eyebrow: { de: "Projekte • Scroll to reveal", en: "text88" },
     caption: {

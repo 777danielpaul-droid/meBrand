@@ -345,7 +345,18 @@
   -webkit-mask-repeat: no-repeat;
 }
 
-/* ===== ARCHIV SCROLL ===== */
+/* Tiffany-Blau — für "Projekte • Scroll to reveal"-Hinweistext */
+.mono-label.text-tiffany {
+  color: #00f0ff;
+}
+
+/* Magenta-Lila — für titelüberschriften in ScrollRevealSection */
+.text-magenta {
+  color: #a400ff;
+  text-shadow:
+    0 0 8px #a400ff,
+    0 0 16px #6d28d9;
+}
 .archiv-scroll {
   scrollbar-width: none;
   -ms-overflow-style: none;
