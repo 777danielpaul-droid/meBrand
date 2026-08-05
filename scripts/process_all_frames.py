@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Batch process all robot-teardown frames with Euclidean-distance background removal."""
-import time, sys, subprocess
-from pathlib import Path
+"""Batch process: build union mask from all frames, apply to all frames."""
+import sys, subprocess, time
+sys.path.insert(0, '/Users/danielpaul/Desktop/businesscard/.venv-seg/lib/python3.11/site-packages')
 
-sys.path.insert(0, str(Path(__file__).parent))
-from remove_bg import process_frame, DISTANCE_THRESHOLD
+import numpy as np
+import cv2
+from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.parent
 INPUT_DIR = PROJECT_ROOT / "public/anim/robot-teardown"
@@ -12,27 +13,54 @@ OUTPUT_DIR = PROJECT_ROOT / "public/anim/robot-teardown-transparent"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 frames = sorted(INPUT_DIR.glob("frame_*.png"))
-print(f"Found {len(frames)} frames, threshold={DISTANCE_THRESHOLD}")
+print(f"Found {len(frames)} frames")
+
+# Step 1: Build union mask from ALL frames
+print("\nBuilding union mask from all frames...")
+union_mask = None
 start = time.time()
 
 for i, frame in enumerate(frames):
-    output = OUTPUT_DIR / frame.name
-    process_frame(frame, output)
-    if (i + 1) % 25 == 0:
-        elapsed = time.time() - start
-        print(f"  Processed {i+1}/{len(frames)} ({elapsed:.1f}s)")
+    img = cv2.imread(str(frame))
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, mask = cv2.threshold(gray, 3, 255, cv2.THRESH_BINARY)
+    if union_mask is None:
+        union_mask = mask
+    else:
+        union_mask = cv2.bitwise_or(union_mask, mask)
+    if (i + 1) % 50 == 0:
+        print(f"  Processed {i+1}/{len(frames)} ({time.time()-start:.1f}s)")
 
-print(f"✅ Done in {time.time()-start:.1f}s")
-print(f"Output frames: {len(list(OUTPUT_DIR.glob('frame_*.png')))}")
+# Clean up union mask
+kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+union_mask = cv2.morphologyEx(union_mask, cv2.MORPH_CLOSE, kernel, iterations=1)
+union_mask = cv2.dilate(union_mask, kernel, iterations=3)
+
+print(f"Union mask: {np.sum(union_mask > 127)} robot pixels ({100*np.sum(union_mask > 127)/(1920*1080):.1f}%)")
+
+# Step 2: Apply union mask to all frames
+print(f"\nApplying union mask to all frames...")
+start = time.time()
+
+for i, frame in enumerate(frames):
+    img = cv2.imread(str(frame))
+    bgra = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
+    bgra[:, :, 3] = union_mask
+    output_path = OUTPUT_DIR / f"frame_{i+1:04d}.png"
+    cv2.imwrite(str(output_path), bgra, [cv2.IMWRITE_PNG_COMPRESSION, 9])
+    if (i + 1) % 25 == 0:
+        print(f"  Processed {i+1}/{len(frames)} ({time.time()-start:.1f}s)")
+
+print(f"\n✅ Done in {time.time()-start:.1f}s")
 
 # Verify
-r = subprocess.run(["ffmpeg","-hide_banner","-i",str(OUTPUT_DIR/"frame_0001.png"),"-vf","crop=1:1:0:0","-frames:v","1","-f","rawvideo","-"], capture_output=True)
-d = r.stdout
-r2 = subprocess.run(["ffmpeg","-hide_banner","-i",str(OUTPUT_DIR/"frame_0001.png"),"-vf","crop=1:1:959:539","-frames:v","1","-f","rawvideo","-"], capture_output=True)
-d2 = r2.stdout
-r3 = subprocess.run(["ffmpeg","-hide_banner","-i",str(OUTPUT_DIR/"frame_0001.png"),"-vf","crop=1:1:800:600","-frames:v","1","-f","rawvideo","-"], capture_output=True)
-d3 = r3.stdout
-print(f"\nVerification:")
-print(f"  BG (0,0): alpha={d[3]:02x} → {'✓ TRANSPARENT' if d[3]<128 else '✗ opaque'}")
-print(f"  CENTER: alpha={d2[3]:02x} → {'✓ opaque' if d2[3]>128 else '✗ transparent'}")
-print(f"  DARK ROBOT: alpha={d3[3]:02x} → {'✓ opaque' if d3[3]>128 else '✗ TRANSPARENT (LOST!)'}")
+print("\nVerification:")
+r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=pix_fmt", "-of", "default=noprint_wrappers=1", str(OUTPUT_DIR / "frame_0001.png")], capture_output=True, text=True)
+print(f"  Format: {r.stdout.strip()}")
+
+for label, x, y, exp in [("BG (0,0)", 0, 0, "transparent"), ("CENTER (959,539)", 959, 539, "opaque"), ("DARK ROBOT (400,300)", 400, 300, "opaque"), ("LEG AREA (500,900)", 500, 900, "opaque")]:
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(OUTPUT_DIR / "frame_0001.png"), "-vf", f"crop=1:1:{x}:{y}", "-frames:v", "1", "-f", "rawvideo", "-"], capture_output=True)
+    d = r.stdout
+    if len(d) >= 4:
+        ok = (d[3] < 128 and exp == "transparent") or (d[3] > 128 and exp == "opaque")
+        print(f"  {label}: alpha={d[3]:02x} → {'✓' if ok else '✗'} {exp}")

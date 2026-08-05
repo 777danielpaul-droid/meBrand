@@ -1,120 +1,77 @@
 #!/usr/bin/env python3
-"""Remove black background from robot teardown PNG frames using Euclidean RGB distance.
-
-Background color: RGB(0,2,0) — near-black.
-Pixels within Euclidean distance 12 from (0,2,0) → transparent.
-Everything else → opaque (preserves dark robot metal parts RGB(20+,20+,20+)).
-
-Usage: python3 scripts/process_all_frames.py
 """
-import struct, zlib
+Union mask: combine all robot pixels across all frames.
 
-# Key color (background) — exactly what pixel analysis showed
-KEY_R, KEY_G, KEY_B = 0, 2, 0
-DISTANCE_THRESHOLD = 12.0  # max distance from (0,2,0) to be background
+Method:
+1. For each frame, create a per-frame mask (grayscale > 3 = robot)
+2. Union all masks → any pixel that was EVER robot in ANY frame is robot
+3. Apply the union mask to all frames
 
-def read_png(path):
-    """Read PNG file, return (pixels, width, height, channels, bit_depth)."""
-    with open(path, 'rb') as f:
-        data = f.read()
-    
-    if data[:8] != b'\x89PNG\r\n\x1a\n':
-        raise ValueError("Not a PNG file")
-    
-    pos = 8
-    width = height = bit_depth = color_type = None
-    idat_data = b''
-    
-    while pos < len(data):
-        length = struct.unpack('>I', data[pos:pos+4])[0]
-        chunk_type = data[pos+4:pos+8].decode('ascii')
-        chunk_data = data[pos+8:pos+8+length]
-        
-        if chunk_type == 'IHDR':
-            width, height, bit_depth, color_type = struct.unpack('>IIBB', chunk_data[:10])
-        elif chunk_type == 'IDAT':
-            idat_data += chunk_data
-        elif chunk_type == 'IEND':
-            break
-        
-        pos += 12 + length
-    
-    if width is None:
-        raise ValueError("Could not parse PNG")
-    
-    raw = zlib.decompress(idat_data)
-    channels = {0: 1, 2: 3, 3: 1, 4: 2, 6: 4}[color_type]
-    bpp = channels * (bit_depth // 8)
-    stride = width * bpp
-    
-    pixels = bytearray(stride * height)
-    prev_row = bytearray(stride)
-    
-    for y in range(height):
-        filter_type = raw[y * (stride + 1)]
-        row_start = y * stride
-        row = bytearray(raw[y * (stride + 1) + 1: y * (stride + 1) + 1 + stride])
-        
-        if filter_type == 0:
-            pass
-        elif filter_type == 1:
-            for i in range(bpp, stride):
-                row[i] = (row[i] + row[i - bpp]) & 0xFF
-        elif filter_type == 2:
-            for i in range(stride):
-                row[i] = (row[i] + prev_row[i]) & 0xFF
-        elif filter_type == 3:
-            for i in range(stride):
-                left = row[i - bpp] if i >= bpp else 0
-                up = prev_row[i]
-                row[i] = (row[i] + (left + up) // 2) & 0xFF
-        elif filter_type == 4:
-            for i in range(stride):
-                left = row[i - bpp] if i >= bpp else 0
-                up = prev_row[i]
-                up_left = prev_row[i - bpp] if i >= bpp else 0
-                p = left + up - up_left
-                pa, pb, pc = abs(p - left), abs(p - up), abs(p - up_left)
-                pr = left if pa <= pb and pa <= pc else (up if pb <= pc else up_left)
-                row[i] = (row[i] + pr) & 0xFF
-        
-        pixels[row_start:row_start + stride] = row
-        prev_row = row
-    
-    return pixels, width, height, channels, bit_depth
+This ensures NO parts are cut off, regardless of robot movement.
+"""
+import sys
+sys.path.insert(0, '/Users/danielpaul/Desktop/businesscard/.venv-seg/lib/python3.11/site-packages')
 
-def write_png(path, pixels, width, height):
-    """Write RGBA PNG."""
-    def make_chunk(chunk_type, chunk_data):
-        crc = struct.pack('>I', zlib.crc32(chunk_type + chunk_data) & 0xFFFFFFFF)
-        return struct.pack('>I', len(chunk_data)) + chunk_type + chunk_data + crc
-    
-    with open(path, 'wb') as f:
-        f.write(b'\x89PNG\r\n\x1a\n')
-        f.write(make_chunk(b'IHDR', struct.pack('>IIBBBBB', width, height, 8, 6, 0, 0, 0)))
-        raw = bytearray()
-        for y in range(height):
-            raw.append(0)  # filter: None
-            raw.extend(pixels[y * width * 4: (y + 1) * width * 4])
-        f.write(make_chunk(b'IDAT', zlib.compress(bytes(raw), 9)))
-        f.write(make_chunk(b'IEND', b''))
+import numpy as np
+import cv2
+from pathlib import Path
+import subprocess, time
 
-def process_frame(input_path, output_path):
-    """Process a single frame: read PNG, key background, write RGBA PNG."""
-    pixels, width, height, src_channels, _ = read_png(input_path)
+PROJECT_ROOT = Path(__file__).parent.parent
+INPUT_DIR = PROJECT_ROOT / "public/anim/robot-teardown"
+OUTPUT_DIR = PROJECT_ROOT / "public/anim/robot-teardown-transparent"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+frames = sorted(INPUT_DIR.glob("frame_*.png"))
+print(f"Found {len(frames)} frames")
+
+# Step 1: Build union mask from ALL frames
+print("\nBuilding union mask from all frames...")
+union_mask = None
+
+for i, frame in enumerate(frames):
+    img = cv2.imread(str(frame))
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, mask = cv2.threshold(gray, 3, 255, cv2.THRESH_BINARY)
     
-    rgba = bytearray(width * height * 4)
+    if union_mask is None:
+        union_mask = mask
+    else:
+        union_mask = cv2.bitwise_or(union_mask, mask)
     
-    for i in range(width * height):
-        r = pixels[i * src_channels]
-        g = pixels[i * src_channels + 1]
-        b = pixels[i * src_channels + 2]
-        
-        dist = ((r - KEY_R) ** 2 + (g - KEY_G) ** 2 + (b - KEY_B) ** 2) ** 0.5
-        
-        rgba[i * 4] = r
-        rgba[i * 4 + 1] = g
-        rgba[i * 4 + 2] = b
-        rgba[i * 4 + 3] = 0 if dist < DISTANCE_THRESHOLD else 255
-    
-    write_png(output_path, rgba, width, height)
+    if (i + 1) % 50 == 0:
+        print(f"  Processed {i+1}/{len(frames)}")
+
+# Step 2: Morphological cleanup on union
+kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+union_mask = cv2.morphologyEx(union_mask, cv2.MORPH_CLOSE, kernel, iterations=1)
+union_mask = cv2.dilate(union_mask, kernel, iterations=3)  # conservative boundary
+
+print(f"Union mask: {np.sum(union_mask > 127)} robot pixels ({100*np.sum(union_mask > 127)/(1920*1080):.1f}%)")
+
+# Step 3: Apply union mask to all frames
+print("\nApplying union mask to all frames...")
+start = time.time()
+
+for i, frame in enumerate(frames):
+    img = cv2.imread(str(frame))
+    bgra = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
+    bgra[:, :, 3] = union_mask
+    output_path = OUTPUT_DIR / f"frame_{i+1:04d}.png"
+    cv2.imwrite(str(output_path), bgra, [cv2.IMWRITE_PNG_COMPRESSION, 9])
+    if (i + 1) % 25 == 0:
+        print(f"  Processed {i+1}/{len(frames)} ({time.time()-start:.1f}s)")
+
+print(f"\n✅ Done in {time.time()-start:.1f}s")
+
+# Verify
+print("\nVerification:")
+r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=pix_fmt", "-of", "default=noprint_wrappers=1", str(OUTPUT_DIR / "frame_0001.png")], capture_output=True, text=True)
+print(f"  Format: {r.stdout.strip()}")
+
+for label, x, y, exp in [("BG (0,0)", 0, 0, "transparent"), ("CENTER (959,539)", 959, 539, "opaque"), ("DARK ROBOT (400,300)", 400, 300, "opaque"), ("FLOOR/LEG AREA (500,900)", 500, 900, "opaque")]:
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(OUTPUT_DIR / "frame_0001.png"), "-vf", f"crop=1:1:{x}:{y}", "-frames:v", "1", "-f", "rawvideo", "-"], capture_output=True)
+    d = r.stdout
+    if len(d) >= 4:
+        ok = (d[3] < 128 and exp == "transparent") or (d[3] > 128 and exp == "opaque")
+        print(f"  {label}: alpha={d[3]:02x} → {'✓' if ok else '✗'} {exp}")
