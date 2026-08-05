@@ -50,8 +50,7 @@ export default function RobotTeardown() {
       const count = frameCountRef.current
       const img = imagesRef.current[Math.min(Math.floor(progress * (count - 1)), count - 1)]
       if (!img) return
-      ctx.fillStyle = "#07060d"
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
       // contain: Bild passt komplett in die Canvas (kein Abschneiden oben/unten)
       const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
       const dw = img.naturalWidth * scale
