@@ -190,15 +190,24 @@ export default function SpacecraftVideo() {
     const vid = videoRef.current;
     if (!vid) return;
 
+    // RocketTrail nur bei exakt 16:9 aktivieren
+    const is16by9 =
+      window.matchMedia && window.matchMedia("(aspect-ratio: 16/9)").matches;
+
     if (isPlaying) {
       vid.pause();
       vid.currentTime = 0;
+      // RocketTrail nur deaktivieren, wenn er aktiv war
       setIsPlaying(false);
-    } else {
+    } else if (is16by9) {
       vid.currentTime = 0;
       vid.play().catch(() => {});
       // RocketTrail startet 1 Sekunde nach Klick verzögert
       setTimeout(() => setIsPlaying(true), 1000);
+    } else {
+      // Nicht-16:9: Video nur starten, ohne RocketTrail
+      vid.currentTime = 0;
+      vid.play().catch(() => {});
     }
   };
 

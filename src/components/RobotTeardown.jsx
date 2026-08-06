@@ -48,7 +48,9 @@ export default function RobotTeardown() {
 
     const drawFrame = (progress) => {
       const count = frameCountRef.current
-      const img = imagesRef.current[Math.min(Math.floor(progress * (count - 1)), count - 1)]
+      // Frames rückwärts abspielen: progress 0 → zeigt letzten Frame, progress 1 → zeigt ersten Frame
+      const invertedProgress = 1 - progress
+      const img = imagesRef.current[Math.min(Math.floor(invertedProgress * (count - 1)), count - 1)]
       if (!img) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       // contain: Bild passt komplett in die Canvas (kein Abschneiden oben/unten)
