@@ -45,7 +45,7 @@ export default function ScrollRevealSection({ section }) {
       />
 
       {/* PIN-BÜHNE: sticky, füllt Viewport, läuft über lange Scroll-Strecke ab */}
-      <div className="relative h-[320vh]">
+      <div className="relative h-[220vh]">
         <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
           <div className="relative w-full max-w-5xl mx-auto px-5 sm:px-8 h-full flex items-center justify-center">
             {/* REVEAL-SPALTE (unter dem Panel): Bild + Caption gestapelt, am Ende komplett sichtbar */}

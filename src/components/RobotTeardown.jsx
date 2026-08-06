@@ -124,7 +124,7 @@ export default function RobotTeardown() {
 
   return (
     <section className="relative w-full mt-0">{/* Transparent — Starfield durchscheint, kein freier Abstand */}
-      <div ref={pinRef} className="relative w-full h-[130vh]">
+      <div ref={pinRef} className="relative w-full h-[100vh]">
         <canvas
           ref={canvasRef}
           className="absolute top-0 left-0 w-full h-screen"
