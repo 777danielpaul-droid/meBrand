@@ -23,10 +23,10 @@ export default function App() {
       <TerminalCard open={termOpen} onClose={() => setTermOpen(false)} />
       <main className="relative z-10">
         <Hero />
+        <RobotTeardown />
         {site.revealSections.map((s) => (
           <ScrollRevealSection key={s.id} section={s} />
         ))}
-        <RobotTeardown />
       </main>
       <Footer className="footer-glow" />
     </LangProvider>
