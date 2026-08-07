@@ -21,6 +21,15 @@
   --font-runic: "Noto Sans Runic", ui-monospace, monospace;
 }
 
+/* ===== CUSTOM FONT ===== */
+@font-face {
+  font-family: "Road Rage";
+  src: url("./assets/fonts/PermanentMarker-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== BASE ===== */
 @layer base {
   html {
@@ -345,9 +354,12 @@
   -webkit-mask-repeat: no-repeat;
 }
 
-/* Tiffany-Blau — für "Projekte • Scroll to reveal"-Hinweistext */
+/* Tiffany-Blau im Dark Mode / Lila im Light Mode — für "Projekte • Scroll to reveal"-Hinweistext */
 .mono-label.text-tiffany {
   color: #00f0ff;
+}
+[data-theme="light"] .mono-label.text-tiffany {
+  color: var(--color-cyan);
 }
 
 /* Magenta-Lila — für titelüberschriften in ScrollRevealSection */
@@ -379,7 +391,8 @@
   --color-neon: #a21caf;
   --color-neon-2: #6d28d9;
   --color-neon-soft: #c026d3;
-  --color-cyan: #0e7490;
+  /* Tiffany-Blau -> Lila im Light Mode (text-cyan, mono-label, Runen) */
+  --color-cyan: #6d28d9;
   --color-gold: #b8860b;
   --color-gold-soft: #a06a00;
 }
@@ -437,17 +450,7 @@
   background-color: transparent !important;
 }
 
-/* Canvas Starfield: bunte, funkelnde Sterne als Hintergrund (z-Index 1, hinter #root:2) */
-.starfield {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  width: 100vw;
-  height: 100vh;
-}
-
-/* Canvas Starfield: bunte, funkelnde Sterne als Hintergrund (z-Index 1, hinter #root:2) */
+/* Canvas Starfield: bunte, funkelnde Sterne (z-Index 1, hinter #root:2) */
 .starfield {
   position: fixed;
   inset: 0;

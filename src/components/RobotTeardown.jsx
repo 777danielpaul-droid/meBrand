@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { asset } from "../lib/asset";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
-const TOTAL_FRAMES = 150
-const MOBILE_FRAMES = 75
-const FRAME_PATH = (i) => `/anim/robot-teardown/frame_${String(i + 1).padStart(4, "0")}.png`
+const TOTAL_FRAMES = 150;
+const MOBILE_FRAMES = 75;
+const framePath = (i) => asset(`anim/robot-teardown/frame_${String(i + 1).padStart(4, "0")}.png`);
 
 export default function RobotTeardown() {
   const canvasRef = useRef(null)
@@ -27,7 +28,7 @@ export default function RobotTeardown() {
     for (let i = 0; i < count; i++) {
       const img = new Image()
       img.onload = () => { imagesRef.current[i] = img }
-      img.src = FRAME_PATH(i)
+      img.src = framePath(i)
     }
   }, [frameCount])
 

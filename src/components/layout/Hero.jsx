@@ -5,6 +5,7 @@ import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import SpacecraftVideo from "../SpacecraftVideo"
 import { useRef, useState, useEffect } from "react"
+import { asset } from "../../lib/asset"
 
 // Telefonnummer: rückwärts im DOM, client-seitig rekonstruiert (Bot-Schutz).
 // Bei deaktiviertem JS bleibt aria-label erhalten; Scraper sehen Murks.
@@ -149,7 +150,7 @@ export default function Hero() {
             <div className="flex-shrink-0">
               <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(109,38,217,0.3)]">
                 <img
-                  src={c.portrait}
+                  src={asset(c.portrait)}
                   alt={c.name.de}
                   className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
                   loading="lazy"
