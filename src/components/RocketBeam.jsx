@@ -1,4 +1,4 @@
-import { useRef, useEffect, useLayoutEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 
 const ROTATION = -Math.PI / 5
 
@@ -404,23 +404,17 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const [enginesOn, setEnginesOn] = useState(initialEnginesOn)
-  const enginesOnRef = useRef(enginesOn)
-
-  // CRITICAL: Sync enginesOnRef.current with React State (render body)
-  // The RAF loop in animate() reads enginesOnRef.current directly.
-  // React 18 calls the render body BEFORE RAF reads the ref → always current.
-  enginesOnRef.current = enginesOn
+  const runningRef = useRef(enginesOn)
+  runningRef.current = enginesOn
 
   const toggleEngines = useCallback(() => {
     setEnginesOn((prev) => !prev)
   }, [])
 
-  const runningRef = enginesOnRef  // Alias für Kompatibilität mit drawFighter
-
   const timeRef = useRef(0)
-  const animIdRef = useRef(null)
   const particlesRef = useRef([])
   const beamParticlesRef = useRef([])
+  const rafRef = useRef(null)
 
   const spawnParticles = useCallback((ex, ey) => {
     if (!runningRef.current) return
@@ -440,58 +434,84 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     }
   }, [])
 
-  const animate = useCallback(() => {
+  // Animation loop: restarts whenever enginesOn toggles.
+  // This guarantees the RAF loop is alive and seeing the correct
+  // runningRef.current value after each OFF → ON transition.
+  useEffect(() => {
     const canvas = canvasRef.current
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
-    const W = canvas.width
-    const H = canvas.height
+    if (!ctx) return
 
-    // Clear entire canvas each frame — fully transparent, no trail overpaint
-    // Shuttle + particles are redrawn fresh every frame (particles fade by non-redraw)
-    ctx.clearRect(0, 0, W, H)
-    ctx.globalCompositeOperation = 'source-over'
+    ctx.imageSmoothingEnabled = true
+    ctx.imageSmoothingQuality = 'high'
 
-    timeRef.current += 0.016
-    const t = timeRef.current
-
-    const cx = W / 2
-    const cy = H / 2 - 20  // Shuttle 60px weiter unten
-
-    ctx.save()
-    ctx.translate(cx, cy)
-    ctx.rotate(ROTATION)
-
-    ctx.globalCompositeOperation = 'source-over'
-
-    const engines = drawFighter(ctx, t, runningRef.current)
-    engines.forEach((eng) => {
-      drawEngineGlow(ctx, eng.x, eng.y, t, runningRef.current)
-      drawBeam(ctx, eng.x, eng.y + 3, t, runningRef.current)
-      spawnParticles(eng.x, eng.y + 3)
-    })
-
-    const beamParts = beamParticlesRef.current
-    ctx.globalCompositeOperation = 'lighter'  // additive particle blend — doesn't obscure shuttle
-    for (let i = beamParts.length - 1; i >= 0; i--) {
-      beamParts[i].update()
-      beamParts[i].draw(ctx, t)
-      if (beamParts[i].life <= 0) beamParts.splice(i, 1)
+    // Draw static silhouette once (engines off)
+    if (!enginesOn) {
+      drawStatic()
+      return
     }
 
-    const parts = particlesRef.current
-    for (let i = parts.length - 1; i >= 0; i--) {
-      parts[i].update()
-      parts[i].draw(ctx, t)
-      if (parts[i].life <= 0 || parts[i].y > 500) parts.splice(i, 1)
+    let last = 0
+    let frame = 0
+
+    const animate = () => {
+      rafRef.current = requestAnimationFrame(animate)
+
+      const now = performance.now()
+      if (now - last < 16) return // throttle to ~60fps
+      last = now
+      frame++
+
+      const W = canvas.width
+      const H = canvas.height
+      ctx.clearRect(0, 0, W, H)
+      ctx.globalCompositeOperation = 'source-over'
+
+      timeRef.current = frame * 0.016
+      const t = timeRef.current
+
+      const cx = W / 2
+      const cy = H / 2 - 20
+
+      ctx.save()
+      ctx.translate(cx, cy)
+      ctx.rotate(ROTATION)
+      ctx.globalCompositeOperation = 'source-over'
+
+      const engines = drawFighter(ctx, t, runningRef.current)
+      engines.forEach((eng) => {
+        drawEngineGlow(ctx, eng.x, eng.y, t, runningRef.current)
+        drawBeam(ctx, eng.x, eng.y + 3, t, runningRef.current)
+        spawnParticles(eng.x, eng.y + 3)
+      })
+
+      const beamParts = beamParticlesRef.current
+      ctx.globalCompositeOperation = 'lighter'
+      for (let i = beamParts.length - 1; i >= 0; i--) {
+        beamParts[i].update()
+        beamParts[i].draw(ctx, t)
+        if (beamParts[i].life <= 0) beamParts.splice(i, 1)
+      }
+
+      const parts = particlesRef.current
+      for (let i = parts.length - 1; i >= 0; i--) {
+        parts[i].update()
+        parts[i].draw(ctx, t)
+        if (parts[i].life <= 0 || parts[i].y > 500) parts.splice(i, 1)
+      }
+
+      if (beamParts.length > 800) beamParts.splice(0, beamParts.length - 800)
+      if (parts.length > 600) parts.splice(0, parts.length - 660)
+
+      ctx.restore()
     }
 
-    if (beamParts.length > 800) beamParts.splice(0, beamParts.length - 800)
-    if (parts.length > 600) parts.splice(0, parts.length - 600)
-
-    ctx.restore()
-
-    animIdRef.current = requestAnimationFrame(animate)
-  }, [spawnParticles])
+    animate()
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [enginesOn, spawnParticles])
 
   const drawStatic = useCallback(() => {
     const canvas = canvasRef.current
@@ -524,14 +544,6 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     window.addEventListener('resize', resize)
     return () => window.removeEventListener('resize', resize)
   }, [drawStatic])
-
-  // Auto-start Animation beim Mount (Running-Ref ist bereits true)
-  useEffect(() => {
-    animate()
-    return () => {
-      if (animIdRef.current) cancelAnimationFrame(animIdRef.current)
-    }
-  }, [animate])
 
   return (
     <>
