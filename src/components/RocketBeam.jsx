@@ -519,6 +519,9 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     const W = canvas.width
     const H = canvas.height
 
+    ctx.clearRect(0, 0, W, H)
+    ctx.globalCompositeOperation = 'source-over'
+
     const cx = W / 2
     const cy = H / 2 - 20  // Shuttle 60px weiter unten
 
