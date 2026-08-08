@@ -446,7 +446,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     ctx.imageSmoothingEnabled = true
     ctx.imageSmoothingQuality = 'high'
 
-    // Draw static silhouette once (engines off)
+    // Engines off: draw static silhouette, no animation loop
     if (!enginesOn) {
       drawStatic()
       return
@@ -502,7 +502,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       }
 
       if (beamParts.length > 800) beamParts.splice(0, beamParts.length - 800)
-      if (parts.length > 600) parts.splice(0, parts.length - 660)
+      if (parts.length > 600) parts.splice(0, parts.length - 600)
 
       ctx.restore()
     }
@@ -515,7 +515,9 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
 
   const drawStatic = useCallback(() => {
     const canvas = canvasRef.current
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
+    if (!ctx) return
     const W = canvas.width
     const H = canvas.height
 
@@ -535,6 +537,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   useEffect(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
+    if (!canvas || !container) return
 
     function resize() {
       const rect = container.getBoundingClientRect()
@@ -557,12 +560,12 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       <canvas ref={canvasRef} id="rocket-beam-canvas" className="w-full h-full block" />
     </div>
 
-      {/* Jetstrahl-Schalter — klickbar, rechts vom Hero-Mittelpunkt */}
+      {/* Jetstrahl-Schalter — klickbar, links vom Hero-Mittelpunkt */}
       <button
         type="button"
         onClick={toggleEngines}
         aria-label={enginesOn ? "Jetstrahl ausschalten" : "Jetstrahl einschalten"}
-        className="absolute top-1/2 left-[calc(50%_+_6rem)] -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
+        className="absolute top-1/2 left-[calc(50%_-_10rem)] -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
       >
         <span className={`w-2 h-2 rounded-full ${enginesOn ? "bg-cyan/80 shadow-[0_0_8px_theme(colors.cyan)] animate-pulse" : "bg-bone/30"}`}></span>
         <span>{enginesOn ? "Jetstrahl ON" : "Jetstrahl OFF"}</span>
