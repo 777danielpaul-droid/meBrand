@@ -1,7 +1,5 @@
 // ZENTRALE MOTION-PRESETS — einheitliches Easing, Reveal-Varianten.
 // exportiert werden nur die Presets, die tatsächlich verwendet werden.
-import { useScroll, useTransform, motion } from "framer-motion"
-import { useRef } from "react"
 
 // Einheitliches Easing (weich/expo-out) — überall verwendet für konsistente Bewegung.
 export const EASE = [0.16, 1, 0.3, 1]

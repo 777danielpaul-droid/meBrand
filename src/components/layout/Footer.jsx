@@ -3,7 +3,7 @@ import { site } from "../../data/content"
 import { T } from "../RunenText"
 import { useEffect, useState } from "react"
 
-export default function Footer() {
+export default function Footer({ className = "" }) {
   const f = site.footer
   const [isActive, setIsActive] = useState(false)
 
@@ -54,7 +54,7 @@ export default function Footer() {
         isActive
           ? "footer-glow max-h-[120px]"
           : "max-h-[4px]"
-      }`}
+      } ${className}`}
     >
       <nav className="backdrop-blur-md bg-ink/40 border-t border-white/10 glass h-full">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-1 flex items-center justify-between h-full">

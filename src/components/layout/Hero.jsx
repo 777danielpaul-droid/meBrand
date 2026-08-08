@@ -4,14 +4,16 @@ import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import RocketBeam from "../RocketBeam"
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useMemo } from "react"
 import { asset } from "../../lib/asset"
 
-// Telefonnummer: rückwärts im DOM, client-seitig rekonstruiert (Bot-Schutz).
+// Telefonnummer: rückwärgs im DOM, client-seitig rekonstruiert (Bot-Schutz).
 // Bei deaktiviertem JS bleibt aria-label erhalten; Scraper sehen Murks.
 function ObfuscatedPhone({ phone, phoneReverse }) {
-  const [display, setDisplay] = useState("")
-  useEffect(() => { setDisplay(phoneReverse.split("").reverse().join("")) }, [phoneReverse])
+  const display = useMemo(
+    () => phoneReverse.split("").reverse().join(""),
+    [phoneReverse]
+  )
   return (
     <span className="block text-cyan mt-1" aria-label={phone} data-phone-reversed={phoneReverse}>
       {display || "\u200B"}
