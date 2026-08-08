@@ -404,12 +404,13 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const [enginesOn, setEnginesOn] = useState(initialEnginesOn)
-  const runningRef = useRef(enginesOn)
+  const enginesOnRef = useRef(enginesOn)
+  
+  // Synchronous Ref-Update: runningRef.current ist IMMER aktuell
+  // (useEffect würde verzögert sein, wichtig für Canvas RAF-Loop)
+  enginesOnRef.current = enginesOn
 
-  // Synchronisiere runningRef mit enginesOn-State
-  useEffect(() => {
-    runningRef.current = enginesOn
-  }, [enginesOn])
+  const runningRef = enginesOnRef  // Alias für Kompatibilität mit drawFighter
 
   const timeRef = useRef(0)
   const animIdRef = useRef(null)
@@ -435,16 +436,13 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   }, [])
 
   const animate = useCallback(() => {
-    if (!runningRef.current) return
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     const W = canvas.width
     const H = canvas.height
 
-    // Transparente Trail-Effekt: verblassen lassen, ohne dunklen Block
-    ctx.globalCompositeOperation = 'destination-out'
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)'
-    ctx.fillRect(0, 0, W, H)
+    // Clear entire canvas — fully transparent (no dunkler Block)
+    ctx.clearRect(0, 0, W, H)
     ctx.globalCompositeOperation = 'source-over'
 
     timeRef.current += 0.016
@@ -493,8 +491,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     const W = canvas.width
     const H = canvas.height
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.12)'
-    ctx.fillRect(0, 0, W, H)
+    ctx.clearRect(0, 0, W, H)
 
     const cx = W / 2
     const cy = H / 2 - 20  // Shuttle 60px weiter unten
