@@ -42,10 +42,10 @@ class Particle {
   }
 
   draw(ctx, t) {
-    const p = pulse(t + this.birthTime)
+    const p = Math.max(0, pulse(t + this.birthTime))  // clamp
     const f = flicker(t + this.birthTime)
-    const alpha = Math.max(0, this.life * p * f)
-    const s = this.size * this.life * (0.8 + 0.4 * p)
+    const alpha = Math.max(0, this.life * Math.max(0, p) * f)
+    const s = this.size * this.life * Math.max(0.1, 0.8 + 0.4 * p)
 
     const h = this.baseColor.h
     const s_ = this.baseColor.s
@@ -75,9 +75,9 @@ function drawFighter(ctx, t, running) {
 
   // Ambient glow
   if (running && t !== undefined) {
-    const p = pulse(t)
-    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 90 + 25 * p)
-    glow.addColorStop(0, `rgba(80, 60, 180, ${0.08 * p})`)
+    const p = Math.max(0, pulse(t))  // clamp for visible glow
+    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(1, 90 + 25 * p))
+    glow.addColorStop(0, `rgba(80, 60, 180, ${Math.max(0, 0.08 * p)})`)
     glow.addColorStop(1, 'rgba(0, 0, 0, 0)')
     ctx.fillStyle = glow
     ctx.fillRect(-100, topY - 30, 200, bodyH + noseH + 100)
@@ -329,13 +329,13 @@ function drawFighter(ctx, t, running) {
 
 function drawEngineGlow(ctx, ex, ey, t, running) {
   if (!running) return
-  const p = pulse(t)
+  const p = Math.max(0, pulse(t))  // clamp — prevent negative glow when pulse dips below 0
   const f = flicker(t)
-  const glowR = 28 + 22 * p
+  const glowR = Math.max(1, 28 + 22 * p)  // clamp — prevent IndexSizeError on negative radius
   const glow = ctx.createRadialGradient(ex, ey, 0, ex, ey, glowR)
-  glow.addColorStop(0, `rgba(200, 130, 255, ${0.9 * p * f})`)
-  glow.addColorStop(0.3, `rgba(120, 80, 240, ${0.4 * p})`)
-  glow.addColorStop(0.7, `rgba(60, 40, 180, ${0.15 * p})`)
+  glow.addColorStop(0, `rgba(200, 130, 255, ${Math.max(0, 0.9 * p * f)})`)
+  glow.addColorStop(0.3, `rgba(120, 80, 240, ${Math.max(0, 0.4 * p)})`)
+  glow.addColorStop(0.7, `rgba(60, 40, 180, ${Math.max(0, 0.15 * p)})`)
   glow.addColorStop(1, 'rgba(0, 0, 0, 0)')
   ctx.fillStyle = glow
   ctx.fillRect(ex - glowR, ey - glowR, glowR * 2, glowR * 2)
@@ -343,7 +343,7 @@ function drawEngineGlow(ctx, ex, ey, t, running) {
 
 function drawBeam(ctx, ex, ey, t, running) {
   if (!running) return
-  const p = pulse(t)
+  const p = Math.max(0, pulse(t))  // clamp — prevent negative glow when pulse dips below 0
   const f = flicker(t)
   const beamLen = 500
 
@@ -406,13 +406,13 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const [enginesOn, setEnginesOn] = useState(initialEnginesOn)
   const enginesOnRef = useRef(enginesOn)
 
-  // CRITICAL: Sync enginesOnRef.current directly in the click handler
-  // React 18 concurrent mode + RAF loop timing issue:
-  // useLayoutEffect fires AFTER animationFrame reads the ref → stale value
-  // The RAF loop reads enginesOnRef.current BEFORE React's layout phase runs
+  // CRITICAL: Sync enginesOnRef.current with React State (render body)
+  // The RAF loop in animate() reads enginesOnRef.current directly.
+  // React 18 calls the render body BEFORE RAF reads the ref → always current.
+  enginesOnRef.current = enginesOn
+
   const toggleEngines = useCallback(() => {
-    enginesOnRef.current = !enginesOnRef.current
-    setEnginesOn(enginesOnRef.current)
+    setEnginesOn((prev) => !prev)
   }, [])
 
   const runningRef = enginesOnRef  // Alias für Kompatibilität mit drawFighter
@@ -461,10 +461,9 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     ctx.translate(cx, cy)
     ctx.rotate(ROTATION)
 
-    const engines = drawFighter(ctx, t, runningRef.current)
-    window.__rb_frame = { t: t.toFixed(2), running: runningRef.current, engines: engines.length, cx, cy }
-    console.log('frame', t.toFixed(2), 'running=' + runningRef.current, 'engines=' + engines.length)
+    ctx.globalCompositeOperation = 'source-over'
 
+    const engines = drawFighter(ctx, t, runningRef.current)
     engines.forEach((eng) => {
       drawEngineGlow(ctx, eng.x, eng.y, t, runningRef.current)
       drawBeam(ctx, eng.x, eng.y + 3, t, runningRef.current)
@@ -472,6 +471,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     })
 
     const beamParts = beamParticlesRef.current
+    ctx.globalCompositeOperation = 'lighter'  // additive particle blend — doesn't obscure shuttle
     for (let i = beamParts.length - 1; i >= 0; i--) {
       beamParts[i].update()
       beamParts[i].draw(ctx, t)
