@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useLayoutEffect, useState, useCallback } from 'react'
 
 const ROTATION = -Math.PI / 5
 
@@ -405,10 +405,15 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const containerRef = useRef(null)
   const [enginesOn, setEnginesOn] = useState(initialEnginesOn)
   const enginesOnRef = useRef(enginesOn)
-  
-  // Synchronous Ref-Update: runningRef.current ist IMMER aktuell
-  // (useEffect würde verzögert sein, wichtig für Canvas RAF-Loop)
-  enginesOnRef.current = enginesOn
+
+  // CRITICAL: Sync enginesOnRef.current directly in the click handler
+  // React 18 concurrent mode + RAF loop timing issue:
+  // useLayoutEffect fires AFTER animationFrame reads the ref → stale value
+  // The RAF loop reads enginesOnRef.current BEFORE React's layout phase runs
+  const toggleEngines = useCallback(() => {
+    enginesOnRef.current = !enginesOnRef.current
+    setEnginesOn(enginesOnRef.current)
+  }, [])
 
   const runningRef = enginesOnRef  // Alias für Kompatibilität mit drawFighter
 
@@ -441,7 +446,8 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     const W = canvas.width
     const H = canvas.height
 
-    // Clear entire canvas — fully transparent (no dunkler Block)
+    // Clear entire canvas each frame — fully transparent, no trail overpaint
+    // Shuttle + particles are redrawn fresh every frame (particles fade by non-redraw)
     ctx.clearRect(0, 0, W, H)
     ctx.globalCompositeOperation = 'source-over'
 
@@ -456,6 +462,8 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     ctx.rotate(ROTATION)
 
     const engines = drawFighter(ctx, t, runningRef.current)
+    window.__rb_frame = { t: t.toFixed(2), running: runningRef.current, engines: engines.length, cx, cy }
+    console.log('frame', t.toFixed(2), 'running=' + runningRef.current, 'engines=' + engines.length)
 
     engines.forEach((eng) => {
       drawEngineGlow(ctx, eng.x, eng.y, t, runningRef.current)
@@ -490,8 +498,6 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     const ctx = canvas.getContext('2d')
     const W = canvas.width
     const H = canvas.height
-
-    ctx.clearRect(0, 0, W, H)
 
     const cx = W / 2
     const cy = H / 2 - 20  // Shuttle 60px weiter unten
@@ -533,13 +539,13 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       ref={containerRef}
       className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
     >
-      <canvas ref={canvasRef} className="w-full h-full block" />
+      <canvas ref={canvasRef} id="rocket-beam-canvas" className="w-full h-full block" />
     </div>
 
       {/* Jetstrahl-Schalter — klickbar, in der Mitte des Hero-Bereichs */}
       <button
         type="button"
-        onClick={() => setEnginesOn((prev) => !prev)}
+        onClick={toggleEngines}
         aria-label={enginesOn ? "Jetstrahl ausschalten" : "Jetstrahl einschalten"}
         className="absolute top-1/2 left-[calc(50%+1rem)] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
       >
