@@ -3,7 +3,7 @@ import { stagger, EASE } from "../motion/variants"
 import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
-import SpacecraftVideo from "../SpacecraftVideo"
+import RocketBeam from "../RocketBeam"
 import { useRef, useState, useEffect } from "react"
 import { asset } from "../../lib/asset"
 
@@ -85,7 +85,8 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero-holo relative motion-reveal min-h-[56.25vw] h-screen max-h-[680px] bg-transparent">
-      <SpacecraftVideo />
+      {/* Canvas-Shuttle-Animation: transparenter, voller Hero-Bereich */}
+      <RocketBeam />
 
       <motion.div
         style={{ y: blobY, opacity: blobOpacity }}
