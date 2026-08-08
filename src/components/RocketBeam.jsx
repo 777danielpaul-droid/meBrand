@@ -557,12 +557,12 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       <canvas ref={canvasRef} id="rocket-beam-canvas" className="w-full h-full block" />
     </div>
 
-      {/* Jetstrahl-Schalter — klickbar, in der Mitte des Hero-Bereichs */}
+      {/* Jetstrahl-Schalter — klickbar, rechts vom Hero-Mittelpunkt */}
       <button
         type="button"
         onClick={toggleEngines}
         aria-label={enginesOn ? "Jetstrahl ausschalten" : "Jetstrahl einschalten"}
-        className="absolute top-1/2 left-[calc(50%+1rem)] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
+        className="absolute top-1/2 left-[calc(50%_+_6rem)] -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
       >
         <span className={`w-2 h-2 rounded-full ${enginesOn ? "bg-cyan/80 shadow-[0_0_8px_theme(colors.cyan)] animate-pulse" : "bg-bone/30"}`}></span>
         <span>{enginesOn ? "Jetstrahl ON" : "Jetstrahl OFF"}</span>
