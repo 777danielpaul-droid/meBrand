@@ -451,7 +451,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     const t = timeRef.current
 
     const cx = W / 2
-    const cy = H / 2 - 80
+    const cy = H / 2 - 20  // Shuttle 60px weiter unten
 
     ctx.save()
     ctx.translate(cx, cy)
@@ -497,7 +497,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     ctx.fillRect(0, 0, W, H)
 
     const cx = W / 2
-    const cy = H / 2 - 80
+    const cy = H / 2 - 20  // Shuttle 60px weiter unten
 
     ctx.save()
     ctx.translate(cx, cy)
@@ -544,7 +544,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
         type="button"
         onClick={() => setEnginesOn((prev) => !prev)}
         aria-label={enginesOn ? "Jetstrahl ausschalten" : "Jetstrahl einschalten"}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
+        className="absolute top-1/2 left-[calc(50%+1rem)] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
       >
         <span className={`w-2 h-2 rounded-full ${enginesOn ? "bg-cyan/80 shadow-[0_0_8px_theme(colors.cyan)] animate-pulse" : "bg-bone/30"}`}></span>
         <span>{enginesOn ? "Jetstrahl ON" : "Jetstrahl OFF"}</span>
