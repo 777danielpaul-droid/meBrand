@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 
 const ROTATION = -Math.PI / 5
 
@@ -400,10 +400,16 @@ function drawBeam(ctx, ex, ey, t, running) {
   ctx.fill()
 }
 
-export default function RocketBeam() {
+export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
-  const runningRef = useRef(true)  // Auto-start beim Mount
+  const [enginesOn, setEnginesOn] = useState(initialEnginesOn)
+  const runningRef = useRef(enginesOn)
+
+  // Synchronisiere runningRef mit enginesOn-State
+  useEffect(() => {
+    runningRef.current = enginesOn
+  }, [enginesOn])
 
   const timeRef = useRef(0)
   const animIdRef = useRef(null)
@@ -525,11 +531,24 @@ export default function RocketBeam() {
   }, [animate])
 
   return (
+    <>
       <div
       ref={containerRef}
       className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
     >
       <canvas ref={canvasRef} className="w-full h-full block" />
     </div>
+
+      {/* Jetstrahl-Schalter — klickbar, positioniert neben dem Shuttle */}
+      <button
+        type="button"
+        onClick={() => setEnginesOn((prev) => !prev)}
+        aria-label={enginesOn ? "Jetstrahl ausschalten" : "Jetstrahl einschalten"}
+        className="absolute top-6 right-6 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto"
+      >
+        <span className={`w-2 h-2 rounded-full ${enginesOn ? "bg-cyan/80 shadow-[0_0_8px_theme(colors.cyan)] animate-pulse" : "bg-bone/30"}`}></span>
+        <span>{enginesOn ? "Jetstrahl ON" : "Jetstrahl OFF"}</span>
+      </button>
+    </>
   )
 }
