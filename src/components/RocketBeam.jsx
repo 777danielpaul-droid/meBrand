@@ -424,8 +424,25 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const rafRef = useRef(null)
   const scaleRef = useRef(1)  // 1= Mobile, SCALE= Desktop
   const [laserFiring, setLaserFiring] = useState(false)
+  const [laserCharging, setLaserCharging] = useState(false)
+  // charge im Ref (synchron, kein stale State im Handler)
+  const laserChargeRef = useRef(0.15)  // Startwert beim Drücken
   const laserFiringRef = useRef(false)
   laserFiringRef.current = laserFiring
+
+  // Laufendes Aufladen während gedrückt gehalten
+  const chargeRef = useRef(null)
+  useEffect(() => {
+    if (!laserCharging) {
+      if (chargeRef.current) clearInterval(chargeRef.current)
+      return
+    }
+    laserChargeRef.current = 0.15  // Reset zum Startwert beim Laden
+    chargeRef.current = setInterval(() => {
+      laserChargeRef.current = Math.min(1, laserChargeRef.current + 0.1)
+    }, 120)
+    return () => clearInterval(chargeRef.current)
+  }, [laserCharging])
 
   const spawnParticles = useCallback((ex, ey, beamOnly = false, forward = false) => {
     if (!runningRef.current) return
@@ -511,9 +528,11 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
         spawnParticles(eng.x, eng.y + 3)
       })
 
-      // Forward laser — fired from the nose
+      // Forward laser — fired from the nose (released after charging)
       if (laserFiringRef.current) {
-        drawBeam(ctx, nose.x, nose.y, t, laserFiringRef.current, 'forward')
+        const charge = laserChargeRef.current
+        const laserT = t + charge * 5  // charge verschiebt die Pulse-Phase
+        drawBeam(ctx, nose.x, nose.y, laserT, true, 'forward')
         spawnParticles(nose.x, nose.y, true, true)
       }
 
@@ -613,19 +632,30 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
         <span>{enginesOn ? "Jetstrahl ON" : "Jetstrahl OFF"}</span>
       </button>
 
-      {/* Forward-Laser-Feuer — SchnellFeuer per gedrückt halten, nur wenn Jetstrahl ON */}
+      {/* Forward-Laser — Charge & Release: gedrückt halten lädt, loslassen schießt */}
       <button
         type="button"
-        onMouseDown={() => enginesOn && setLaserFiring(true)}
-        onMouseUp={() => setLaserFiring(false)}
-        onMouseLeave={() => setLaserFiring(false)}
-        onTouchStart={(e) => { e.preventDefault(); enginesOn && setLaserFiring(true); }}
-        onTouchEnd={() => setLaserFiring(false)}
-        aria-label="Laserstrahl nach vorn feuern"
+        onMouseDown={() => enginesOn && setLaserCharging(true)}
+        onMouseUp={() => {
+          setLaserCharging(false)
+          setLaserFiring(laserChargeRef.current > 0.1)
+          setTimeout(() => setLaserFiring(false), 120)
+        }}
+        onMouseLeave={() => {
+          setLaserCharging(false)
+          setTimeout(() => setLaserFiring(false), 120)
+        }}
+        onTouchStart={(e) => { e.preventDefault(); enginesOn && setLaserCharging(true); }}
+        onTouchEnd={() => {
+          setLaserCharging(false)
+          setLaserFiring(laserChargeRef.current > 0.1)
+          setTimeout(() => setLaserFiring(false), 120)
+        }}
+        aria-label="Laserstrahl nach vorn feuern (halten=aufladen, loslassen=schießen)"
         disabled={!enginesOn}
         className="absolute top-1/2 left-[calc(50%_-_4rem)] -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-rose/90 bg-ink/50 border border-rose/30 hover:bg-ink/70 hover:border-rose/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        <span className={`w-2 h-2 rounded-full ${laserFiring ? "bg-rose/90 shadow-[0_0_10px_theme(colors.rose)] animate-pulse" : "bg-rose/40"}`}></span>
+        <span className={`w-2 h-2 rounded-full ${laserFiring ? "bg-rose/90 shadow-[0_0_12px_theme(colors.rose)] animate-pulse" : laserCharging ? "bg-rose/60 animate-pulse" : "bg-rose/40"}`}></span>
         <span>LASER</span>
       </button>
     </>
