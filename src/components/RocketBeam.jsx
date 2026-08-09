@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 
 const ROTATION = -Math.PI / 5
+const SCALE = 2.7  // Shuttle-Größe auf Desktop (≥768px) in %
 
 function pulse(t) {
   return 0.5 + 0.5 * Math.sin(t * 3.0) + 0.25 * Math.sin(t * 7.2 + 1.0) + 0.15 * Math.sin(t * 11.5 + 2.3)
@@ -415,6 +416,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const particlesRef = useRef([])
   const beamParticlesRef = useRef([])
   const rafRef = useRef(null)
+  const scaleRef = useRef(1)  // 1= Mobile, SCALE= Desktop
 
   const spawnParticles = useCallback((ex, ey) => {
     if (!runningRef.current) return
@@ -477,6 +479,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       ctx.save()
       ctx.translate(cx, cy)
       ctx.rotate(ROTATION)
+      ctx.scale(scaleRef.current, scaleRef.current)
       ctx.globalCompositeOperation = 'source-over'
 
       const engines = drawFighter(ctx, t, runningRef.current)
@@ -530,6 +533,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     ctx.save()
     ctx.translate(cx, cy)
     ctx.rotate(ROTATION)
+    ctx.scale(scaleRef.current, scaleRef.current)
     drawFighter(ctx, 0, false)
     ctx.restore()
   }, [])
@@ -543,6 +547,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       const rect = container.getBoundingClientRect()
       canvas.width = rect.width
       canvas.height = rect.height
+      scaleRef.current = window.matchMedia('(min-width: 768px)').matches ? SCALE : 1
       drawStatic()
     }
 
@@ -555,7 +560,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     <>
       <div
       ref={containerRef}
-      className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
+      className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
     >
       <canvas ref={canvasRef} id="rocket-beam-canvas" className="w-full h-full block" />
     </div>
