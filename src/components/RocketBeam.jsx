@@ -12,7 +12,7 @@ function flicker(t) {
 }
 
 class Particle {
-  constructor(x, y, isBeam, time) {
+  constructor(x, y, isBeam, time, forward = false) {
     this.x = x
     this.y = y
     this.isBeam = isBeam
@@ -20,7 +20,7 @@ class Particle {
     const angle = (Math.random() - 0.5) * spread
     const speed = isBeam ? Math.random() * 1.0 + 0.5 : Math.random() * 1.5 + 0.3
     this.vx = Math.sin(angle) * speed
-    this.vy = isBeam ? Math.cos(angle) * speed + 0.8 : Math.random() * 1.0 + 0.3
+    this.vy = isBeam ? Math.cos(angle) * speed + (forward ? -0.8 : 0.8) : Math.random() * 1.0 + 0.3
     this.life = 1.0
     this.decay = isBeam ? Math.random() * 0.003 + 0.001 : Math.random() * 0.006 + 0.002
     this.size = isBeam ? Math.random() * 3.5 + 1.0 : Math.random() * 2.5 + 0.8
@@ -265,6 +265,9 @@ function drawFighter(ctx, t, running) {
     engines.push({ x: ex, y: bottomY + 12 })
   })
 
+  // Cockpit / Nase — Forward-Laser Spawn-Position
+  const nose = { x: 0, y: topY }
+
   // === PANEL LINES & DETAILS ===
   ctx.beginPath()
   ctx.moveTo(0, topY + noseH + 5)
@@ -325,7 +328,7 @@ function drawFighter(ctx, t, running) {
   ctx.fillStyle = running && t !== undefined ? `rgba(180, 150, 255, ${0.3 + 0.2 * pulse(t)})` : 'rgba(140, 120, 220, 0.15)'
   ctx.fill()
 
-  return engines
+  return { engines, nose }
 }
 
 function drawEngineGlow(ctx, ex, ey, t, running) {
@@ -342,13 +345,15 @@ function drawEngineGlow(ctx, ex, ey, t, running) {
   ctx.fillRect(ex - glowR, ey - glowR, glowR * 2, glowR * 2)
 }
 
-function drawBeam(ctx, ex, ey, t, running) {
+function drawBeam(ctx, ex, ey, t, running, direction = 'thrust') {
   if (!running) return
   const p = Math.max(0, pulse(t))  // clamp — prevent negative glow when pulse dips below 0
   const f = flicker(t)
   const beamLen = 500
 
-  const beamGrad1 = ctx.createLinearGradient(ex, ey, ex, ey + beamLen)
+  const dir = direction === 'forward' ? -1 : 1
+  const endY = ey + dir * beamLen
+  const beamGrad1 = ctx.createLinearGradient(ex, ey, ex, endY)
   beamGrad1.addColorStop(0, `rgba(170, 120, 255, ${0.85 * p * f})`)
   beamGrad1.addColorStop(0.1, `rgba(110, 80, 255, ${0.6 * p})`)
   beamGrad1.addColorStop(0.35, `rgba(60, 80, 220, ${0.3 * p})`)
@@ -360,8 +365,8 @@ function drawBeam(ctx, ex, ey, t, running) {
   ctx.beginPath()
   ctx.moveTo(ex - w1, ey)
   ctx.lineTo(ex + w1, ey)
-  ctx.lineTo(ex + w1b, ey + beamLen)
-  ctx.lineTo(ex - w1b, ey + beamLen)
+  ctx.lineTo(ex + w1b, endY)
+  ctx.lineTo(ex - w1b, endY)
   ctx.closePath()
   ctx.fillStyle = beamGrad1
   ctx.fill()
@@ -415,24 +420,41 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const timeRef = useRef(0)
   const particlesRef = useRef([])
   const beamParticlesRef = useRef([])
+  const laserParticlesRef = useRef([])
   const rafRef = useRef(null)
   const scaleRef = useRef(1)  // 1= Mobile, SCALE= Desktop
+  const [laserFiring, setLaserFiring] = useState(false)
+  const laserFiringRef = useRef(false)
+  laserFiringRef.current = laserFiring
 
-  const spawnParticles = useCallback((ex, ey) => {
+  const spawnParticles = useCallback((ex, ey, beamOnly = false, forward = false) => {
     if (!runningRef.current) return
     const time = timeRef.current
 
-    // Denser beams - more particles per frame
-    for (let i = 0; i < 6; i++) {
-      beamParticlesRef.current.push(
-        new Particle(ex + (Math.random() - 0.5) * 3, ey + Math.random() * 2, true, time)
-      )
+    // Thrust beam particles (rear exhaust) — denser
+    if (!forward) {
+      for (let i = 0; i < 6; i++) {
+        beamParticlesRef.current.push(
+          new Particle(ex + (Math.random() - 0.5) * 3, ey + Math.random() * 2, true, time)
+        )
+      }
     }
 
-    for (let i = 0; i < 5; i++) {
-      particlesRef.current.push(
-        new Particle(ex + (Math.random() - 0.5) * 5, ey + 5 + Math.random() * 10, false, time)
-      )
+    // Forward laser particles — fast, narrow, upward
+    if (forward) {
+      for (let i = 0; i < 3; i++) {
+        laserParticlesRef.current.push(
+          new Particle(ex + (Math.random() - 0.5) * 4, ey + (Math.random() - 0.5) * 4, true, time, true)
+        )
+      }
+    }
+
+    if (!beamOnly && !forward) {
+      for (let i = 0; i < 5; i++) {
+        particlesRef.current.push(
+          new Particle(ex + (Math.random() - 0.5) * 5, ey + 5 + Math.random() * 10, false, time)
+        )
+      }
     }
   }, [])
 
@@ -482,12 +504,18 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       ctx.scale(scaleRef.current, scaleRef.current)
       ctx.globalCompositeOperation = 'source-over'
 
-      const engines = drawFighter(ctx, t, runningRef.current)
+      const { engines, nose } = drawFighter(ctx, t, runningRef.current)
       engines.forEach((eng) => {
         drawEngineGlow(ctx, eng.x, eng.y, t, runningRef.current)
         drawBeam(ctx, eng.x, eng.y + 3, t, runningRef.current)
         spawnParticles(eng.x, eng.y + 3)
       })
+
+      // Forward laser — fired from the nose
+      if (laserFiringRef.current) {
+        drawBeam(ctx, nose.x, nose.y, t, laserFiringRef.current, 'forward')
+        spawnParticles(nose.x, nose.y, true, true)
+      }
 
       const beamParts = beamParticlesRef.current
       ctx.globalCompositeOperation = 'lighter'
@@ -504,8 +532,17 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
         if (parts[i].life <= 0 || parts[i].y > 500) parts.splice(i, 1)
       }
 
+      // Forward laser particles — fly upward (off top = -100)
+      const laserParts = laserParticlesRef.current
+      for (let i = laserParts.length - 1; i >= 0; i--) {
+        laserParts[i].update()
+        laserParts[i].draw(ctx, t)
+        if (laserParts[i].life <= 0 || laserParts[i].y < -100) laserParts.splice(i, 1)
+      }
+
       if (beamParts.length > 800) beamParts.splice(0, beamParts.length - 800)
       if (parts.length > 600) parts.splice(0, parts.length - 600)
+      if (laserParts.length > 300) laserParts.splice(0, laserParts.length - 300)
 
       ctx.restore()
     }
@@ -574,6 +611,22 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       >
         <span className={`w-2 h-2 rounded-full ${enginesOn ? "bg-cyan/80 shadow-[0_0_8px_theme(colors.cyan)] animate-pulse" : "bg-bone/30"}`}></span>
         <span>{enginesOn ? "Jetstrahl ON" : "Jetstrahl OFF"}</span>
+      </button>
+
+      {/* Forward-Laser-Feuer — SchnellFeuer per gedrückt halten, nur wenn Jetstrahl ON */}
+      <button
+        type="button"
+        onMouseDown={() => enginesOn && setLaserFiring(true)}
+        onMouseUp={() => setLaserFiring(false)}
+        onMouseLeave={() => setLaserFiring(false)}
+        onTouchStart={(e) => { e.preventDefault(); enginesOn && setLaserFiring(true); }}
+        onTouchEnd={() => setLaserFiring(false)}
+        aria-label="Laserstrahl nach vorn feuern"
+        disabled={!enginesOn}
+        className="absolute top-1/2 left-[calc(50%_-_4rem)] -translate-y-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono text-rose/90 bg-ink/50 border border-rose/30 hover:bg-ink/70 hover:border-rose/60 transition-all backdrop-blur-sm cursor-pointer pointer-events-auto disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        <span className={`w-2 h-2 rounded-full ${laserFiring ? "bg-rose/90 shadow-[0_0_10px_theme(colors.rose)] animate-pulse" : "bg-rose/40"}`}></span>
+        <span>LASER</span>
       </button>
     </>
   )
