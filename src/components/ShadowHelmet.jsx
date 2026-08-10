@@ -680,9 +680,6 @@ export default function ShadowHelmet({ heroRef }) {
   return (
     <div className="shadow-helmet-wrap">
       <canvas ref={canvasRef} className="shadow-helmet-canvas" />
-      <div className="hint">
-        Cursor nah = PLASMA-INFERNO + Magnet · Cursor weg = Ausweichman&#246;ver
-      </div>
     </div>
   );
 }

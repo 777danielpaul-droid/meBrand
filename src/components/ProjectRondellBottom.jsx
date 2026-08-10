@@ -61,11 +61,6 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto mr-0 sm:mr-auto sm:ml-[30%] px-5 sm:px-8 py-20 sm:py-24">
-        <div className="text-center mb-8">
-          <p className="mono-label text-tiffany text-xs uppercase tracking-[0.3em]">
-            Projekte • Karussell
-          </p>
-        </div>
 
         <AnimatePresence mode="wait">
           <motion.div
