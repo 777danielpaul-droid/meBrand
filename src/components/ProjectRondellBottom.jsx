@@ -44,9 +44,9 @@ export default function ProjectRondellBottom({ sections, className = "" }) {
       onMouseEnter={() => { pauseRef.current = true; }}
       onMouseLeave={() => { pauseRef.current = false; }}
     >
-      {/* Shuttlez als transparenter Hintergrund — läuft über die ganze Breite */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <Shuttlez shipScale={1.6} />
+      {/* Shuttlez als transparenter Hintergrund — gleiche Schiffegröße wie Hero */}
+      <div className="absolute inset-0 w-full h-full pointer-events-auto">
+        <Shuttlez shipScale={1.2} className="hidden sm:block" />
       </div>
 
       {/* Verdunkelter Overlay für Text-Lesbarkeit */}
