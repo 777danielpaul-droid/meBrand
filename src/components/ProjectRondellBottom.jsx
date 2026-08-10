@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { T } from "./RunenText";
 import Shuttlez from "./Shuttlez";
+import RocketBeam from "./RocketBeam";
 
 /**
  * ProjectRondellBottom — Karussell ganz unten mit Shuttlez-Hintergrund.
  * Bereich ist screen-size (min-h-screen) und enthält das transparente
  * Shuttlez-Canvas als Hintergrund-Overlay. Karten wechseln per Klick/Pfeiltasten.
+ * Links: statisches RocketBeam-Schiff (Engines-on, kein Interaktion nötig).
  */
 export default function ProjectRondellBottom({ sections, id, className = "" }) {
   const [current, setCurrent] = useState(0);
@@ -40,7 +42,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
   return (
     <section
       id={id}
-      className={`relative min-h-screen h-auto bg-ink/10 border-t border-white/5 overflow-hidden ${className}`}
+      className={`relative min-h-screen h-auto bg-ink/10 border-t border-white/5 overflow-visible ${className}`}
       data-rondell-bottom
       onMouseEnter={() => { pauseRef.current = true; }}
       onMouseLeave={() => { pauseRef.current = false; }}
@@ -53,7 +55,12 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
       {/* Verdunkelter Overlay für Text-Lesbarkeit */}
       <div className="absolute inset-0 bg-ink/60" aria-hidden="true" />
 
-      <div className="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+      {/* RocketBeam-Schiff links (Desktop: 30% Breite, mobil versteckt) */}
+      <div className="absolute top-0 left-0 h-full hidden sm:block overflow-visible" style={{ width: "30%" }}>
+        <RocketBeam enginesOn={true} />
+      </div>
+
+      <div className="relative z-10 max-w-3xl mx-auto mr-0 sm:mr-auto sm:ml-[30%] px-5 sm:px-8 py-20 sm:py-24">
         <div className="text-center mb-8">
           <p className="mono-label text-tiffany text-xs uppercase tracking-[0.3em]">
             Projekte • Karussell

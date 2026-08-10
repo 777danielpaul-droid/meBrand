@@ -52,7 +52,6 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
      *  State — bewusst minimal gehalten, Hintergrund-Elemente weggelassen
      * ------------------------------------------------------------------ */
     const stars = [] // leer — Sternenhintergrund entfernt
-
     let mouseX = canvas.width / 2
     let mouseY = canvas.height / 2
     let mouseDown = false
