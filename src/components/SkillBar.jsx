@@ -11,7 +11,7 @@ export default function SkillBar({ label, level, color, icon, index }) {
       variants={stagger}
       className="mb-3 last:mb-0"
     >
-      <div className="flex justify-between mono-label text-xs text-bone/60 mb-1">
+      <div className="flex justify-between mono-label text-xs text-bone/80 mb-1">
         <span className="flex items-center gap-2">
           {icon && (
             <svg
@@ -28,7 +28,7 @@ export default function SkillBar({ label, level, color, icon, index }) {
         </span>
         <span>{level}%</span>
       </div>
-      <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+      <div className="h-2 rounded-full bg-white/10 overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${level}%` }}
