@@ -568,8 +568,8 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       <canvas ref={canvasRef} id="rocket-beam-canvas" className="w-full h-full block" />
     </div>
 
-      {/* Kompakte Schalter — direkt nebeneinander, horizontal zentriert, leicht nach links oben */}
-      <div className="absolute top-[45%] left-[45%] -translate-x-1/2 -translate-y-1/2 z-30 flex items-center gap-2 sm:top-[42%] sm:left-[45%]">
+      {/* Stop-Button zentriert */}
+      <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 sm:top-[42%]">
         <button
           type="button"
           onClick={toggleEngines}
@@ -578,32 +578,6 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
           className="flex items-center justify-center w-7 h-7 rounded-full text-[10px] font-mono text-cyan/90 bg-ink/50 border border-cyan/30 hover:bg-ink/70 hover:border-cyan/60 transition-all backdrop-blur-sm cursor-pointer"
         >
           <span className={`w-1.5 h-1.5 rounded-full ${enginesOn ? "bg-cyan/80 shadow-[0_0_6px_theme(colors.cyan)] animate-pulse" : "bg-bone/30"}`}></span>
-        </button>
-
-        <button
-          type="button"
-          onMouseDown={() => enginesOn && setLaserCharging(true)}
-          onMouseUp={() => {
-            setLaserCharging(false)
-            setLaserFiring(laserChargeRef.current > 0.1)
-            setTimeout(() => setLaserFiring(false), 120)
-          }}
-          onMouseLeave={() => {
-            setLaserCharging(false)
-            setTimeout(() => setLaserFiring(false), 120)
-          }}
-          onTouchStart={(e) => { e.preventDefault(); enginesOn && setLaserCharging(true); }}
-          onTouchEnd={() => {
-            setLaserCharging(false)
-            setLaserFiring(laserChargeRef.current > 0.1)
-            setTimeout(() => setLaserFiring(false), 120)
-          }}
-          aria-label="Laser"
-          disabled={!enginesOn}
-          style={{ pointerEvents: "auto" }}
-          className="flex items-center justify-center w-7 h-7 rounded-full text-[10px] font-mono text-rose/90 bg-ink/50 border border-rose/30 hover:bg-ink/70 hover:border-rose/60 transition-all backdrop-blur-sm cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          <span className={`w-1.5 h-1.5 rounded-full ${laserFiring ? "bg-rose/90 shadow-[0_0_6px_theme(colors.rose)] animate-pulse" : laserCharging ? "bg-rose/60 animate-pulse" : "bg-rose/40"}`}></span>
         </button>
       </div>
     </>
