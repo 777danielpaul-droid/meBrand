@@ -49,8 +49,8 @@ export default function Hero() {
           Content bleibt darunter sichtbar. Maus-Tracking über document-level-Listener. */}
       <ShadowHelmet />
 
-      {/* Hero-Content — z-10, liegt unter ShadowHelmet-Canvas */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center">
+      {/* Hero-Content — z-10, liegt unter ShadowHelmet-Canvas, direkt unter Header */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-24 sm:pt-28 pb-12 sm:pb-20 w-full flex flex-col justify-start">
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
