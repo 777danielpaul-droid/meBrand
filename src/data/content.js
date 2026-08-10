@@ -74,6 +74,7 @@ export const site = {
       desc: { de: "Interaktives 3D-Brettspiel (Schach/Cross-Checkers) in React + Vite. Scroll-getriebene Animationen, WebGL-Hintergrund.", en: "Interactive 3D board game in React + Vite. Scroll-driven animations, WebGL background." },
       tech: ["React", "Vite", "Three.js", "TypeScript"],
       url: "https://777danielpaul-droid.github.io/SpiderZ/",
+      image: "/spiderz-screenshot.png",
       accent: "#7c3aed",
     },
     {

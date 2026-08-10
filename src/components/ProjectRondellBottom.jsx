@@ -77,6 +77,16 @@ export default function ProjectRondellBottom({ sections, className = "" }) {
             <p className="text-bone/70 leading-relaxed mb-4 text-sm sm:text-base">
               <T en={s.desc.en}>{s.desc.de}</T>
             </p>
+            {s.image && (
+              <div className="mb-4 rounded-lg overflow-hidden border border-white/10">
+                <img
+                  src={s.image}
+                  alt={s.title.de}
+                  className="w-full h-40 sm:h-48 object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
             <div className="flex flex-wrap gap-1.5 mb-4">
               {s.tech.map((t) => (
                 <span
