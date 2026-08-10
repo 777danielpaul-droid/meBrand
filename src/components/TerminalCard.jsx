@@ -74,12 +74,7 @@ export default function TerminalCard({ open, onClose }) {
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
-              <div className="flex items-center gap-3">
-                <span className="w-5 h-5 rounded-sm overflow-hidden ring-1 ring-cyan/30">
-                  <img src={asset(profile.portrait)} alt={profile.name.de} className="w-full h-full object-cover" />
-                </span>
-                <span>// Email //</span>
-              </div>
+              <span>// Email //</span>
               <button
                 type="submit"
                 aria-label="Terminal schließen"
@@ -98,6 +93,14 @@ export default function TerminalCard({ open, onClose }) {
             >
               {lines.length === 0 && (
                 <>
+                  {/* Profilbild in Passfoto-Größe */}
+                  <div className="mb-4 flex justify-center">
+                    <img
+                      src={asset(profile.portrait)}
+                      alt={profile.name.de}
+                      className="w-24 h-24 object-cover rounded-lg ring-2 ring-cyan/30 border border-cyan/20"
+                    />
+                  </div>
                   <p className="text-bone/30 text-xs leading-relaxed">
                     → Email:
                   </p>
