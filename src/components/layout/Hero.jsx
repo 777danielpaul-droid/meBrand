@@ -1,24 +1,9 @@
-import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { stagger, EASE } from "../motion/variants"
 import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
-import { useRef, useState, useMemo } from "react"
 import ShadowHelmet from "../ShadowHelmet"
-
-// Telefonnummer: rückwärgs im DOM, client-seitig rekonstruiert (Bot-Schutz).
-// Bei deaktiviertem JS bleibt aria-label erhalten; Scraper sehen Murks.
-function ObfuscatedPhone({ phone, phoneReverse }) {
-  const display = useMemo(
-    () => phoneReverse.split("").reverse().join(""),
-    [phoneReverse]
-  )
-  return (
-    <span className="block text-cyan mt-1" aria-label={phone} data-phone-reversed={phoneReverse}>
-      {display || "\u200B"}
-    </span>
-  )
-}
 
 // Titel-Schatten für Tiefe (schwarzer Mehrfach-Schatten)
 // Lila Outline: via CSS text-stroke (echte Kontur, sichtbar über dem Text)
@@ -95,43 +80,6 @@ export default function Hero() {
           >
             <T en={c.role.en}>{c.role.de}</T>
           </motion.p>
-
-          {/* Kontaktdaten */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
-            <div>
-              <span className="mono-label text-xs text-cyan/70">E-Mail</span>
-              <a
-                href={`mailto:${c.contact.email}`}
-                className="block text-cyan hover:text-neon transition-colors mt-1"
-              >
-                {c.contact.email}
-              </a>
-            </div>
-            <div>
-              <span className="mono-label text-xs text-cyan/70">GitHub</span>
-              <a
-                href={c.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-cyan hover:text-neon transition-colors mt-1"
-              >
-                github.com/777danielpaul-droid
-              </a>
-            </div>
-            <div>
-              <span className="mono-label text-xs text-cyan/70">Telefon</span>
-              <ObfuscatedPhone
-                phone={c.contact.phone}
-                phoneReverse={c.contact.phoneReverse}
-              />
-            </div>
-            <div>
-              <span className="mono-label text-xs text-cyan/70">Standort</span>
-              <span className="block text-cyan mt-1">
-                <T en={c.contact.address.en}>{c.contact.address.de}</T>
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
