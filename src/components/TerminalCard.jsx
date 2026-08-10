@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react"
 import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "framer-motion"
 import RunenText from "./RunenText"
 import { useTerminalCommands } from "./motion/useTerminalCommands"
+import { asset } from "../lib/asset"
+import { profile } from "../data/content"
 
 // Runen-Text-Klasse für Terminal-Ausgabe (größer als die Mini-Runen in Cards)
 const RUNEN_TEXT_CLASS = "text-xl sm:text-2xl"
@@ -68,7 +70,9 @@ export default function TerminalCard({ open, onClose }) {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
               <div className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" aria-hidden="true" />
+                <span className="w-5 h-5 rounded-sm overflow-hidden ring-1 ring-cyan/30">
+                  <img src={asset(profile.portrait)} alt={profile.name.de} className="w-full h-full object-cover" />
+                </span>
                 <span>// Email //</span>
               </div>
               <button
