@@ -11,7 +11,7 @@ import { useRef, useEffect } from "react"
  * @param {object} props
  * @param {number} [props.shipScale=1.6]  Skalierung der Schiffe
  */
-export default function Shuttlez({ shipScale = 1.6 }) {
+export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block" }) {
   const canvasRef = useRef(null)
   const rafRef = useRef(null)
 
@@ -373,7 +373,7 @@ export default function Shuttlez({ shipScale = 1.6 }) {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 h-full w-full hidden sm:block"
+      className={`absolute inset-0 h-full w-full ${className}`}
       style={{ zIndex: 2 }}
       data-shuttlez="true"
     />

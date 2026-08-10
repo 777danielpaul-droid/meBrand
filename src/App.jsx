@@ -9,6 +9,7 @@ import RobotTeardown from "./components/RobotTeardown"
 import TerminalCard from "./components/TerminalCard"
 import { ScrollProgress } from "./components/motion/ScrollFX"
 import { LangProvider } from "./components/RunenContext"
+import ProjectRondellBottom from "./components/ProjectRondellBottom"
 import { site } from "./data/content"
 
 export default function App() {
@@ -28,6 +29,8 @@ export default function App() {
           <ScrollRevealSection key={s.id} section={s} />
         ))}
       </main>
+      {/* Einfaches Rondell ganz unten — Projekte-Karussell ohne Scroll-Reveal */}
+      <ProjectRondellBottom sections={site.rondellSections} />
       <Footer className="footer-glow" />
     </LangProvider>
   )

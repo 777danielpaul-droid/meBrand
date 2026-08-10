@@ -58,6 +58,34 @@ export const site = {
     },
   ],
 
+  // --- BOTTLENECK RONDELL (neu unten, kein Scroll-Reveal) ---
+  rondellSections: [
+    {
+      id: "erdbaeren2",
+      title: { de: "ErdBaeren2 — SPA", en: "ErdBaaren2 — SPA" },
+      desc: { de: "Responsive Web-App mit wiederverwendbaren React-Komponenten. CI/CD via GitHub Actions → GitHub Pages.", en: "Responsive SPA with reusable React components. CI/CD via GitHub Actions → GitHub Pages." },
+      tech: ["React", "Vite", "Tailwind", "CI/CD"],
+      url: "https://777danielpaul-droid.github.io/ErdBaaren2/",
+      accent: "#22d3ee",
+    },
+    {
+      id: "humblebee",
+      title: { de: "Humble-Bee — Naturschutz", en: "Humble-Bee — Conservation" },
+      desc: { de: "Naturschutzplattform für lokale Imkerei. Fokus auf Performance & klare UX.", en: "Conservation platform for local beekeeping. Focus on performance & clean UX." },
+      tech: ["HTML", "CSS", "JS", "Performance"],
+      url: "https://humble-bee.de",
+      accent: "#7c3aed",
+    },
+    {
+      id: "roidz",
+      title: { de: "Roidz.de — E-Commerce", en: "Roidz.de — E-Commerce" },
+      desc: { de: "Shopify-Shop für Nahrungsergänzung & Sportbekleidung.", en: "Shopify store for supplements & sportswear." },
+      tech: ["Shopify", "Produktpflege", "Conversion"],
+      url: null,
+      accent: "#f59e0b",
+    },
+  ],
+
   // --- FOOTER ---
   footer: {
     note: { de: "© 2025 Daniel Paul — alle Rechte vorbehalten.", en: "© 2025 Daniel Paul — all rights reserved." },

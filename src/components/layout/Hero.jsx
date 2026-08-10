@@ -4,7 +4,6 @@ import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import RocketBeam from "../RocketBeam"
-import Shuttlez from "../Shuttlez"
 import { useRef, useState, useMemo } from "react"
 import { asset } from "../../lib/asset"
 
@@ -90,10 +89,6 @@ export default function Hero() {
     <section id="hero" className="hero-holo relative motion-reveal min-h-[100vh] h-auto sm:h-screen sm:max-h-[680px] bg-transparent z-0">
       {/* Canvas-Shuttle-Animation: transparenter, voller Hero-Bereich */}
       <RocketBeam />
-      {/* Shuttlez Minigame — transparentes Canvas-Overlay ohne Hintergrund,
-          nur Schiffe/Laser/Partikel sind sichtbar. Liegt über RocketBeam.
-          Auf Mobile deaktiviert (sm:block), da der Hero sonst zu voll ist. */}
-      <Shuttlez shipScale={1.2} className="hidden sm:block" />
 
       <motion.div
         style={{ y: blobY, opacity: blobOpacity }}
