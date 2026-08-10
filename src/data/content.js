@@ -62,11 +62,19 @@ export const site = {
   rondellSections: [
     {
       id: "erdbaeren2",
-      title: { de: "ErdBaeren2 — SPA", en: "ErdBaaren2 — SPA" },
+      title: { de: "ErdBaaren2 — SPA", en: "ErdBaaren2 — SPA" },
       desc: { de: "Responsive Web-App mit wiederverwendbaren React-Komponenten. CI/CD via GitHub Actions → GitHub Pages.", en: "Responsive SPA with reusable React components. CI/CD via GitHub Actions → GitHub Pages." },
       tech: ["React", "Vite", "Tailwind", "CI/CD"],
       url: "https://777danielpaul-droid.github.io/ErdBaaren2/",
       accent: "#22d3ee",
+    },
+    {
+      id: "spiderz",
+      title: { de: "SpiderZ — Web-Game", en: "SpiderZ — Web Game" },
+      desc: { de: "Interaktives 3D-Brettspiel (Schach/Cross-Checkers) in React + Vite. Scroll-getriebene Animationen, WebGL-Hintergrund.", en: "Interactive 3D board game in React + Vite. Scroll-driven animations, WebGL background." },
+      tech: ["React", "Vite", "Three.js", "TypeScript"],
+      url: "https://777danielpaul-droid.github.io/SpiderZ/",
+      accent: "#7c3aed",
     },
     {
       id: "humblebee",
@@ -74,7 +82,7 @@ export const site = {
       desc: { de: "Naturschutzplattform für lokale Imkerei. Fokus auf Performance & klare UX.", en: "Conservation platform for local beekeeping. Focus on performance & clean UX." },
       tech: ["HTML", "CSS", "JS", "Performance"],
       url: "https://humble-bee.de",
-      accent: "#7c3aed",
+      accent: "#10b981",
     },
     {
       id: "roidz",
@@ -83,6 +91,14 @@ export const site = {
       tech: ["Shopify", "Produktpflege", "Conversion"],
       url: null,
       accent: "#f59e0b",
+    },
+    {
+      id: "github-repos",
+      title: { de: "...und noch mehr Projekte.", en: "...and more projects." },
+      desc: { de: "Alle öffentlichen Repositories auf GitHub — von Indie-Game-Demos über KI-Prototypen bis zu Web-Apps.", en: "All public GitHub repos — from indie game demos to AI prototypes and web apps." },
+      tech: ["GitHub", "Open Source", "Prototyping"],
+      url: "https://github.com/777danielpaul-droid?tab=repositories",
+      accent: "#ef4444",
     },
   ],
 
