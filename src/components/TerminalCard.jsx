@@ -74,7 +74,7 @@ export default function TerminalCard({ open, onClose }) {
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
-              <span>// Email //</span>
+              <span>// KONTAKT //</span>
               <button
                 type="submit"
                 aria-label="Terminal schließen"
@@ -101,9 +101,6 @@ export default function TerminalCard({ open, onClose }) {
                       className="w-24 h-24 object-cover rounded-lg ring-2 ring-cyan/30 border border-cyan/20"
                     />
                   </div>
-                  <p className="text-bone/30 text-xs leading-relaxed">
-                    → Email:
-                  </p>
                   {/* Kontaktdaten als Terminal-Log */}
                   <div className="mt-3 flex flex-col gap-1 text-sm">
                     <div className="flex items-center gap-2 text-cyan/70">
