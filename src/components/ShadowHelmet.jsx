@@ -417,35 +417,6 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.fill();
       ctx.restore();
 
-      ctx.beginPath();
-      ctx.ellipse(
-        -0.22 * sc,
-        -0.42 * sc,
-        0.28 * sc,
-        0.1 * sc,
-        -0.35,
-        0,
-        Math.PI * 2
-      );
-      // Highlight: statt weißer Fläche → dünner, metallischer Reflex (cyan-blau)
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = "rgba(120, 200, 210, 0.45)";
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.ellipse(
-        0.32 * sc,
-        -0.28 * sc,
-        0.14 * sc,
-        0.06 * sc,
-        0.45,
-        0,
-        Math.PI * 2
-      );
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(120, 200, 210, 0.35)";
-      ctx.stroke();
-
       ctx.restore();
     }
 
