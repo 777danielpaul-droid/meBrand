@@ -79,14 +79,6 @@ export const site = {
       accent: "#7c3aed",
     },
     {
-      id: "humblebee",
-      title: { de: "Humble-Bee — Naturschutz", en: "Humble-Bee — Conservation" },
-      desc: { de: "Naturschutzplattform für lokale Imkerei. Fokus auf Performance & klare UX.", en: "Conservation platform for local beekeeping. Focus on performance & clean UX." },
-      tech: ["HTML", "CSS", "JS", "Performance"],
-      url: "https://humble-bee.de",
-      accent: "#10b981",
-    },
-    {
       id: "roidz",
       title: { de: "Roidz.de — E-Commerce", en: "Roidz.de — E-Commerce" },
       desc: { de: "Shopify-Shop für Nahrungsergänzung & Sportbekleidung.", en: "Shopify store for supplements & sportswear." },
