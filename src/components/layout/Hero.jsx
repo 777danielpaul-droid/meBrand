@@ -4,7 +4,6 @@ import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import { useRef, useState, useMemo } from "react"
-import { asset } from "../../lib/asset"
 
 // Telefonnummer: rückwärgs im DOM, client-seitig rekonstruiert (Bot-Schutz).
 // Bei deaktiviertem JS bleibt aria-label erhalten; Scraper sehen Murks.
@@ -139,62 +138,42 @@ export default function Hero() {
             <T en={c.role.en}>{c.role.de}</T>
           </motion.p>
 
-          {/* Portrait + Kontaktdaten (zwei Spalten) — klickbar! */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3 sm:gap-6 items-center sm:items-start pointer-events-auto"
-          >
-            {/* Portrait */}
-            <div className="flex-shrink-0">
-              <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(109,38,217,0.3)]">
-                <img
-                  src={asset(c.portrait)}
-                  alt={c.name.de}
-                  className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
-                  loading="lazy"
-                />
-              </div>
+          {/* Kontaktdaten */}
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
+            <div>
+              <span className="mono-label text-xs text-cyan/70">E-Mail</span>
+              <a
+                href={`mailto:${c.contact.email}`}
+                className="block text-cyan hover:text-neon transition-colors mt-1"
+              >
+                {c.contact.email}
+              </a>
             </div>
-
-            {/* Kontaktdaten */}
-            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
-              <div>
-                <span className="mono-label text-xs text-cyan/70">E-Mail</span>
-                <a
-                  href={`mailto:${c.contact.email}`}
-                  className="block text-cyan hover:text-neon transition-colors mt-1"
-                >
-                  {c.contact.email}
-                </a>
-              </div>
-              <div>
-                <span className="mono-label text-xs text-cyan/70">GitHub</span>
-                <a
-                  href={c.contact.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-cyan hover:text-neon transition-colors mt-1"
-                >
-                  github.com/777danielpaul-droid
-                </a>
-              </div>
-              <div>
-                <span className="mono-label text-xs text-cyan/70">Telefon</span>
-                <ObfuscatedPhone
-                  phone={c.contact.phone}
-                  phoneReverse={c.contact.phoneReverse}
-                />
-              </div>
-              <div>
-                <span className="mono-label text-xs text-cyan/70">Standort</span>
-                <span className="block text-cyan mt-1">
-                  <T en={c.contact.address.en}>{c.contact.address.de}</T>
-                </span>
-              </div>
+            <div>
+              <span className="mono-label text-xs text-cyan/70">GitHub</span>
+              <a
+                href={c.contact.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-cyan hover:text-neon transition-colors mt-1"
+              >
+                github.com/777danielpaul-droid
+              </a>
             </div>
-          </motion.div>
+            <div>
+              <span className="mono-label text-xs text-cyan/70">Telefon</span>
+              <ObfuscatedPhone
+                phone={c.contact.phone}
+                phoneReverse={c.contact.phoneReverse}
+              />
+            </div>
+            <div>
+              <span className="mono-label text-xs text-cyan/70">Standort</span>
+              <span className="block text-cyan mt-1">
+                <T en={c.contact.address.en}>{c.contact.address.de}</T>
+              </span>
+            </div>
+          </div>
 
 
           {/* Technische Skills */}

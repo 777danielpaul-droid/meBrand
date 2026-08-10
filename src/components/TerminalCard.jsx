@@ -8,6 +8,11 @@ import { profile } from "../data/content"
 // Runen-Text-Klasse für Terminal-Ausgabe (größer als die Mini-Runen in Cards)
 const RUNEN_TEXT_CLASS = "text-xl sm:text-2xl"
 
+// Telefonnummer: client-seitig aus dem umgekehrten String rekonstruiert (Bot-Schutz)
+function TerminalPhone({ phoneReverse }) {
+  return <span className="text-cyan text-xs">{phoneReverse.split("").reverse().join("")}</span>
+}
+
 export default function TerminalCard({ open, onClose }) {
   const shouldReduce = useReducedMotion()
   const {
@@ -92,9 +97,41 @@ export default function TerminalCard({ open, onClose }) {
               className="flex-1 overflow-y-auto px-4 py-3 relative"
             >
               {lines.length === 0 && (
-                <p className="text-bone/30 text-xs leading-relaxed">
-                  → Email:
-                </p>
+                <>
+                  <p className="text-bone/30 text-xs leading-relaxed">
+                    → Email:
+                  </p>
+                  {/* Kontaktdaten als Terminal-Log */}
+                  <div className="mt-3 flex flex-col gap-1 text-sm">
+                    <div className="flex items-center gap-2 text-cyan/70">
+                      <span className="w-2 h-2 rounded-full bg-cyan/40 animate-pulse" />
+                      <span className="mono-label text-[10px] uppercase tracking-[0.2em]">EMAIL</span>
+                      <span className="text-cyan text-xs">{profile.contact.email}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-cyan/70">
+                      <span className="w-2 h-2 rounded-full bg-cyan/40" />
+                      <span className="mono-label text-[10px] uppercase tracking-[0.2em]">GITHUB</span>
+                      <a
+                        href={profile.contact.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cyan hover:text-neon transition-colors text-xs"
+                      >
+                        github.com/777danielpaul-droid
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-2 text-cyan/70">
+                      <span className="w-2 h-2 rounded-full bg-cyan/40" />
+                      <span className="mono-label text-[10px] uppercase tracking-[0.2em]">PHONE</span>
+                      <TerminalPhone phoneReverse={profile.contact.phoneReverse} />
+                    </div>
+                    <div className="flex items-center gap-2 text-cyan/70">
+                      <span className="w-2 h-2 rounded-full bg-cyan/40" />
+                      <span className="mono-label text-[10px] uppercase tracking-[0.2em]">LOCATION</span>
+                      <T en={profile.contact.address.en}>{profile.contact.address.de}</T>
+                    </div>
+                  </div>
+                </>
               )}
 
               {/* Status-Zeile (runic) */}
