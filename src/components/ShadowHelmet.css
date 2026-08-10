@@ -1,0 +1,31 @@
+/* ShadowHelmet — full-bleed canvas, behind hero content (lower z than content) */
+.shadow-helmet-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1; /* hinter hero Content (z-10), vor Blob (z-0) */
+  pointer-events: none; /* Maus-Events laufen über document-level-Listener */
+}
+
+.shadow-helmet-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Hint-Text stilistisch am unterenen Rand zentriert */
+.shadow-helmet-hint,
+.hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}

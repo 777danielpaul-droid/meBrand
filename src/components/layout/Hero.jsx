@@ -4,6 +4,7 @@ import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import { useRef, useState, useMemo } from "react"
+import ShadowHelmet from "../ShadowHelmet"
 
 // Telefonnummer: rückwärgs im DOM, client-seitig rekonstruiert (Bot-Schutz).
 // Bei deaktiviertem JS bleibt aria-label erhalten; Scraper sehen Murks.
@@ -92,7 +93,8 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center">
+      {/* Hero-Content: normal pointer-events, liegt über ShadowHelmet-Canvas (z-10 > z-1) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center">
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
@@ -221,6 +223,10 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
+
+      {/* Shadow Helmet: Canvas-Animation, liegt hinter Hero-Content (z-1 < z-10).
+          Maus-Events laufen über document-level-Listener im Component. */}
+      <ShadowHelmet />
     </section>
   )
 }
