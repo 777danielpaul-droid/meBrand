@@ -128,7 +128,7 @@ export default function TerminalCard({ open, onClose }) {
                     <div className="flex items-center gap-2 text-cyan/70">
                       <span className="w-2 h-2 rounded-full bg-cyan/40" />
                       <span className="mono-label text-[10px] uppercase tracking-[0.2em]">LOCATION</span>
-                      <T en={profile.contact.address.en}>{profile.contact.address.de}</T>
+                      <span className="text-cyan text-xs">{profile.contact.address.de}</span>
                     </div>
                   </div>
                 </>
