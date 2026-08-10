@@ -4,6 +4,7 @@ import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
 import RocketBeam from "../RocketBeam"
+import Shuttlez from "../Shuttlez"
 import { useRef, useState, useMemo } from "react"
 import { asset } from "../../lib/asset"
 
@@ -86,9 +87,13 @@ export default function Hero() {
   const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
 
   return (
-    <section id="hero" className="hero-holo relative motion-reveal min-h-[56.25vw] h-screen max-h-[680px] bg-transparent">
+    <section id="hero" className="hero-holo relative motion-reveal min-h-[100vh] h-auto sm:h-screen sm:max-h-[680px] bg-transparent z-0">
       {/* Canvas-Shuttle-Animation: transparenter, voller Hero-Bereich */}
       <RocketBeam />
+      {/* Shuttlez Minigame — transparentes Canvas-Overlay ohne Hintergrund,
+          nur Schiffe/Laser/Partikel sind sichtbar. Liegt über RocketBeam.
+          Auf Mobile deaktiviert (sm:block), da der Hero sonst zu voll ist. */}
+      <Shuttlez shipScale={1.2} className="hidden sm:block" />
 
       <motion.div
         style={{ y: blobY, opacity: blobOpacity }}
@@ -96,11 +101,11 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 w-full h-full flex flex-col justify-center">
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center">
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
-            className="font-display font-bold leading-[1.05] tracking-tight text-3xl sm:text-7xl lg:text-8xl max-w-4xl break-words text-cyan pulse-glow"
+            className="font-display font-bold leading-[1.05] tracking-tight text-2xl sm:text-7xl lg:text-8xl max-w-4xl break-words text-cyan pulse-glow"
             style={{}}
           >
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="block">
@@ -117,7 +122,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-4 flex flex-wrap gap-x-3 gap-y-1.5"
+              className="mt-3 sm:mt-4 flex flex-wrap gap-x-2 gap-y-1.5 sm:gap-x-3"
             >
               {h.skills.map((s, i) => (
                 <span
@@ -137,7 +142,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-4 text-xl sm:text-2xl text-cyan font-display max-w-2xl"
+            className="mt-3 text-lg sm:text-2xl text-cyan font-display max-w-2xl"
           >
             <T en={c.role.en}>{c.role.de}</T>
           </motion.p>
@@ -147,11 +152,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start pointer-events-auto"
+            className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3 sm:gap-6 items-center sm:items-start pointer-events-auto"
           >
             {/* Portrait */}
             <div className="flex-shrink-0">
-              <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(109,38,217,0.3)]">
+              <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(109,38,217,0.2)] transition-all duration-300 hover:shadow-[0_0_25px_rgba(109,38,217,0.3)]">
                 <img
                   src={asset(c.portrait)}
                   alt={c.name.de}
@@ -162,7 +167,7 @@ export default function Hero() {
             </div>
 
             {/* Kontaktdaten */}
-            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
               <div>
                 <span className="mono-label text-xs text-cyan/70">E-Mail</span>
                 <a
@@ -205,9 +210,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-8"
+            className="mt-5 sm:mt-8"
           >
-            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-4">
+            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-3 sm:mb-4">
               Technische Skills
             </h3>
             {c.skills.map((s, i) => (
@@ -227,9 +232,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
-            className="mt-6"
+            className="mt-4 sm:mt-6"
           >
-            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-4">
+            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-3 sm:mb-4">
               Sprachen
             </h3>
             {c.softSkills.map((s, i) => (
