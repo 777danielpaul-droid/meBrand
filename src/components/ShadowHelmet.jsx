@@ -633,8 +633,7 @@ export default function ShadowHelmet({ heroRef }) {
       const dt = Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
 
-      ctx.fillStyle = '#0a0b0e';
-      ctx.fillRect(0, 0, W, H);
+      ctx.clearRect(0, 0, W, H);
       time += 0.016;
       updatePhysics();
       updateEyes(dt);

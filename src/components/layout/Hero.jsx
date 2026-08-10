@@ -93,8 +93,8 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      {/* Hero-Content: normal pointer-events, liegt über ShadowHelmet-Canvas (z-10 > z-1) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center">
+      {/* Hero-Content: pointer-events:none, damit Maus an ShadowHelmet (hinten/vorne) durchkommt */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center pointer-events-none">
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
@@ -147,6 +147,7 @@ export default function Hero() {
               <a
                 href={`mailto:${c.contact.email}`}
                 className="block text-cyan hover:text-neon transition-colors mt-1"
+                style={{ pointerEvents: "auto" }}
               >
                 {c.contact.email}
               </a>
@@ -158,6 +159,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block text-cyan hover:text-neon transition-colors mt-1"
+                style={{ pointerEvents: "auto" }}
               >
                 github.com/777danielpaul-droid
               </a>
@@ -224,7 +226,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Shadow Helmet: Canvas-Animation, liegt hinter Hero-Content (z-1 < z-10).
+      {/* Shadow Helmet: Canvas-Animation, IN FRONT of Hero-Content (z-50 > z-10).
+          Content hat pointer-events:none, Links haben pointer-events:auto.
           Maus-Events laufen über document-level-Listener im Component. */}
       <ShadowHelmet />
     </section>

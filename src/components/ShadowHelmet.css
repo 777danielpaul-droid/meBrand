@@ -1,4 +1,4 @@
-/* ShadowHelmet — full-bleed canvas, behind hero content (lower z than content) */
+/* ShadowHelmet — full-bleed canvas, IN FRONT of all hero content */
 .shadow-helmet-wrap {
   position: absolute;
   top: 0;
@@ -6,8 +6,8 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 1; /* hinter hero Content (z-10), vor Blob (z-0) */
-  pointer-events: none; /* Maus-Events laufen über document-level-Listener */
+  z-index: 50; /* über allem Hero-Content */
+  pointer-events: auto; /* fängt Maus ab für Cursor-Tracking */
 }
 
 .shadow-helmet-canvas {
