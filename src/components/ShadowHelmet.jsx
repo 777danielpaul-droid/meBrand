@@ -208,11 +208,13 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.rotate(tilt);
       const sc = s;
 
-      const C1 = "#0a0b0e";
-      const C2 = "#1a1d24";
-      const C3 = "#2d313a";
-      const C4 = "#424852";
-      const C5 = "#5a6270";
+      // ===== HELM-FÜLLUNG: opak, metallisch, kontrastreich =====
+      // Hell genug, dass der Helm ins Auge fällt — aber nicht blendend.
+      const C1 = "#0f1014";
+      const C2 = "#1d2027";
+      const C3 = "#323844";
+      const C4 = "#485060";
+      const C5 = "#5e6a7d";
 
       const antWiggle = Math.sin(time * 3) * 0.06;
       const antBaseX = 0;
@@ -274,9 +276,10 @@ export default function ShadowHelmet({ heroRef }) {
       sphereGrad.addColorStop(1, C1);
       ctx.fillStyle = sphereGrad;
       ctx.fill();
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = "#040507";
-      ctx.stroke();
+      /* Helm-Kontur (dünner Ring) komplett entfernt — sie störte das dunkle Finish */
+      // ctx.lineWidth = 1.5;
+      // ctx.strokeStyle = "#040507";
+      // ctx.stroke();
 
       ctx.beginPath();
       ctx.moveTo(-0.9 * sc, -0.1 * sc);
@@ -322,14 +325,15 @@ export default function ShadowHelmet({ heroRef }) {
         0.2 * sc,
         0.75 * sc
       );
-      shieldGrad.addColorStop(0, "#14161c");
-      shieldGrad.addColorStop(0.5, "#08090c");
-      shieldGrad.addColorStop(1, "#010102");
+      shieldGrad.addColorStop(0, "#1a1d24");
+      shieldGrad.addColorStop(0.5, "#0e0f12");
+      shieldGrad.addColorStop(1, "#020203");
       ctx.fillStyle = shieldGrad;
       ctx.fill();
-      ctx.lineWidth = 1.2;
-      ctx.strokeStyle = "#06070a";
-      ctx.stroke();
+      /* Schild-Kontur komplett entfernt — kein dünner Ring mehr */
+      // ctx.lineWidth = 1.2;
+      // ctx.strokeStyle = "#06070a";
+      // ctx.stroke();
 
       ctx.beginPath();
       ctx.moveTo(-0.78 * sc, -0.12 * sc);
@@ -343,9 +347,11 @@ export default function ShadowHelmet({ heroRef }) {
       );
       ctx.lineWidth = 1;
       ctx.strokeStyle = "rgba(255,255,255,0.05)";
-      ctx.stroke();
+      /* dünne weiße Randkante am Schild komplett entfernt */
+      // ctx.stroke();
 
-      const eyeGlow = Math.sin(pulse) * 0.1 + 0.9;
+      // LED-Augen: hellere Basis + intensivere Cyan-Füllung
+      const eyeGlow = Math.sin(pulse) * 0.1 + 1.05;
       const eyeR = 0.19 * sc;
       const stretchY = 1.55;
 
@@ -369,18 +375,18 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.beginPath();
       ctx.arc(0, 0, eyeR * 1.6, 0, Math.PI * 2);
       const lg1 = ctx.createRadialGradient(0, 0, 0, 0, 0, eyeR * 1.6);
-      lg1.addColorStop(0, `rgba(200, 245, 255, ${eyeGlow * 0.9})`);
-      lg1.addColorStop(0.5, `rgba(0, 180, 255, ${eyeGlow * 0.5})`);
-      lg1.addColorStop(1, "transparent");
+      lg1.addColorStop(0, `rgba(220, 250, 255, ${eyeGlow * 0.95})`);
+      lg1.addColorStop(0.5, `rgba(0, 190, 255, ${eyeGlow * 0.55})`);
+      lg1.addColorStop(1, `rgba(0, 80, 200, ${eyeGlow * 0.15})`);
       ctx.fillStyle = lg1;
       ctx.fill();
 
       ctx.beginPath();
       ctx.arc(0, 0, eyeR, 0, Math.PI * 2);
       const cg1 = ctx.createRadialGradient(0, 0, 0, 0, 0, eyeR);
-      cg1.addColorStop(0, `rgba(230, 250, 255, ${eyeGlow})`);
-      cg1.addColorStop(0.6, `rgba(100, 210, 255, ${eyeGlow * 0.7})`);
-      cg1.addColorStop(1, `rgba(0, 150, 255, ${eyeGlow * 0.3})`);
+      cg1.addColorStop(0, `rgba(240, 255, 255, ${eyeGlow})`);
+      cg1.addColorStop(0.6, `rgba(110, 220, 255, ${eyeGlow * 0.75})`);
+      cg1.addColorStop(1, `rgba(0, 150, 255, ${eyeGlow * 0.35})`);
       ctx.fillStyle = cg1;
       ctx.fill();
       ctx.restore();
@@ -395,18 +401,18 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.beginPath();
       ctx.arc(0, 0, eyeR * 1.6, 0, Math.PI * 2);
       const lg2 = ctx.createRadialGradient(0, 0, 0, 0, 0, eyeR * 1.6);
-      lg2.addColorStop(0, `rgba(200, 245, 255, ${eyeGlow * 0.9})`);
-      lg2.addColorStop(0.5, `rgba(0, 180, 255, ${eyeGlow * 0.5})`);
-      lg2.addColorStop(1, "transparent");
+      lg2.addColorStop(0, `rgba(220, 250, 255, ${eyeGlow * 0.95})`);
+      lg2.addColorStop(0.5, `rgba(0, 190, 255, ${eyeGlow * 0.55})`);
+      lg2.addColorStop(1, `rgba(0, 80, 200, ${eyeGlow * 0.15})`);
       ctx.fillStyle = lg2;
       ctx.fill();
 
       ctx.beginPath();
       ctx.arc(0, 0, eyeR, 0, Math.PI * 2);
       const cg2 = ctx.createRadialGradient(0, 0, 0, 0, 0, eyeR);
-      cg2.addColorStop(0, `rgba(230, 250, 255, ${eyeGlow})`);
-      cg2.addColorStop(0.6, `rgba(100, 210, 255, ${eyeGlow * 0.7})`);
-      cg2.addColorStop(1, `rgba(0, 150, 255, ${eyeGlow * 0.3})`);
+      cg2.addColorStop(0, `rgba(240, 255, 255, ${eyeGlow})`);
+      cg2.addColorStop(0.6, `rgba(110, 220, 255, ${eyeGlow * 0.75})`);
+      cg2.addColorStop(1, `rgba(0, 150, 255, ${eyeGlow * 0.35})`);
       ctx.fillStyle = cg2;
       ctx.fill();
       ctx.restore();
@@ -421,8 +427,10 @@ export default function ShadowHelmet({ heroRef }) {
         0,
         Math.PI * 2
       );
-      ctx.fillStyle = "rgba(255,255,255,0.08)";
-      ctx.fill();
+      // Highlight: statt weißer Fläche → dünner, metallischer Reflex (cyan-blau)
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = "rgba(120, 200, 210, 0.45)";
+      ctx.stroke();
 
       ctx.beginPath();
       ctx.ellipse(
@@ -434,8 +442,9 @@ export default function ShadowHelmet({ heroRef }) {
         0,
         Math.PI * 2
       );
-      ctx.fillStyle = "rgba(255,255,255,0.05)";
-      ctx.fill();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(120, 200, 210, 0.35)";
+      ctx.stroke();
 
       ctx.restore();
     }
