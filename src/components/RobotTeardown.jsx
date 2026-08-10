@@ -17,7 +17,6 @@ export default function RobotTeardown() {
   const imagesRef = useRef([])
   const frameCountRef = useRef(TOTAL_FRAMES)
   const skillRef = useRef(null)
-  const timelineRef = useRef(null)
 
   const [frameCount] = useState(() =>
     window.matchMedia("(max-width: 768px)").matches ? MOBILE_FRAMES : TOTAL_FRAMES
@@ -44,12 +43,11 @@ export default function RobotTeardown() {
     if (!canvas || !pin || !skill) return
 
     const ctx = canvas.getContext("2d")
+    if (!ctx) return
     ctx.imageSmoothingEnabled = true
     ctx.imageSmoothingQuality = "high"
 
     const dpr = window.devicePixelRatio || 1
-    const srcWidth = 1920
-    const srcHeight = 1080
     let currentProgress = 0
 
     const drawFrame = (progress) => {
@@ -87,7 +85,13 @@ export default function RobotTeardown() {
       initialized = true
       drawFrame(0)
 
-      // Build a timeline: teardown animation, then skill reveal
+      // Skill-Balken-Reveal: stagger-in am Ende der Scroll-Animation (>85% Progress)
+      const skillItems = skill.querySelectorAll(".skill-item")
+      // Nicht auf init verstecken — Balken sollen sofort sichtbar sein.
+      // GSAP setzt nur die y-Offset-Animation, die beim Scrollen zurücksetzt.
+      gsap.set(skillItems, { y: 0 })
+
+      // Build a timeline: teardown animation + skill reveal (shared ScrollTrigger)
       const dummy = { progress: 0 }
       tween = gsap.to(dummy, {
         progress: 1,
@@ -96,6 +100,20 @@ export default function RobotTeardown() {
         onUpdate: () => {
           currentProgress = dummy.progress
           drawFrame(dummy.progress)
+
+          // Skill-Reveal beginnt bei 85% des Canvas-Scroll-Triggers
+          const revealProgress = Math.max(0, Math.min(1, (dummy.progress - 0.85) / 0.15))
+
+          // Jedes Skill-Item separat anzeigen (staggert nach unten)
+          skillItems.forEach((item, i) => {
+            const staggerDelay = i / Math.max(skillItems.length - 1, 1)
+            const itemProgress = Math.max(0, Math.min(1, (revealProgress - staggerDelay) / Math.max(1 - staggerDelay, 0.01)))
+            // Bei revealProgress=0: item ist bei y=0 (sichtbar). Bei revealProgress>0: leichtes Pulsieren
+            gsap.set(item, {
+              y: -20 * itemProgress,
+              scale: 1 + 0.05 * itemProgress,
+            })
+          })
         },
         scrollTrigger: {
           trigger: pin,
@@ -104,32 +122,6 @@ export default function RobotTeardown() {
           scrub: true,
           pin: true,
           anticipatePin: 1,
-        },
-      })
-
-      // Skill-Balken-Reveal: animiert EIN, wenn Progress bei 100% ist
-      const skillItems = skill.querySelectorAll(".skill-item")
-      gsap.set(skillItems, { opacity: 0, y: 40 })
-      gsap.set(skill, { opacity: 0 })
-
-      ScrollTrigger.create({
-        trigger: pin,
-        start: "top top",
-        end: `+=${pin.getBoundingClientRect().height}`,
-        scrub: true,
-        onUpdate: (self) => {
-          // Skill-Reveal beginnt bei 85% des Scroll-Triggers
-          const revealProgress = Math.max(0, (self.progress - 0.85) / 0.15)
-          gsap.set(skill, {
-            opacity: revealProgress,
-          })
-          if (revealProgress > 0) {
-            gsap.set(skillItems, {
-              opacity: (_, i) => Math.min(1, revealProgress * skillItems.length - i),
-              y: (i) => 40 * (1 - Math.min(1, revealProgress * skillItems.length - i)),
-              stagger: 0.05,
-            })
-          }
         },
       })
     }
