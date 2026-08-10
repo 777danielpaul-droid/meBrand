@@ -92,11 +92,11 @@ export default function RobotTeardown() {
       gsap.set(skillItems, { opacity: 0, y: 30 })
       gsap.set(skillHeading, { opacity: 0, y: 20 })
 
-      // Pin-Höhe: Canvas + Puffer für Skill-Reveal
+      // Pin-Höhe: Canvas + Puffer für Skill-Reveal (mehr Platz auf Mobil)
       const pinHeight = pin.getBoundingClientRect().height
-      const extraRevealSpace = 200 // px extra scroll nach Animation für Skill-Reveal
-
-      // Shared ScrollTrigger: Canvas-Animation (0→1) + Skill-Reveal (1→2)
+      const extraRevealSpace = window.matchMedia("(max-width: 768px)").matches
+        ? 320
+        : 200 // px extra scroll nach Animation für Skill-Reveal
       const dummy = { progress: 0 }
       tween = gsap.to(dummy, {
         progress: 2, // 0→1 = Canvas-Anim, 1→2 = Skill-Reveal
@@ -158,18 +158,22 @@ export default function RobotTeardown() {
   return (
     <section className="relative w-full mt-0">
       {/* Transparenter Container — Starfield durchscheint */}
-      <div ref={pinRef} className="relative w-full h-[100vh]">
+      <div
+        ref={pinRef}
+        className="relative w-full h-[100vh] sm:h-[110vh]"
+      >
         <canvas
           ref={canvasRef}
-          className="absolute top-0 left-0 w-full h-screen"
+          className="absolute top-0 left-0 w-full h-full"
           width={1920}
           height={1080}
         />
 
-        {/* Skill-Balken-Reveal: erscheint ERST nach kompletter Scroll-Animation */}
+        {/* Skill-Balken-Reveal: erscheint ERST nach kompletter Scroll-Animation.
+            Auf Mobil: unterhalb des Canvas, nicht überlappend. */}
         <div
           ref={skillRef}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-3xl mx-auto flex flex-col gap-4 bg-ink/40 backdrop-blur-sm rounded-xl p-4 border border-white/5"
+          className="absolute bottom-[-120px] sm:bottom-8 left-1/2 -translate-x-1/2 w-full max-w-3xl mx-auto flex flex-col gap-4 bg-ink/40 backdrop-blur-sm rounded-xl p-4 border border-white/5"
         >
           <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center">
             Technische Skills &amp; Sprachen
