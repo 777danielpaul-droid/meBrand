@@ -8,7 +8,7 @@ import Shuttlez from "./Shuttlez";
  * Bereich ist screen-size (min-h-screen) und enthält das transparente
  * Shuttlez-Canvas als Hintergrund-Overlay. Karten wechseln per Klick/Pfeiltasten.
  */
-export default function ProjectRondellBottom({ sections, className = "" }) {
+export default function ProjectRondellBottom({ sections, id, className = "" }) {
   const [current, setCurrent] = useState(0);
   const intervalRef = useRef(null);
   const pauseRef = useRef(false);
@@ -39,6 +39,7 @@ export default function ProjectRondellBottom({ sections, className = "" }) {
 
   return (
     <section
+      id={id}
       className={`relative min-h-screen h-auto bg-ink/10 border-t border-white/5 overflow-hidden ${className}`}
       data-rondell-bottom
       onMouseEnter={() => { pauseRef.current = true; }}
