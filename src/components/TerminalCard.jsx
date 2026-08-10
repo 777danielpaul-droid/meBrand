@@ -93,8 +93,8 @@ export default function TerminalCard({ open, onClose }) {
             >
               {lines.length === 0 && (
                 <>
-                  {/* Profilbild in Passfoto-Größe */}
-                  <div className="mb-4 flex justify-center">
+                  {/* Profilbild in Passfoto-Größe, linksbündig */}
+                  <div className="mb-4">
                     <img
                       src={asset(profile.portrait)}
                       alt={profile.name.de}
