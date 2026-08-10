@@ -91,7 +91,8 @@ export const site = {
       title: { de: "Roidz.de — E-Commerce", en: "Roidz.de — E-Commerce" },
       desc: { de: "Shopify-Shop für Nahrungsergänzung & Sportbekleidung.", en: "Shopify store for supplements & sportswear." },
       tech: ["Shopify", "Produktpflege", "Conversion"],
-      url: null,
+      url: "https://www.roidz.de",
+      image: "/roidz-screenshot.png",
       accent: "#f59e0b",
     },
     {
