@@ -20,59 +20,6 @@ function ObfuscatedPhone({ phone, phoneReverse }) {
   )
 }
 
-// SkillBar: wiederverwendbarer Balken mit glühendem Effekt und Icon.
-// Farbe ist ein CSS-Farbstring (z.B. "#c026d3").
-function SkillBar({ label, level, color, icon, index }) {
-  return (
-    <motion.div
-      custom={index}
-      variants={stagger}
-      className="mb-3 last:mb-0"
-    >
-      <div className="flex justify-between mono-label text-xs text-bone/60 mb-1">
-        <span className="flex items-center gap-2">
-          {icon && (
-            <svg
-              viewBox="0 0 24 24"
-              className="w-4 h-4 flex-shrink-0"
-              style={{ color }}
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d={icon} />
-            </svg>
-          )}
-          <T>{label}</T>
-        </span>
-        <span>{level}%</span>
-      </div>
-      <div className="h-2 rounded-full bg-white/5 overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: EASE, delay: 0.1 + index * 0.08 }}
-          className="h-full rounded-full relative"
-          style={
-            {
-              background: `linear-gradient(90deg, ${color}60, ${color})`,
-            }
-          }
-        >
-          <div
-            className="absolute inset-0 rounded-full opacity-70"
-            style={
-              {
-                boxShadow: `0 0 8px ${color}, 0 0 16px ${color}40`,
-              }
-            }
-          />
-        </motion.div>
-      </div>
-    </motion.div>
-  )
-}
-
 // Titel-Schatten für Tiefe (schwarzer Mehrfach-Schatten)
 // Lila Outline: via CSS text-stroke (echte Kontur, sichtbar über dem Text)
 const TITLE_SHADOW =
@@ -97,7 +44,12 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      {/* Hero-Content — z-10, liegt unter ShadowHelmet-Canvas (z-20) */}
+      {/* Shadow Helmet Canvas-Animation — IN FRONT of all content (z-20 > z-10).
+          Canvas background ist transparent (clearRect), nur der Helm-Sprite ist opaque.
+          Content bleibt darunter sichtbar. Maus-Tracking über document-level-Listener. */}
+      <ShadowHelmet />
+
+      {/* Hero-Content — z-10, liegt unter ShadowHelmet-Canvas */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center">
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
@@ -180,58 +132,8 @@ export default function Hero() {
               </span>
             </div>
           </div>
-
-
-          {/* Technische Skills */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-5 sm:mt-8"
-          >
-            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-3 sm:mb-4">
-              Technische Skills
-            </h3>
-            {c.skills.map((s, i) => (
-              <SkillBar
-                key={s.name.de}
-                label={s.name.de}
-                level={s.level}
-                color={s.color}
-                icon={s.icon}
-                index={i}
-              />
-            ))}
-          </motion.div>
-
-          {/* Sprachen */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="mt-4 sm:mt-6"
-          >
-            <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] mb-3 sm:mb-4">
-              Sprachen
-            </h3>
-            {c.softSkills.map((s, i) => (
-              <SkillBar
-                key={s.name.de}
-                label={s.name.de}
-                level={s.level}
-                color={s.color}
-                icon={s.icon}
-                index={i}
-              />
-            ))}
-          </motion.div>
         </div>
       </div>
-
-      {/* Shadow Helmet Canvas-Animation — IN FRONT of all content (z-20 > z-10).
-          Canvas background ist transparent (clearRect), nur der Helm-Sprite ist opaque.
-          Content bleibt darunter sichtbar. Maus-Tracking über document-level-Listener. */}
-      <ShadowHelmet />
     </section>
   )
 }
