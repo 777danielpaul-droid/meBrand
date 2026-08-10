@@ -55,8 +55,8 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
       {/* Verdunkelter Overlay für Text-Lesbarkeit */}
       <div className="absolute inset-0 bg-ink/60" aria-hidden="true" />
 
-      {/* RocketBeam-Schiff links (Desktop: 30% Breite, mobil versteckt) */}
-      <div className="absolute top-0 left-0 h-full hidden sm:block overflow-visible" style={{ width: "30%" }}>
+      {/* RocketBeam-Schiff links (Desktop: 25% Breite, mobil versteckt) */}
+      <div className="absolute top-0 left-[18%] h-full hidden sm:block overflow-visible" style={{ width: "25%" }}>
         <RocketBeam enginesOn={true} />
       </div>
 
