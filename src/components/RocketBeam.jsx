@@ -420,53 +420,14 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   const timeRef = useRef(0)
   const particlesRef = useRef([])
   const beamParticlesRef = useRef([])
-  const laserParticlesRef = useRef([])
   const rafRef = useRef(null)
-  const scaleRef = useRef(1)  // 1= Mobile, SCALE= Desktop
-  const [laserFiring, setLaserFiring] = useState(false)
-  const [laserCharging, setLaserCharging] = useState(false)
-  // charge im Ref (synchron, kein stale State im Handler)
-  const laserChargeRef = useRef(0.15)  // Startwert beim Drücken
-  const laserFiringRef = useRef(false)
-  laserFiringRef.current = laserFiring
+  const scaleRef = useRef(1)
 
-  // Laufendes Aufladen während gedrückt gehalten
-  const chargeRef = useRef(null)
-  useEffect(() => {
-    if (!laserCharging) {
-      if (chargeRef.current) clearInterval(chargeRef.current)
-      return
-    }
-    laserChargeRef.current = 0.15  // Reset zum Startwert beim Laden
-    chargeRef.current = setInterval(() => {
-      laserChargeRef.current = Math.min(1, laserChargeRef.current + 0.1)
-    }, 120)
-    return () => clearInterval(chargeRef.current)
-  }, [laserCharging])
-
-  const spawnParticles = useCallback((ex, ey, beamOnly = false, forward = false) => {
+  const spawnParticles = useCallback((ex, ey, beamOnly = false) => {
     if (!runningRef.current) return
     const time = timeRef.current
 
-    // Thrust beam particles (rear exhaust) — denser
-    if (!forward) {
-      for (let i = 0; i < 6; i++) {
-        beamParticlesRef.current.push(
-          new Particle(ex + (Math.random() - 0.5) * 3, ey + Math.random() * 2, true, time)
-        )
-      }
-    }
-
-    // Forward laser particles — fast, narrow, upward
-    if (forward) {
-      for (let i = 0; i < 3; i++) {
-        laserParticlesRef.current.push(
-          new Particle(ex + (Math.random() - 0.5) * 4, ey + (Math.random() - 0.5) * 4, true, time, true)
-        )
-      }
-    }
-
-    if (!beamOnly && !forward) {
+    if (!beamOnly) {
       for (let i = 0; i < 5; i++) {
         particlesRef.current.push(
           new Particle(ex + (Math.random() - 0.5) * 5, ey + 5 + Math.random() * 10, false, time)
@@ -521,7 +482,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       ctx.scale(scaleRef.current, scaleRef.current)
       ctx.globalCompositeOperation = 'source-over'
 
-      const { engines, nose } = drawFighter(ctx, t, runningRef.current)
+      const { engines } = drawFighter(ctx, t, runningRef.current)
       engines.forEach((eng) => {
         drawEngineGlow(ctx, eng.x, eng.y, t, runningRef.current)
         drawBeam(ctx, eng.x, eng.y + 3, t, runningRef.current)
@@ -529,12 +490,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       })
 
       // Forward laser — fired from the nose (released after charging)
-      if (laserFiringRef.current) {
-        const charge = laserChargeRef.current
-        const laserT = t + charge * 5  // charge verschiebt die Pulse-Phase
-        drawBeam(ctx, nose.x, nose.y, laserT, true, 'forward')
-        spawnParticles(nose.x, nose.y, true, true)
-      }
+      // ENTFERNT: Laser-Feuer-Logik entfernt, nur Engines-On bleibt
 
       const beamParts = beamParticlesRef.current
       ctx.globalCompositeOperation = 'lighter'
@@ -551,17 +507,8 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
         if (parts[i].life <= 0 || parts[i].y > 500) parts.splice(i, 1)
       }
 
-      // Forward laser particles — fly upward (off top = -100)
-      const laserParts = laserParticlesRef.current
-      for (let i = laserParts.length - 1; i >= 0; i--) {
-        laserParts[i].update()
-        laserParts[i].draw(ctx, t)
-        if (laserParts[i].life <= 0 || laserParts[i].y < -100) laserParts.splice(i, 1)
-      }
-
       if (beamParts.length > 800) beamParts.splice(0, beamParts.length - 800)
       if (parts.length > 600) parts.splice(0, parts.length - 600)
-      if (laserParts.length > 300) laserParts.splice(0, laserParts.length - 300)
 
       ctx.restore()
     }
