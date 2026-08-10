@@ -53,15 +53,19 @@ function SkillBar({ label, level, color, icon, index }) {
           viewport={{ once: true }}
           transition={{ duration: 1, ease: EASE, delay: 0.1 + index * 0.08 }}
           className="h-full rounded-full relative"
-          style={{
-            background: `linear-gradient(90deg, ${color}60, ${color})`,
-          }}
+          style={
+            {
+              background: `linear-gradient(90deg, ${color}60, ${color})`,
+            }
+          }
         >
           <div
             className="absolute inset-0 rounded-full opacity-70"
-            style={{
-              boxShadow: `0 0 8px ${color}, 0 0 16px ${color}40`,
-            }}
+            style={
+              {
+                boxShadow: `0 0 8px ${color}, 0 0 16px ${color}40`,
+              }
+            }
           />
         </motion.div>
       </div>
@@ -93,8 +97,8 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      {/* Hero-Content: pointer-events:none, damit Maus an ShadowHelmet (hinten/vorne) durchkommt */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center pointer-events-none">
+      {/* Hero-Content — z-10, liegt unter ShadowHelmet-Canvas (z-20) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-28 pb-12 sm:pb-20 w-full h-full flex flex-col justify-center">
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
@@ -147,7 +151,6 @@ export default function Hero() {
               <a
                 href={`mailto:${c.contact.email}`}
                 className="block text-cyan hover:text-neon transition-colors mt-1"
-                style={{ pointerEvents: "auto" }}
               >
                 {c.contact.email}
               </a>
@@ -159,7 +162,6 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block text-cyan hover:text-neon transition-colors mt-1"
-                style={{ pointerEvents: "auto" }}
               >
                 github.com/777danielpaul-droid
               </a>
@@ -226,9 +228,9 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Shadow Helmet: Canvas-Animation, IN FRONT of Hero-Content (z-50 > z-10).
-          Content hat pointer-events:none, Links haben pointer-events:auto.
-          Maus-Events laufen über document-level-Listener im Component. */}
+      {/* Shadow Helmet Canvas-Animation — IN FRONT of all content (z-20 > z-10).
+          Canvas background ist transparent (clearRect), nur der Helm-Sprite ist opaque.
+          Content bleibt darunter sichtbar. Maus-Tracking über document-level-Listener. */}
       <ShadowHelmet />
     </section>
   )

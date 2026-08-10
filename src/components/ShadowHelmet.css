@@ -6,8 +6,8 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 50; /* über allem Hero-Content */
-  pointer-events: auto; /* fängt Maus ab für Cursor-Tracking */
+  z-index: 20; /* VOR allem anderen Hero-Content */
+  pointer-events: none; /* Mausklicks durchdringen zum Content; Tracking via document */
 }
 
 .shadow-helmet-canvas {
@@ -16,7 +16,7 @@
   display: block;
 }
 
-/* Hint-Text stilistisch am unterenen Rand zentriert */
+/* Hint-Text stilistisch am untereren Rand zentriert */
 .shadow-helmet-hint,
 .hint {
   position: absolute;
