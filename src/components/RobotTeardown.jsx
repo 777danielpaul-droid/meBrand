@@ -182,6 +182,8 @@ export default function RobotTeardown() {
             {cvData.skills.map((s, i) => (
               <div key={s.name.de} className={`skill-item ${
                 s.name.de === "React / Tailwind / Vite" ? "md:order-first" : ""
+              } ${
+                s.name.de === "Git / GitHub / CI/CD" ? "md:col-start-2" : ""
               }`}>
                 <SkillBar
                   label={s.name.de}
