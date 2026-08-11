@@ -4,7 +4,10 @@ import { T } from "./RunenText"
 
 // SkillBar: wiederverwendbarer Balken mit glühendem Effekt und Icon.
 // Farbe ist ein CSS-Farbstring (z.B. "#c026d3").
+// label kann ein String (deutsch) oder ein {de, en} Objekt sein.
 export default function SkillBar({ label, level, color, icon, index }) {
+  const enLabel = typeof label === "object" ? label.en : undefined
+  const deLabel = typeof label === "object" ? label.de : label
   return (
     <motion.div
       custom={index}
@@ -24,7 +27,7 @@ export default function SkillBar({ label, level, color, icon, index }) {
               <path d={icon} />
             </svg>
           )}
-          <T>{label}</T>
+          <T en={enLabel}>{deLabel}</T>
         </span>
         <span>{level}%</span>
       </div>

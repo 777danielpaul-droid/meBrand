@@ -428,7 +428,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
     const time = timeRef.current
 
     if (!beamOnly) {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 12; i++) {
         particlesRef.current.push(
           new Particle(ex + (Math.random() - 0.5) * 5, ey + 5 + Math.random() * 10, false, time)
         )

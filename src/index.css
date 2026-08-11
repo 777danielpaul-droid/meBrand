@@ -69,17 +69,6 @@
 }
 
 /* ===== BACKGROUND LAYERS ===== */
-/* MILCHSTRASSE-HOLOGRAMM: fixer, vollflächiger, dezenter Hintergrund.
-   z-index:0 -> liegt über dem body-BG, aber unter dem Content (z-index:1).
-   pointer-events:none -> fängt keine Klicks ab. */
-.milkyway {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  display: block;
-}
-
 /* Volumetrische WebGL-Wolken (CloudVolume.jsx): ueber der Milchstrasse (z:-1),
    unter dem Content (z:1). Scheinen durch die fast-transparenten Sections. */
 .cloud-volume {
@@ -91,8 +80,6 @@
   overflow: hidden;
   z-index: 2;
   pointer-events: none;
-  /* mix-blend-mode: screen durch opacity ersetzt — vermeidet farbige Kanten
-     am Canvas-Rand, die durch Screen-Blend mit dem Roboter-Teardown überlappen. */
   opacity: 0.5;
   --tw-blur: blur(0);
 }
