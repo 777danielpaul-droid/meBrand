@@ -186,10 +186,10 @@ export default function RobotTeardown() {
               const isKI = s.name.de === "KI Prototyping / Spec-driven Development";
               let gridCls = "";
               if (isReact) gridCls = "md:order-first md:col-start-1 md:row-start-1";
-              else if (isGit) gridCls = "md:col-start-2 md:row-start-2";
-              else if (isPython) gridCls = "md:col-start-1 md:row-start-3";
-              else if (isKI) gridCls = "md:col-start-1 md:row-start-4";
-              else gridCls = "md:col-start-1 md:row-start-2";
+              else if (isGit) gridCls = "md:col-start-2 md:row-start-1";
+              else if (isPython) gridCls = "md:col-start-1 md:row-start-2";
+              else if (isKI) gridCls = "md:col-start-1 md:row-start-3";
+              else gridCls = "md:col-start-1 md:row-start-4";
               return (
                 <div
                   key={s.name.de}
@@ -211,7 +211,7 @@ export default function RobotTeardown() {
                 <div
                   key={s.name.de}
                   className={`skill-item ${
-                    isLast ? "md:col-start-2 md:row-start-4" : "md:col-start-2 md:row-start-3"
+                    isLast ? "md:col-start-2 md:row-start-3" : "md:col-start-2 md:row-start-2"
                   }`}
                 >
                   <SkillBar
