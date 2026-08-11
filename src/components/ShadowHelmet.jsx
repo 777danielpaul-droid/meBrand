@@ -325,12 +325,9 @@ export default function ShadowHelmet({ heroRef }) {
         0.2 * sc,
         0.75 * sc
       );
-      // Visier: SCHWARZ halbtransparent (rgba) — lässt Sternenhintergrund
-      // durchscheinen und spiegeln, während der Helm-Körper (sphereGrad)
-      // voll deckend schwarz bleibt.
-      shieldGrad.addColorStop(0, "rgba(0, 0, 0, 0.45)");
-      shieldGrad.addColorStop(0.5, "rgba(0, 0, 0, 0.35)");
-      shieldGrad.addColorStop(1, "rgba(0, 0, 0, 0.28)");
+      shieldGrad.addColorStop(0, "rgba(0, 0, 0, 0.9)");
+      shieldGrad.addColorStop(0.5, "rgba(0, 0, 0, 0.85)");
+      shieldGrad.addColorStop(1, "rgba(0, 0, 0, 0.8)");
       ctx.fillStyle = shieldGrad;
       ctx.fill();
       /* Schild-Kontur komplett entfernt — kein dünner Ring mehr */
