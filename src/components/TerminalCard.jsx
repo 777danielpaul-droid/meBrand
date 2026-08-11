@@ -225,7 +225,7 @@ export default function TerminalCard({ open, onClose }) {
                     <div
                       key={s.name.de}
                       className={`skill-item ${
-                        isLast ? "md:col-start-2 md:row-start-3" : "md:col-start-2 md:row-start-2"
+                        isLast ? "md:col-start-2 md:row-start-4" : "md:col-start-2 md:row-start-3"
                       }`}
                     >
                       <SkillBar
