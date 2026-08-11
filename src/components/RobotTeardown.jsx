@@ -190,17 +190,25 @@ export default function RobotTeardown() {
                 />
               </div>
             ))}
-            {cvData.softSkills.map((s, i) => (
-              <div key={s.name.de} className="skill-item justify-self-end md:col-start-2">
-                <SkillBar
-                  label={s.name.de}
-                  level={s.level}
-                  color={s.color}
-                  icon={s.icon}
-                  index={i}
-                />
-              </div>
-            ))}
+            {cvData.softSkills.map((s, i) => {
+              const isLast = i === cvData.softSkills.length - 1;
+              return (
+                <div
+                  key={s.name.de}
+                  className={`skill-item justify-self-end ${
+                    isLast ? "md:col-start-2 md:row-start-4" : "md:col-start-2"
+                  }`}
+                >
+                  <SkillBar
+                    label={s.name.de}
+                    level={s.level}
+                    color={s.color}
+                    icon={s.icon}
+                    index={i}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
