@@ -173,7 +173,7 @@ export default function RobotTeardown() {
             Auf Mobil: unterhalb des Canvas, nicht überlappend. */}
         <div
           ref={skillRef}
-          className="absolute bottom-[-90px] sm:bottom-8 left-1/2 -translate-x-1/2 w-full max-w-3xl mx-auto flex flex-col gap-4 bg-ink/40 backdrop-blur-sm rounded-xl p-4 border border-white/5"
+          className="absolute bottom-[-90px] sm:bottom-8 left-1/2 -translate-x-1/2 w-full max-w-3xl mx-auto flex flex-col gap-4 bg-[rgba(0,0,0,0.4)] backdrop-blur-sm rounded-xl p-4 border border-white/5"
         >
           <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center">
             Technische Skills &amp; Sprachen
