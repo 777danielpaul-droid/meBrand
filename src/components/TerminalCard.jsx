@@ -93,8 +93,8 @@ export default function TerminalCard({ open, onClose }) {
               </div>
             </div>
 
-            {/* Split: Log links + Input-Fenster rechts */}
-            <div className="flex-1 flex overflow-y-auto px-4 py-3">
+            {/* Split: Log links + Input-Fenster rechts (bis zur Mitte) */}
+            <div className="flex-1 flex overflow-y-auto px-4 py-3 gap-4">
               {/* Log links — nur Ausgaben */}
               <div
                 ref={logRef}
@@ -167,18 +167,20 @@ export default function TerminalCard({ open, onClose }) {
               ))}
             </div>
 
-              {/* Input-Fenster rechts — Runen-Eingabe + blinkender Cursor */}
+              {/* Input-Fenster rechts — Runen-Eingabe oben + blinkender Cursor */}
               <div
                 onClick={() => inputRef.current?.focus()}
-                className="w-64 min-w-[14rem] border-l border-white/10 flex items-end px-4 py-3"
+                className="w-64 md:w-1/2 min-w-[14rem] border-l border-white/10 flex flex-col pt-3 px-4 pb-2"
               >
-                <RunenText text={current} className={RUNEN_TEXT_CLASS} />
-                <span
-                  className={
-                    "inline-block bg-cyan rounded-sm animate-blink " +
-                    (warPrompt ? "w-[0.6em] h-5" : "w-2.5 h-5")
-                  }
-                />
+                <div className="flex items-center gap-1.5 mb-2">
+                  <RunenText text={current} className={RUNEN_TEXT_CLASS} />
+                  <span
+                    className={
+                      "inline-block bg-cyan rounded-sm animate-blink " +
+                      (warPrompt ? "w-[0.6em] h-5" : "w-2.5 h-5")
+                    }
+                  />
+                </div>
               </div>
             </div>
 
