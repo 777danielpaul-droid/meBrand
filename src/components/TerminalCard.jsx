@@ -194,7 +194,9 @@ export default function TerminalCard({ open, onClose }) {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 {cvData.skills.map((s, i) => (
-                  <div key={s.name.de} className="skill-item">
+                  <div key={s.name.de} className={`skill-item ${
+                    s.name.de === "React / Tailwind / Vite" ? "md:order-first" : ""
+                  }`}>
                     <SkillBar
                       label={s.name.de}
                       level={s.level}
