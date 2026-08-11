@@ -17,15 +17,15 @@ export const cvData = {
   // Icon-Pfade: echte Marken-Icons (Simple Icons), farblich angepasst
   skills: [
     { name: { de: "HTML / CSS / JavaScript", en: "HTML / CSS / JavaScript" }, level: 90, color: "#22d3ee", icon: "M12 2L3 6v12c0 4 5 8 9 8s9-4 9-8V6l-9-4z" },
-    { name: { de: "React / Tailwind / Vite", en: "React / Tailwind / Vite" }, level: 80, color: "#7c3aed", icon: "M12 2L3 6v12c0 4 5 8 9 8s9-4 9-8V6l-9-4z" },
+    { name: { de: "React / Tailwind / Vite", en: "React / Tailwind / Vite" }, level: 80, color: "#22d3ee", icon: "M12 2L3 6v12c0 4 5 8 9 8s9-4 9-8V6l-9-4z" },
     { name: { de: "Python", en: "Python" }, level: 80, color: "#22d3ee", icon: "M9.95 1.34A7.5 7.5 0 0 1 17 8.42a6.5 6.5 0 0 1-4.27 6.09c.76.23 1.52.39 2.29.39a6.5 6.5 0 0 1 5.65-3.28c.02-.41.03-.83.03-1.25a8.5 8.5 0 0 0-5-7.82C14.85 3.76 14.5 3.75 14.5 3.25a5.5 5.5 0 0 0-5.5-5.5c-.95-.02-1.88.17-2.77.49a5.5 5.5 0 0 0-2.87 1.93.03.03 0 0 0 .04.04z" },
     { name: { de: "Git / GitHub / CI/CD", en: "Git / GitHub / CI/CD" }, level: 85, color: "#6d28d9", icon: "M12 .296c-6.306 0-11.376 5.07-11.818 11.35A8.438 8.438 0 0 0 6.5 20.418c.553.093.762-.24 0-.806A8.418 8.418 0 0 1 4.5 14.47c-.553.093-.762-.24-1.003-.677A9 9 0 0 1 0 12.68c-.007-5.104 4.137-9.34 9.25-9.34 2.444.012 4.785.964 6.583 2.573A5.5 5.5 0 0 1 17.5 5.5c0-.247.01-2.254.01-4.658 0-.296.082-.637.29-2a.19.19 0 0 0-.03.016c-2.693 1.144-4.65 3.687-5.372 6.79-.02.068-.03.134-.03.2z" },
-    { name: { de: "KI Prototyping / Spec-driven Development", en: "AI Prototyping / Spec-driven Development" }, level: 85, color: "#00f0ff", icon: "M12 2L3 6v12c0 4 5 8 9 8s9-4 9-8V6l-9-4z" },
+    { name: { de: "KI Prototyping / Spec-driven Development", en: "AI Prototyping / Spec-driven Development" }, level: 85, color: "#22d3ee", icon: "M12 2L3 6v12c0 4 5 8 9 8s9-4 9-8V6l-9-4z" },
   ],
 
   softSkills: [
     { name: { de: "Deutsch — Muttersprache", en: "German — native" }, level: 100, color: "#6d28d9", icon: "M12 3c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4s-4-1.8-4-4V7c0-2.2 1.8-4 4-4zm0 14c3.3 0 6-2.7 6-6h-2c0 2.2-1.8 4-4 4s-4-1.8-4-4H6c0 3.3 2.7 6 6 6z" },
-    { name: { de: "Englisch — gute Kenntnisse", en: "English — good command" }, level: 80, color: "#38bdf8", icon: "M12 3c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4s-4-1.8-4-4V7c0-2.2 1.8-4 4-4zm0 14c3.3 0 6-2.7 6-6h-2c0 2.2-1.8 4-4 4s-4-1.8-4-4H6c0 3.3 2.7 6 6 6z" },
+    { name: { de: "Englisch — gute Kenntnisse", en: "English — good command" }, level: 80, color: "#6d28d9", icon: "M12 3c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4s-4-1.8-4-4V7c0-2.2 1.8-4 4-4zm0 14c3.3 0 6-2.7 6-6h-2c0 2.2-1.8 4-4 4s-4-1.8-4-4H6c0 3.3 2.7 6 6 6z" },
   ],
 
   tools: [
