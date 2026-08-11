@@ -24,7 +24,6 @@ export default function RobotTeardown() {
 
   frameCountRef.current = frameCount
 
-  // Preload all frames
   useEffect(() => {
     const count = frameCount
     imagesRef.current = new Array(count)
@@ -35,7 +34,6 @@ export default function RobotTeardown() {
     }
   }, [frameCount])
 
-  // Canvas sizing + ScrollTrigger
   useEffect(() => {
     const canvas = canvasRef.current
     const pin = pinRef.current
@@ -74,7 +72,6 @@ export default function RobotTeardown() {
     const resizeObserver = new ResizeObserver(resizeCanvas)
     resizeObserver.observe(canvas)
 
-    // Draw first frame + setup trigger when images available
     let tween = null
     let initialized = false
 
@@ -85,21 +82,19 @@ export default function RobotTeardown() {
       initialized = true
       drawFrame(0)
 
-      // Skill-Balken-Reveal: unsichtbar bis Animation komplett durchgespielt
       const skillItems = skill.querySelectorAll(".skill-item")
       const skillHeading = skill.querySelector("h3")
       gsap.set(skill, { opacity: 0 })
       gsap.set(skillItems, { opacity: 0, y: 30 })
       gsap.set(skillHeading, { opacity: 0, y: 20 })
 
-      // Pin-Höhe: Canvas + Puffer für Skill-Reveal (mehr Platz auf Mobil)
       const pinHeight = pin.getBoundingClientRect().height
       const extraRevealSpace = window.matchMedia("(max-width: 768px)").matches
         ? 320
-        : 200 // px extra scroll nach Animation für Skill-Reveal
+        : 200
       const dummy = { progress: 0 }
       tween = gsap.to(dummy, {
-        progress: 2, // 0→1 = Canvas-Anim, 1→2 = Skill-Reveal
+        progress: 2,
         duration: 1,
         ease: "none",
         onUpdate: () => {
@@ -108,12 +103,10 @@ export default function RobotTeardown() {
           drawFrame(currentProgress)
 
           if (p < 1) {
-            // Canvas-Animation läuft — Skills bleiben versteckt
             gsap.set(skill, { opacity: 0 })
             gsap.set(skillItems, { opacity: 0, y: 30 })
             gsap.set(skillHeading, { opacity: 0, y: 20 })
           } else {
-            // Canvas-Fertig — Skills langsam sichtbar werden
             const revealT = Math.min(1, p - 1)
             gsap.set(skill, { opacity: revealT })
             gsap.set(skillHeading, {
@@ -157,7 +150,6 @@ export default function RobotTeardown() {
 
   return (
     <section className="relative w-full mt-0">
-      {/* Transparenter Container — Starfield durchscheint */}
       <div
         ref={pinRef}
         className="relative w-full h-[100vh] sm:h-[110vh]"
@@ -185,43 +177,47 @@ export default function RobotTeardown() {
               const isGit = s.name.de === "Git / GitHub / CI/CD";
               const isPython = s.name.de === "Python";
               const isKI = s.name.de === "KI Prototyping / Spec-driven Development";
-              let gridCls = "";
-              if (isReact) gridCls = "md:order-first md:col-start-1 md:row-start-1";
-              else if (isGit) gridCls = "md:col-start-2 md:row-start-1";
-              else if (isPython) gridCls = "md:col-start-1 md:row-start-2";
-              else if (isKI) gridCls = "md:col-start-1 md:row-start-3";
-              else gridCls = "md:col-start-1 md:row-start-4";
+              if (isReact) return (
+                <div key={s.name.de} className="skill-item md:order-first md:col-start-1 md:row-start-1">
+                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
+                </div>
+              );
+              if (isGit) return (
+                <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-1">
+                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
+                </div>
+              );
+              if (isPython) return (
+                <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-2">
+                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
+                </div>
+              );
+              if (isKI) return (
+                <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-3">
+                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
+                </div>
+              );
+              // HTML/CSS/JS — Spalte 1, Zeile 4
               return (
-                <div
-                  key={s.name.de}
-                  className={`skill-item ${gridCls}`}
-                >
-                  <SkillBar
-                    label={s.name.de}
-                    level={s.level}
-                    color={s.color}
-                    icon={s.icon}
-                    index={i}
-                  />
+                <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-4">
+                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
                 </div>
               );
             })}
             {cvData.softSkills.map((s, i) => {
               const isLast = i === cvData.softSkills.length - 1;
+              if (isLast) {
+                // Englisch — Spalte 2, Zeile 2
+                return (
+                  <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-2">
+                    <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
+                  </div>
+                );
+              }
+              // Deutsch — Spalte 2, Zeile 3
               return (
-                <div
-                  key={s.name.de}
-                  className={`skill-item ${
-                    isLast ? "md:col-start-2 md:row-start-3" : "md:col-start-2 md:row-start-2"
-                  }`}
-                >
-                  <SkillBar
-                    label={s.name.de}
-                    level={s.level}
-                    color={s.color}
-                    icon={s.icon}
-                    index={i}
-                  />
+                <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-3">
+                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
                 </div>
               );
             })}
