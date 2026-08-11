@@ -193,28 +193,42 @@ export default function TerminalCard({ open, onClose }) {
                 Technische Skills &amp; Sprachen
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                {cvData.skills.map((s, i) => (
-                  <div key={s.name.de} className={`skill-item ${
-                    s.name.de === "React / Tailwind / Vite" ? "md:order-first" : ""
-                  } ${
-                    s.name.de === "Git / GitHub / CI/CD" ? "md:col-start-2" : ""
-                  }`}>
-                    <SkillBar
-                      label={s.name.de}
-                      level={s.level}
-                      color={s.color}
-                      icon={s.icon}
-                      index={i}
-                    />
-                  </div>
-                ))}
+                {cvData.skills.map((s, i) => {
+                  const isReact = s.name.de === "React / Tailwind / Vite";
+                  const isGit = s.name.de === "Git / GitHub / CI/CD";
+                  const isPython = s.name.de === "Python";
+                  const isKI = s.name.de === "KI Prototyping / Spec-driven Development";
+                  const col1Cls = "md:col-start-1";
+                  const col2Cls = "md:col-start-2";
+                  return (
+                    <div
+                      key={s.name.de}
+                      className={`skill-item ${
+                        isReact ? `md:order-first ${col1Cls} md:row-start-1` :
+                        isGit ? `${col2Cls} md:row-start-2` :
+                        isPython ? `${col1Cls} md:row-start-2` :
+                        isKI ? `${col1Cls} md:row-start-3` :
+                        // Default: HTML/CSS/JS → Spalte 2, Zeile 1
+                        `${col2Cls} md:row-start-1`
+                      }`}
+                    >
+                      <SkillBar
+                        label={s.name.de}
+                        level={s.level}
+                        color={s.color}
+                        icon={s.icon}
+                        index={i + cvData.skills.length}
+                      />
+                    </div>
+                  );
+                })}
                 {cvData.softSkills.map((s, i) => {
                   const isLast = i === cvData.softSkills.length - 1;
                   return (
                     <div
                       key={s.name.de}
                       className={`skill-item ${
-                        isLast ? "md:col-start-2 md:row-start-4" : "md:col-start-2"
+                        isLast ? "md:col-start-2 md:row-start-4" : "md:col-start-2 md:row-start-3"
                       }`}
                     >
                       <SkillBar
