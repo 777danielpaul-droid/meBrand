@@ -4,8 +4,7 @@ import RunenText from "./RunenText"
 import { useTerminalCommands } from "./motion/useTerminalCommands"
 import { asset } from "../lib/asset"
 import { profile } from "../data/content"
-import { cvData } from "../data/cv"
-import SkillBar from "./SkillBar"
+import SkillGrid from "./SkillGrid"
 
 // Runen-Text-Klasse für Terminal-Ausgabe (größer als die Mini-Runen in Cards)
 const RUNEN_TEXT_CLASS = "text-xl sm:text-2xl"
@@ -111,16 +110,14 @@ export default function TerminalCard({ open, onClose }) {
                         className="w-24 h-24 object-cover rounded-lg ring-2 ring-cyan/30 border border-cyan/20"
                       />
                     </div>
-                    {/* Kontaktdaten als Terminal-Log */}
-                    <div className="mt-3 flex flex-col gap-2 text-sm">
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40 animate-pulse" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">EMAIL</span>
+                    {/* Kontaktdaten als Terminal-Log (Label Zeile 1, Wert Zeile 2) */}
+                    <div className="mt-3 flex flex-col gap-4 text-sm">
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">EMAIL</span>
                         <span className="text-cyan text-sm font-medium">{profile.contact.email}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">GITHUB</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">GITHUB</span>
                         <a
                           href={profile.contact.github}
                           target="_blank"
@@ -130,14 +127,12 @@ export default function TerminalCard({ open, onClose }) {
                           github.com/777danielpaul-droid
                         </a>
                       </div>
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">PHONE</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">PHONE</span>
                         <TerminalPhone phoneReverse={profile.contact.phoneReverse} />
                       </div>
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">LOCATION</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">LOCATION</span>
                         <span className="text-cyan text-sm font-medium">{profile.contact.address.de}</span>
                       </div>
                     </div>
@@ -209,57 +204,7 @@ export default function TerminalCard({ open, onClose }) {
               <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center mb-4">
                 Technische Skills &amp; Sprachen
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                {cvData.skills.map((s, i) => {
-                  const isReact = s.name.de === "React / Tailwind / Vite";
-                  const isGit = s.name.de === "Git / GitHub / CI/CD";
-                  const isPython = s.name.de === "Python";
-                  const isKI = s.name.de === "KI Prototyping / Spec-driven Development";
-                  if (isReact) return (
-                    <div key={s.name.de} className="skill-item md:order-first md:col-start-1 md:row-start-1">
-                      <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i + cvData.skills.length} />
-                    </div>
-                  );
-                  if (isGit) return (
-                    <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-1">
-                      <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i + cvData.skills.length} />
-                    </div>
-                  );
-                  if (isPython) return (
-                    <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-2">
-                      <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i + cvData.skills.length} />
-                    </div>
-                  );
-                  if (isKI) return (
-                    <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-3">
-                      <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i + cvData.skills.length} />
-                    </div>
-                  );
-                  // HTML/CSS/JS — Spalte 1, Zeile 4
-                  return (
-                    <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-4">
-                      <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i + cvData.skills.length} />
-                    </div>
-                  );
-                })}
-                {cvData.softSkills.map((s, i) => {
-                  const isLast = i === cvData.softSkills.length - 1;
-                  if (isLast) {
-                    // Englisch — Spalte 2, Zeile 2
-                    return (
-                      <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-2">
-                        <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i + cvData.skills.length} />
-                      </div>
-                    );
-                  }
-                  // Deutsch — Spalte 2, Zeile 3
-                  return (
-                    <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-3">
-                      <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i + cvData.skills.length} />
-                    </div>
-                  );
-                })}
-              </div>
+              <SkillGrid baseDelay={0} className="mb-4" />
             </div>
           </div>
         </motion.div>
