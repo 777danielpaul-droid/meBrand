@@ -19,6 +19,9 @@ export default function MilkyWayBackground() {
     let t = 0;
     let dx = 0;
 
+    const reduce =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     function rand(a, b) { return a + Math.random() * (b - a); }
 
     function build() {
@@ -123,8 +126,6 @@ export default function MilkyWayBackground() {
         });
       }
 
-      // ship wurde entfernt — kein kleiner Flieger mehr im Sternenhintergrund
-
       planets = [];
       const planetDefs = [
         { x: W * 0.18, y: H * 0.15, r: 9, a: 0.35, c: "210,220,255", hasRings: true, ringTilt: 0.45 },
@@ -148,6 +149,11 @@ export default function MilkyWayBackground() {
     }
 
     function draw() {
+      // Skip rendering when tab is hidden or reduced-motion — saves GPU
+      if (document.hidden || reduce) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
       t += 0.016;
       dx = (dx + 0.18) % W;
 
@@ -241,8 +247,6 @@ export default function MilkyWayBackground() {
         ctx.arc(m.x, m.y, 1.3, 0, Math.PI * 2);
         ctx.fill();
       }
-
-      {/* ship wurde entfernt */}
 
       raf = requestAnimationFrame(draw);
     }

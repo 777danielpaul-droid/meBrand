@@ -1,5 +1,4 @@
 import { motion, useScroll, useTransform } from "framer-motion"
-import { stagger, EASE } from "../motion/variants"
 import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"

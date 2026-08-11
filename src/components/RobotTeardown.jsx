@@ -3,7 +3,7 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { asset } from "../lib/asset"
 import { cvData } from "../data/cv"
-import SkillBar from "./SkillBar"
+import SkillGrid from "./SkillGrid"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -171,57 +171,7 @@ export default function RobotTeardown() {
           <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center">
             Technische Skills &amp; Sprachen
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {cvData.skills.map((s, i) => {
-              const isReact = s.name.de === "React / Tailwind / Vite";
-              const isGit = s.name.de === "Git / GitHub / CI/CD";
-              const isPython = s.name.de === "Python";
-              const isKI = s.name.de === "KI Prototyping / Spec-driven Development";
-              if (isReact) return (
-                <div key={s.name.de} className="skill-item md:order-first md:col-start-1 md:row-start-1">
-                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
-                </div>
-              );
-              if (isGit) return (
-                <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-1">
-                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
-                </div>
-              );
-              if (isPython) return (
-                <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-2">
-                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
-                </div>
-              );
-              if (isKI) return (
-                <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-3">
-                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
-                </div>
-              );
-              // HTML/CSS/JS — Spalte 1, Zeile 4
-              return (
-                <div key={s.name.de} className="skill-item md:col-start-1 md:row-start-4">
-                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
-                </div>
-              );
-            })}
-            {cvData.softSkills.map((s, i) => {
-              const isLast = i === cvData.softSkills.length - 1;
-              if (isLast) {
-                // Englisch — Spalte 2, Zeile 2
-                return (
-                  <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-2">
-                    <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
-                  </div>
-                );
-              }
-              // Deutsch — Spalte 2, Zeile 3
-              return (
-                <div key={s.name.de} className="skill-item md:col-start-2 md:row-start-3">
-                  <SkillBar label={s.name.de} level={s.level} color={s.color} icon={s.icon} index={i} />
-                </div>
-              );
-            })}
-          </div>
+          <SkillGrid baseDelay={0} className="mb-4" />
         </div>
       </div>
     </section>
