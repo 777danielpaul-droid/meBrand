@@ -111,16 +111,14 @@ export default function TerminalCard({ open, onClose }) {
                         className="w-24 h-24 object-cover rounded-lg ring-2 ring-cyan/30 border border-cyan/20"
                       />
                     </div>
-                    {/* Kontaktdaten als Terminal-Log */}
-                    <div className="mt-3 flex flex-col gap-2 text-sm">
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40 animate-pulse" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">EMAIL</span>
+                    {/* Kontaktdaten als Terminal-Log (Label Zeile 1, Wert Zeile 2) */}
+                    <div className="mt-3 flex flex-col gap-4 text-sm">
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">EMAIL</span>
                         <span className="text-cyan text-sm font-medium">{profile.contact.email}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">GITHUB</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">GITHUB</span>
                         <a
                           href={profile.contact.github}
                           target="_blank"
@@ -130,14 +128,12 @@ export default function TerminalCard({ open, onClose }) {
                           github.com/777danielpaul-droid
                         </a>
                       </div>
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">PHONE</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">PHONE</span>
                         <TerminalPhone phoneReverse={profile.contact.phoneReverse} />
                       </div>
-                      <div className="flex items-center gap-2 text-cyan/70">
-                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">LOCATION</span>
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">LOCATION</span>
                         <span className="text-cyan text-sm font-medium">{profile.contact.address.de}</span>
                       </div>
                     </div>
