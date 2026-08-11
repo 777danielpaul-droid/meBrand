@@ -74,67 +74,75 @@ export default function TerminalCard({ open, onClose }) {
               "flex flex-col h-[60vh] max-h-[70vh]"
             }
           >
-            {/* Header */}
-            <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
-              <span>// KONTAKT //</span>
-              <button
-                type="submit"
-                aria-label="Terminal schließen"
-                onClick={onClose}
-                className="grid place-items-center w-6 h-6 rounded border border-white/15 text-bone/60 hover:text-bone hover:border-neon/50 transition-all"
-              >
-                <span className="text-xs leading-none">✕</span>
-              </button>
+            {/* Header — KONTAKT-Titel + mittig zentrierte Runenbotschaft über volle Breite */}
+            <div className="px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
+              <div className="flex items-center justify-between">
+                <span>// KONTAKT //</span>
+                <button
+                  type="submit"
+                  aria-label="Terminal schließen"
+                  onClick={onClose}
+                  className="grid place-items-center w-6 h-6 rounded border border-white/15 text-bone/60 hover:text-bone hover:border-neon/50 transition-all"
+                >
+                  <span className="text-xs leading-none">✕</span>
+                </button>
+              </div>
+              {/* Runen-Botschaft mittig über die volle Breite */}
+              <div className="mt-1 flex justify-center">
+                <RunenText text="Flaschenpost ins All:" className="text-xs sm:text-sm" />
+              </div>
             </div>
 
-            {/* Log */}
-            <div
-              ref={logRef}
-              onClick={() => inputRef.current?.focus()}
-              className="flex-1 overflow-y-auto px-4 py-3 relative"
-            >
-              {lines.length === 0 && (
-                <>
-                  {/* Profilbild in Passfoto-Größe, linksbündig */}
-                  <div className="mb-4">
-                    <img
-                      src={asset(profile.portrait)}
-                      alt={profile.name.de}
-                      className="w-24 h-24 object-cover rounded-lg ring-2 ring-cyan/30 border border-cyan/20"
-                    />
-                  </div>
-                  {/* Kontaktdaten als Terminal-Log */}
-                  <div className="mt-3 flex flex-col gap-2 text-sm">
-                    <div className="flex items-center gap-2 text-cyan/70">
-                      <span className="w-2 h-2 rounded-full bg-cyan/40 animate-pulse" />
-                      <span className="mono-label text-[12px] uppercase tracking-[0.3em]">EMAIL</span>
-                      <span className="text-cyan text-sm font-medium">{profile.contact.email}</span>
+            {/* Split: Log links + Input-Fenster rechts */}
+            <div className="flex-1 flex overflow-y-auto px-4 py-3">
+              {/* Log links — nur Ausgaben */}
+              <div
+                ref={logRef}
+                onClick={() => inputRef.current?.focus()}
+                className="flex-1 min-w-0"
+              >
+                {lines.length === 0 && (
+                  <>
+                    {/* Profilbild in Passfoto-Größe, linksbündig */}
+                    <div className="mb-4">
+                      <img
+                        src={asset(profile.portrait)}
+                        alt={profile.name.de}
+                        className="w-24 h-24 object-cover rounded-lg ring-2 ring-cyan/30 border border-cyan/20"
+                      />
                     </div>
-                    <div className="flex items-center gap-2 text-cyan/70">
-                      <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                      <span className="mono-label text-[12px] uppercase tracking-[0.3em]">GITHUB</span>
-                      <a
-                        href={profile.contact.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-cyan hover:text-neon transition-colors text-sm font-medium"
-                      >
-                        github.com/777danielpaul-droid
-                      </a>
+                    {/* Kontaktdaten als Terminal-Log */}
+                    <div className="mt-3 flex flex-col gap-2 text-sm">
+                      <div className="flex items-center gap-2 text-cyan/70">
+                        <span className="w-2 h-2 rounded-full bg-cyan/40 animate-pulse" />
+                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">EMAIL</span>
+                        <span className="text-cyan text-sm font-medium">{profile.contact.email}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-cyan/70">
+                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
+                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">GITHUB</span>
+                        <a
+                          href={profile.contact.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cyan hover:text-neon transition-colors text-sm font-medium"
+                        >
+                          github.com/777danielpaul-droid
+                        </a>
+                      </div>
+                      <div className="flex items-center gap-2 text-cyan/70">
+                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
+                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">PHONE</span>
+                        <TerminalPhone phoneReverse={profile.contact.phoneReverse} />
+                      </div>
+                      <div className="flex items-center gap-2 text-cyan/70">
+                        <span className="w-2 h-2 rounded-full bg-cyan/40" />
+                        <span className="mono-label text-[12px] uppercase tracking-[0.3em]">LOCATION</span>
+                        <span className="text-cyan text-sm font-medium">{profile.contact.address.de}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 text-cyan/70">
-                      <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                      <span className="mono-label text-[12px] uppercase tracking-[0.3em]">PHONE</span>
-                      <TerminalPhone phoneReverse={profile.contact.phoneReverse} />
-                    </div>
-                    <div className="flex items-center gap-2 text-cyan/70">
-                      <span className="w-2 h-2 rounded-full bg-cyan/40" />
-                      <span className="mono-label text-[12px] uppercase tracking-[0.3em]">LOCATION</span>
-                      <span className="text-cyan text-sm font-medium">{profile.contact.address.de}</span>
-                    </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )}
 
               {/* Status-Zeile (runic) */}
               {lines.length > 0 && (
@@ -157,9 +165,13 @@ export default function TerminalCard({ open, onClose }) {
                   )}
                 </div>
               ))}
+            </div>
 
-              {/* Aktuelle Eingabe (live als Runen) + Cursor */}
-              <div className="flex items-center gap-1.5 mt-1">
+              {/* Input-Fenster rechts — Runen-Eingabe + blinkender Cursor */}
+              <div
+                onClick={() => inputRef.current?.focus()}
+                className="w-64 min-w-[14rem] border-l border-white/10 flex items-end px-4 py-3"
+              >
                 <RunenText text={current} className={RUNEN_TEXT_CLASS} />
                 <span
                   className={
