@@ -77,11 +77,11 @@ function drawFighter(ctx, t, running) {
   // Ambient glow
   if (running && t !== undefined) {
     const p = Math.max(0, pulse(t))  // clamp for visible glow
-    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(1, 90 + 25 * p))
+    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(1, wingSpan + 20))
     glow.addColorStop(0, `rgba(80, 60, 180, ${Math.max(0, 0.08 * p)})`)
     glow.addColorStop(1, 'rgba(0, 0, 0, 0)')
     ctx.fillStyle = glow
-    ctx.fillRect(-100, topY - 30, 200, bodyH + noseH + 100)
+    ctx.fillRect(-wingSpan, topY, wingSpan * 2, bodyH + noseH + 30)
   }
 
   // === MAIN FUSELAGE ===
@@ -548,7 +548,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
 
     function resize() {
       const rect = container.getBoundingClientRect()
-      canvas.width = rect.width
+      canvas.width = rect.width + 200
       canvas.height = rect.height
       scaleRef.current = window.matchMedia('(min-width: 768px)').matches ? SCALE : 1
       drawStatic()
@@ -565,7 +565,7 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
       ref={containerRef}
       className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
     >
-      <canvas ref={canvasRef} id="rocket-beam-canvas" className="w-full h-full block" />
+      <canvas ref={canvasRef} id="rocket-beam-canvas" className="block w-full h-full overflow-visible" />
     </div>
 
       {/* Stop-Button zentriert */}

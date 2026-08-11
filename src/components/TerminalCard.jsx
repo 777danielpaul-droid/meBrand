@@ -4,6 +4,8 @@ import RunenText from "./RunenText"
 import { useTerminalCommands } from "./motion/useTerminalCommands"
 import { asset } from "../lib/asset"
 import { profile } from "../data/content"
+import { cvData } from "../data/cv"
+import SkillBar from "./SkillBar"
 
 // Runen-Text-Klasse für Terminal-Ausgabe (größer als die Mini-Runen in Cards)
 const RUNEN_TEXT_CLASS = "text-xl sm:text-2xl"
@@ -185,6 +187,36 @@ export default function TerminalCard({ open, onClose }) {
               autoComplete="off"
               spellCheck={false}
             />
+            {/* Skill-Balken — DUPLIZIERT aus RobotTeardown, NICHT gelöscht bei Teardown */}
+            <div className="border-t border-white/5 bg-ink/30 backdrop-blur-sm p-4 sm:p-6">
+              <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center mb-4">
+                Technische Skills &amp; Sprachen
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                {cvData.skills.map((s, i) => (
+                  <div key={s.name.de} className="skill-item">
+                    <SkillBar
+                      label={s.name.de}
+                      level={s.level}
+                      color={s.color}
+                      icon={s.icon}
+                      index={i}
+                    />
+                  </div>
+                ))}
+                {cvData.softSkills.map((s, i) => (
+                  <div key={s.name.de} className="skill-item">
+                    <SkillBar
+                      label={s.name.de}
+                      level={s.level}
+                      color={s.color}
+                      icon={s.icon}
+                      index={i + cvData.skills.length}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
         </MotionConfig>
