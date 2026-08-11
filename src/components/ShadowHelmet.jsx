@@ -329,7 +329,11 @@ export default function ShadowHelmet({ heroRef }) {
       shieldGrad.addColorStop(0.5, "#0e0f12");
       shieldGrad.addColorStop(1, "#020203");
       ctx.fillStyle = shieldGrad;
+      // Visier-Bereich halbtransparent — Helm-Körper bleibt opak
+      ctx.save();
+      ctx.globalAlpha = 0.55;
       ctx.fill();
+      ctx.restore();
       /* Schild-Kontur komplett entfernt — kein dünner Ring mehr */
       // ctx.lineWidth = 1.2;
       // ctx.strokeStyle = "#06070a";

@@ -52,8 +52,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
         <Shuttlez shipScale={1.2} className="hidden sm:block" />
       </div>
 
-      {/* Verdunkelter Overlay für Text-Lesbarkeit */}
-      <div className="absolute inset-0 bg-ink/60" aria-hidden="true" />
+      {/* Verdunkelter Overlay entfernt — Shuttlez-Hintergrund bleibt durchscheinend */}
 
       {/* RocketBeam-Schiff links (Desktop: 25% Breite, mobil versteckt) */}
       <div className="absolute top-0 left-[18%] h-full hidden sm:block overflow-visible" style={{ width: "25%" }}>
@@ -69,7 +68,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative rounded-xl border border-white/10 bg-ink/30 backdrop-blur-sm p-6 sm:p-8"
+            className="relative rounded-xl border border-white/10 bg-ink/20 backdrop-blur-sm p-6 sm:p-8"
           >
             <h3
               className="font-display font-bold text-2xl sm:text-3xl mb-3"
