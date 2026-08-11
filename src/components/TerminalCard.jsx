@@ -205,7 +205,7 @@ export default function TerminalCard({ open, onClose }) {
                   </div>
                 ))}
                 {cvData.softSkills.map((s, i) => (
-                  <div key={s.name.de} className="skill-item">
+                  <div key={s.name.de} className="skill-item justify-self-end md:col-start-2">
                     <SkillBar
                       label={s.name.de}
                       level={s.level}
