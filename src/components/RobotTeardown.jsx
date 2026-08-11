@@ -184,27 +184,27 @@ export default function RobotTeardown() {
               const isGit = s.name.de === "Git / GitHub / CI/CD";
               const isPython = s.name.de === "Python";
               const isKI = s.name.de === "KI Prototyping / Spec-driven Development";
-              // Statische Klassen für Tailwind-Erkennung (keine Template-Literals)
               let gridCls = "";
               if (isReact) gridCls = "md:order-first md:col-start-1 md:row-start-1";
               else if (isGit) gridCls = "md:col-start-2 md:row-start-2";
               else if (isPython) gridCls = "md:col-start-1 md:row-start-3";
               else if (isKI) gridCls = "md:col-start-1 md:row-start-4";
-              else gridCls = "md:col-start-1 md:row-start-2"; // HTML/CSS/JS → Spalte 1
+              else gridCls = "md:col-start-1 md:row-start-2";
               return (
                 <div
                   key={s.name.de}
                   className={`skill-item ${gridCls}`}
                 >
-                <SkillBar
-                  label={s.name.de}
-                  level={s.level}
-                  color={s.color}
-                  icon={s.icon}
-                  index={i}
-                />
-              </div>
-            ))}
+                  <SkillBar
+                    label={s.name.de}
+                    level={s.level}
+                    color={s.color}
+                    icon={s.icon}
+                    index={i}
+                  />
+                </div>
+              );
+            })}
             {cvData.softSkills.map((s, i) => {
               const isLast = i === cvData.softSkills.length - 1;
               return (
