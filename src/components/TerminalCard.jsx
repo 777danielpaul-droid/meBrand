@@ -201,9 +201,9 @@ export default function TerminalCard({ open, onClose }) {
               autoComplete="off"
               spellCheck={false}
             />
-            {/* Skill-Balken — DUPLIZIERT aus RobotTeardown, NICHT gelöscht bei Teardown */}
+            {/* Skill-Balken — mobil ausgeblendet, nur Profildaten sichtbar */}\
             <div
-              className="border-t border-white/5 bg-[rgba(0,0,0,0.35)] backdrop-blur-sm p-4 sm:p-6"
+              className="border-t border-white/5 bg-[rgba(0,0,0,0.35)] backdrop-blur-sm p-4 sm:p-6 hidden md:block"
               style={{ backgroundImage: "url('/star-pattern.svg')", backgroundSize: "40px 40px", backgroundRepeat: "repeat" }}
             >
               <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center mb-4">
