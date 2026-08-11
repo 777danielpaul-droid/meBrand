@@ -188,7 +188,7 @@ export default function TerminalCard({ open, onClose }) {
               spellCheck={false}
             />
             {/* Skill-Balken — DUPLIZIERT aus RobotTeardown, NICHT gelöscht bei Teardown */}
-            <div className="border-t border-white/5 bg-[rgba(0,0,0,0.4)] backdrop-blur-sm p-4 sm:p-6">
+            <div className="border-t border-white/5 bg-[rgba(0,0,0,0.4)] bg-[url('/star-pattern.svg')] bg-[size:40px_40px] backdrop-blur-sm p-4 sm:p-6">
               <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center mb-4">
                 Technische Skills &amp; Sprachen
               </h3>
