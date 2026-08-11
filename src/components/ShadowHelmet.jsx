@@ -437,8 +437,8 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.beginPath();
       ctx.moveTo(eyeX, eyeY);
       ctx.lineTo(
-        tx + Math.cos(baseAngle) * 400,
-        ty + Math.sin(baseAngle) * 400
+        tx + Math.cos(baseAngle) * 600,
+        ty + Math.sin(baseAngle) * 600
       );
       ctx.lineWidth = auraW * p;
       ctx.strokeStyle = `rgba(0, 255, 200, ${0.12 * p})`;
@@ -448,8 +448,8 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.beginPath();
       ctx.moveTo(eyeX, eyeY);
       ctx.lineTo(
-        tx + Math.cos(baseAngle) * 400,
-        ty + Math.sin(baseAngle) * 400
+        tx + Math.cos(baseAngle) * 600,
+        ty + Math.sin(baseAngle) * 600
       );
       ctx.lineWidth = 38 * p;
       ctx.strokeStyle = `rgba(0, 220, 255, ${0.25 * p})`;
@@ -499,15 +499,15 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.beginPath();
       ctx.moveTo(eyeX, eyeY);
       ctx.lineTo(
-        tx + Math.cos(baseAngle) * 500,
-        ty + Math.sin(baseAngle) * 500
+        tx + Math.cos(baseAngle) * 750,
+        ty + Math.sin(baseAngle) * 750
       );
       ctx.lineWidth = 6 * p;
       ctx.strokeStyle = `rgba(220, 255, 250, ${0.9 * p})`;
       ctx.stroke();
 
       ctx.beginPath();
-      for (let i = 0; i <= dist + 300; i += 4) {
+      for (let i = 0; i <= dist + 450; i += 4) {
         const ax = eyeX + Math.cos(baseAngle) * i;
         const ay = eyeY + Math.sin(baseAngle) * i;
         const jitter = (Math.random() - 0.5) * 3 * p;
@@ -519,7 +519,7 @@ export default function ShadowHelmet({ heroRef }) {
       ctx.stroke();
 
       for (let b = 0; b < 4; b++) {
-        const boltPos = (time * 400 + (b * dist) / 4) % (dist + 100);
+        const boltPos = (time * 400 + (b * dist) / 4) % (dist + 150);
         const bx = eyeX + Math.cos(baseAngle) * boltPos;
         const by = eyeY + Math.sin(baseAngle) * boltPos;
         ctx.beginPath();

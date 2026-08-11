@@ -278,7 +278,7 @@ export default function MilkyWayBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0"
-      style={{ zIndex: 1, pointerEvents: "none" }}
+      style={{ zIndex: 0, pointerEvents: "none" }}
       aria-hidden="true"
     />
   );
