@@ -25,7 +25,7 @@ export const cvData = {
 
   softSkills: [
     { name: { de: "Deutsch — Muttersprache", en: "German — native" }, level: 100, color: "#6d28d9", icon: "M12 3c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4s-4-1.8-4-4V7c0-2.2 1.8-4 4-4zm0 14c3.3 0 6-2.7 6-6h-2c0 2.2-1.8 4-4 4s-4-1.8-4-4H6c0 3.3 2.7 6 6 6z" },
-    { name: { de: "Englisch — gute Kenntnisse", en: "English — good command" }, level: 80, color: "#22d3ee", icon: "M12 3c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4s-4-1.8-4-4V7c0-2.2 1.8-4 4-4zm0 14c3.3 0 6-2.7 6-6h-2c0 2.2-1.8 4-4 4s-4-1.8-4-4H6c0 3.3 2.7 6 6 6z" },
+    { name: { de: "Englisch — gute Kenntnisse", en: "English — good command" }, level: 80, color: "#38bdf8", icon: "M12 3c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4s-4-1.8-4-4V7c0-2.2 1.8-4 4-4zm0 14c3.3 0 6-2.7 6-6h-2c0 2.2-1.8 4-4 4s-4-1.8-4-4H6c0 3.3 2.7 6 6 6z" },
   ],
 
   tools: [
