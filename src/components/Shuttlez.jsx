@@ -296,8 +296,8 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
         if (l.isPlayer && npc.alive) {
           const d = Math.hypot(l.x - npc.x, l.y - npc.y)
           if (d < 18) {
-            spawnParticles(npc.x, npc.y, "#c0c0c0", 30, 2.5)
-            spawnParticles(npc.x, npc.y, "#a0a0a0", 20, 2)
+            spawnParticles(npc.x, npc.y, "#00e5ff", 30, 2.5)
+            spawnParticles(npc.x, npc.y, "#8a2be2", 20, 2)
             spawnParticles(npc.x, npc.y, "#ffaa00", 15, 1.8)
             score++
             npc.alive = false
@@ -347,7 +347,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
         ctx.globalAlpha = alpha * 0.8
         ctx.fillStyle = "#ffffff"
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.size * 0.3, 0, Math.PI * 2)
+        ctx.arc(p.x, p.y, p.size * 0.45, 0, Math.PI * 2)
         ctx.fill()
       }
       ctx.globalAlpha = 1
