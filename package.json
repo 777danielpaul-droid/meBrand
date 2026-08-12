@@ -1,12 +1,15 @@
 {
-  "name": "tryy",
+  "name": "mebrand",
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "description": "Daniel Paul — Technical Prototyper Portfolio (Vite + React + Tailwind + Canvas)",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src --ext .jsx,.js",
+    "deploy": "npm run build && gh-pages"
   },
   "dependencies": {
     "@react-three/drei": "^9.114.0",

@@ -66,7 +66,7 @@ export const site = {
       desc: { de: "Responsive Web-App mit wiederverwendbaren React-Komponenten. CI/CD via GitHub Actions → GitHub Pages.", en: "Responsive SPA with reusable React components. CI/CD via GitHub Actions → GitHub Pages." },
       tech: ["React", "Vite", "Tailwind", "CI/CD"],
       url: "https://777danielpaul-droid.github.io/ErdBaaren2/",
-      image: "/erdbaaren2-screenshot.png",
+      image: "/erdbaeren2-screenshot.png",
       accent: "#22d3ee",
     },
     {

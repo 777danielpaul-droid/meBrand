@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { asset } from "../lib/asset";
 import { useScrollRevealStage } from "./motion/ScrollRevealStage";
 import { T } from "./RunenText";
+import { useLang } from "./RunenContext";
 
 // Generische Scroll-Reveal-Sektion: einen Text-Panel, der beim Scrollen nach oben
 // wandert, und darunter ein Bild mit Caption, das nach und nach sichtbar wird.
@@ -17,6 +18,7 @@ export default function ScrollRevealSection({ section }) {
     titleCover,
     coverBody,
   } = section;
+  const { mode } = useLang();
 
   const ref = useRef(null);
   const {
@@ -89,7 +91,7 @@ export default function ScrollRevealSection({ section }) {
               >
                 <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl neon-text">
                   <a
-                    href={link.de}
+                    href={link[mode === "en" ? "en" : "de"]}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-cyan hover:text-neon transition-colors underline decoration-cyan/50 hover:decoration-neon font-road-rage text-pulse link-pulse"

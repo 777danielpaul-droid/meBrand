@@ -54,15 +54,16 @@ export default function Navbar({ termOpen, setTermOpen }) {
             <button
               type="button"
               onClick={() => setTermOpen((v) => !v)}
+              aria-expanded={termOpen}
+              aria-label="Kontakt-Terminal öffnen"
               className="inline-flex mono-label bg-ink text-cyan border border-cyan/50 hover:bg-cyan/10 transition-colors px-3 py-1.5 rounded-sm"
             >
-              {/* [T169] */}
               Kontakt
             </button>
 
             <button
               type="button"
-              aria-label={mode === "de" ? "text170" : mode === "en" ? "text171" : "text172"}
+              aria-label="Sprache wechseln"
               onClick={cycleLang}
               className={`grid place-items-center w-9 h-9 rounded-md border text-bone transition-colors ${
                 mode === "runes" ? "border-neon/60 text-neon" : "border-white/10 hover:border-neon/50"
@@ -75,7 +76,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
 
             <button
               type="button"
-              aria-label={theme === "dark" ? "text173" : "text174"}
+              aria-label="Theme wechseln"
               onClick={onToggle}
               className="grid place-items-center w-9 h-9 rounded-md border border-white/10 hover:border-neon/50 text-bone transition-colors"
             >
@@ -84,8 +85,8 @@ export default function Navbar({ termOpen, setTermOpen }) {
 
             <button
               type="button"
-              aria-label="text175"
-              onClick={() => setOpen((v) => !v)}
+              aria-label="Navigation öffnen"
+              onClick={() => setOpen((v) => !open)}
               className="md:hidden grid place-items-center w-9 h-9 rounded-md border border-white/20 text-bone hover:border-neon/50"
             >
               <span className="text-xl leading-none">{open ? "✕" : "≡"}</span>

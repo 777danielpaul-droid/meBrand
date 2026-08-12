@@ -124,6 +124,26 @@
 
 /* ===== TERMINAL ===== */
 
+/* Terminal-Scrollbar: dünn, neon-blau, unsichtbarer Track */
+.terminal-scanlines {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 211, 238, 0.4) transparent;
+}
+.terminal-scanlines::-webkit-scrollbar {
+  width: 6px;
+}
+.terminal-scanlines::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal-scanlines::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.35);
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.terminal-scanlines::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.6);
+}
+
 /* Cursor-Blink-Animation (cyan Block) */
 @keyframes blink {
   0%,
