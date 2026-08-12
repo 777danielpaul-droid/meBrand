@@ -333,12 +333,22 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
         p.life--
         p.vx *= 0.95
         p.vy *= 0.95
-        ctx.globalAlpha = p.life / 40
+        if (p.life <= 0) {
+          particles.splice(i, 1)
+          continue
+        }
+        const alpha = p.life / 40
+        ctx.globalAlpha = alpha
         ctx.fillStyle = p.color
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
         ctx.fill()
-        if (p.life <= 0) particles.splice(i, 1)
+        // Hellere Kern (wie RocketBeam Particle) — silber-weißer Akzent
+        ctx.globalAlpha = alpha * 0.8
+        ctx.fillStyle = "#ffffff"
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.size * 0.3, 0, Math.PI * 2)
+        ctx.fill()
       }
       ctx.globalAlpha = 1
 
