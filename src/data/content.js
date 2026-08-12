@@ -72,7 +72,7 @@ export const site = {
     {
       id: "spiderz",
       title: { de: "SpiderZ — Web-Game", en: "SpiderZ — Web Game" },
-      desc: { de: "Interaktives 3D-Brettspiel (Schach/Cross-Checkers) in React + Vite. Scroll-getriebene Animationen, WebGL-Hintergrund.", en: "Interactive 3D board game in React + Vite. Scroll-driven animations, WebGL background." },
+      desc: { de: "Interaktives Schere-Stein-Papier-Logik-Spiel in React + Vite — Scroll-getriebene Animationen, WebGL-Hintergrund.", en: "Interactive rock-paper-scissors logic game in React + Vite. Scroll-driven animations, WebGL background." },
       tech: ["React", "Vite", "Three.js", "TypeScript"],
       url: "https://777danielpaul-droid.github.io/SpiderZ/",
       image: "/spiderz-screenshot.png",
@@ -86,6 +86,15 @@ export const site = {
       url: "https://www.roidz.de",
       image: "/roidz-screenshot.png",
       accent: "#f59e0b",
+    },
+    {
+      id: "onyxboard",
+      title: { de: "Onyxboard — 3D-Brettspiel", en: "Onyxboard — 3D Board Game" },
+      desc: { de: "Interaktives 3D-Brettspiel mit Schach-Logik in React + Vite. WebGL-Animationen, scroll-getriebene Interaktion.", en: "Interactive 3D board game with chess logic in React + Vite. WebGL animations, scroll-driven interaction." },
+      tech: ["React", "Vite", "Three.js", "TypeScript"],
+      url: "https://github.com/777danielpaul-droid/onyxboard",
+      image: "/erdbaaren2-screenshot.png", // Fallback-Bild, bis Onyboard-Screenshot vorhanden
+      accent: "#22d3ee",
     },
     {
       id: "github-repos",
