@@ -467,3 +467,27 @@
   width: 100vw;
   height: 100vh;
 }
+
+/* ===== HEATMAP STRIP ===== */
+/* Dezenter GitHub-style Contribution-Heatmap zwischen Hero und Teardown.
+   Original-Design (53 Wochen × 7 Tage), nur ohne Hintergrund-/Title-Elemente. */
+.hm-grid {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr);
+  gap: 2px;
+  justify-content: center;
+}
+.hm-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+.hm-cell:hover {
+  animation: cellWave 0.4s ease-out;
+}
+@keyframes cellWave {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}

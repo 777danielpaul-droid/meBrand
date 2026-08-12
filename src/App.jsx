@@ -6,6 +6,7 @@ import Footer from "./components/layout/Footer"
 import SpaceStage from "./components/SpaceStage"
 import CloudVolume from "./components/CloudVolume"
 import RobotTeardown from "./components/RobotTeardown"
+import HeatmapStrip from "./components/HeatmapStrip"
 import TerminalCard from "./components/TerminalCard"
 import { ScrollProgress } from "./components/motion/ScrollFX"
 import { LangProvider } from "./components/RunenContext"
@@ -24,6 +25,7 @@ export default function App() {
       <TerminalCard open={termOpen} onClose={() => setTermOpen(false)} />
       <main className="relative z-10">
         <Hero />
+        <HeatmapStrip />
         <RobotTeardown />
         {site.revealSections.map((s) => (
           <ScrollRevealSection key={s.id} section={s} />
