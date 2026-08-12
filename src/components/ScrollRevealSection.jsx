@@ -29,8 +29,6 @@ export default function ScrollRevealSection({ section }) {
     panelOpacity,
     captionY,
     captionOpacity,
-    linkY,
-    linkOpacity,
     glowShadow,
     imgFilter,
   } = useScrollRevealStage(ref);

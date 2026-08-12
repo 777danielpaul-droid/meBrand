@@ -39,7 +39,6 @@ export default function Hero() {
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
             className="font-display font-bold leading-[1.05] tracking-tight text-2xl sm:text-7xl lg:text-8xl max-w-4xl break-words text-cyan pulse-glow"
-            style={{}}
           >
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="block">
               <RunenText text="DANIEL" className="block" />

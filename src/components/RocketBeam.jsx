@@ -349,7 +349,7 @@ function drawBeam(ctx, ex, ey, t, running, direction = 'thrust') {
   if (!running) return
   const p = Math.max(0, pulse(t))  // clamp — prevent negative glow when pulse dips below 0
   const f = flicker(t)
-  const beamLen = 500
+  const beamLen = 120
 
   const dir = direction === 'forward' ? -1 : 1
   const endY = ey + dir * beamLen

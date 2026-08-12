@@ -4,7 +4,7 @@
 //   "runes"            — Runenschrift (Runen-Glyphen)
 // Persistiert in localStorage; als data-lang auf <html> für CSS-Regeln.
 
-const KEY = "erdbaeren-lang";
+const KEY = "mebrand-lang";
 
 // Zyklen-Reihenfolge: DE -> EN -> RUNES -> DE ...
 export const MODE_ORDER = ["de", "en", "runes"];

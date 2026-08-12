@@ -2,7 +2,7 @@
 // gesetzt als data-theme auf <html>. Overlays (scanlines/crt/grain)
 // sind nur im Dark Mode aktiv (siehe index.css [data-theme="light"]).
 
-const KEY = "erdbaaren-theme";
+const KEY = "mebrand-theme";
 
 export function getInitialTheme() {
   if (typeof window === "undefined") return "dark";
