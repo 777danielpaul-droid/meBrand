@@ -93,7 +93,7 @@ export const site = {
       desc: { de: "Interaktives 3D-Brettspiel mit Schach-Logik in React + Vite. WebGL-Animationen, scroll-getriebene Interaktion.", en: "Interactive 3D board game with chess logic in React + Vite. WebGL animations, scroll-driven interaction." },
       tech: ["React", "Vite", "Three.js", "TypeScript"],
       url: "https://github.com/777danielpaul-droid/onyxboard",
-      image: "/erdbaaren2-screenshot.png", // Fallback-Bild, bis Onyboard-Screenshot vorhanden
+      image: "/onyxboard-screenshot.png",
       accent: "#22d3ee",
     },
     {

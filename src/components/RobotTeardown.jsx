@@ -165,7 +165,7 @@ export default function RobotTeardown() {
         <div
           ref={skillRef}
           className="absolute bottom-[-90px] sm:bottom-8 left-1/2 -translate-x-1/2 w-[90vw] max-w-3xl mx-auto flex flex-col gap-4 bg-[rgba(0,0,0,0.35)] backdrop-blur-sm rounded-xl p-4 border border-white/5"
-          style={{ backgroundImage: "url('/star-pattern.svg')", backgroundSize: "40px 40px", backgroundRepeat: "repeat" }}
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.35)" }}
         >
           <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center">
             Technische Skills &amp; Sprachen
