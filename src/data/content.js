@@ -61,15 +61,6 @@ export const site = {
   // --- BOTTLENECK RONDELL (neu unten, kein Scroll-Reveal) ---
   rondellSections: [
     {
-      id: "erdbaeren2",
-      title: { de: "ErdBaaren2 — SPA", en: "ErdBaaren2 — SPA" },
-      desc: { de: "Responsive Web-App mit wiederverwendbaren React-Komponenten. CI/CD via GitHub Actions → GitHub Pages.", en: "Responsive SPA with reusable React components. CI/CD via GitHub Actions → GitHub Pages." },
-      tech: ["React", "Vite", "Tailwind", "CI/CD"],
-      url: "https://777danielpaul-droid.github.io/ErdBaaren2/",
-      image: "/erdbaeren2-screenshot.png",
-      accent: "#22d3ee",
-    },
-    {
       id: "spiderz",
       title: { de: "SpiderZ — Web-Game", en: "SpiderZ — Web Game" },
       desc: { de: "Interaktives Schere-Stein-Papier-Logik-Spiel in React + Vite — Scroll-getriebene Animationen, WebGL-Hintergrund.", en: "Interactive rock-paper-scissors logic game in React + Vite. Scroll-driven animations, WebGL background." },
