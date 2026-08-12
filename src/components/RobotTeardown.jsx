@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { asset } from "../lib/asset"
-import { cvData } from "../data/cv"
 import SkillGrid from "./SkillGrid"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -162,10 +161,10 @@ export default function RobotTeardown() {
         />
 
         {/* Skill-Balken-Reveal: erscheint ERST nach kompletter Scroll-Animation.
-            Auf Mobil: unterhalb des Canvas, nicht überlappend. */}
+            Auf Mobil: statisch unterhalb des Canvas (nicht abgeschnitten). */}
         <div
           ref={skillRef}
-          className="absolute bottom-[-90px] sm:bottom-8 left-1/2 -translate-x-1/2 w-full max-w-3xl mx-auto flex flex-col gap-4 bg-[rgba(0,0,0,0.35)] backdrop-blur-sm rounded-xl p-4 border border-white/5"
+          className="absolute bottom-[-90px] sm:bottom-8 left-1/2 -translate-x-1/2 w-[90vw] max-w-3xl mx-auto flex flex-col gap-4 bg-[rgba(0,0,0,0.35)] backdrop-blur-sm rounded-xl p-4 border border-white/5"
           style={{ backgroundImage: "url('/star-pattern.svg')", backgroundSize: "40px 40px", backgroundRepeat: "repeat" }}
         >
           <h3 className="mono-label text-cyan text-xs uppercase tracking-[0.3em] text-center">
