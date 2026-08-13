@@ -53,8 +53,9 @@ export default function RobotTeardown() {
       for (let i = start; i <= end; i++) loadFrame(i)
     }
 
-    // Initial: erste Frames vorrücken
-    preloadRef.current(0)
+    // Initial: nur Frame 0 (hohe Priorität via fetchPriority).
+    // Der Rest wird lazy über preloadRef.current(targetIdx) im drawFrame-Request geladen.
+    loadFrame(0)
 
     return () => { imagesRef.current = []; preloadRef.current = null }
   }, [frameCount])
