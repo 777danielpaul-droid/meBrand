@@ -39,7 +39,7 @@ export default function RobotTeardown() {
       if (i < 0 || i >= count || imagesRef.current[i]) return
       const img = new Image()
       img.decoding = "async"
-      img.fetchPriority = i < PRELOAD_RADIUS ? (!isMobileRef.current ? "high" : "low") : "low"
+      img.fetchPriority = i < PRELOAD_RADIUS ? (!isMobileRef.current || i === 0 ? "high" : "low") : "low"
       imagesRef.current[i] = img
       img.onload = () => { img.decode().then(() => { imagesRef.current[i] = img }).catch(() => {}) }
       img.src = framePath(i)
