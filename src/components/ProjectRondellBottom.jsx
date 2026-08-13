@@ -49,13 +49,13 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
     >
       {/* Shuttlez als transparenter Hintergrund — gleiche Schiffegröße wie Hero */}
       <div className="absolute inset-0 w-full h-full pointer-events-auto">
-        <Shuttlez shipScale={1.2} className="hidden sm:block" />
+        <Shuttlez shipScale={1.2} className="hidden md:block" />
       </div>
 
       {/* Verdunkelter Overlay entfernt — Shuttlez-Hintergrund bleibt durchscheinend */}
 
-      {/* RocketBeam-Schiff links (Desktop: 25% Breite, mobil versteckt) */}
-      <div className="absolute top-0 left-[18%] h-full hidden sm:block overflow-visible" style={{ width: "25%" }}>
+      {/* RocketBeam-Schiff links (Desktop: 25% Breite, mobil/tablet versteckt) */}
+      <div className="absolute top-0 left-[18%] h-full hidden md:block overflow-visible" style={{ width: "25%" }}>
         <RocketBeam enginesOn={true} />
       </div>
 

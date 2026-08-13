@@ -16,9 +16,15 @@ const root = document.getElementById("root")
 const starfieldRoot = document.createElement("div")
 root.parentNode.insertBefore(starfieldRoot, root.nextSibling)
 
+// Mobile: reduzierte Sterne (300 reicht fuer dichteres Gefuehl).
+// Desktop: voller Effekt (7777) — bei schwachen GPUs/Geräten kann der Nutzer
+// prefers-reduced-motion aktivieren (Starfield checkt das intern und fallt auf
+// statisches Rendering zurueck).
+const STAR_COUNT = typeof window !== "undefined" && window.innerWidth < 768 ? 300 : 7777
+
 ReactDOM.createRoot(starfieldRoot).render(
   <React.StrictMode>
-    <Starfield count={7777} />
+    <Starfield count={STAR_COUNT} />
   </React.StrictMode>,
 )
 

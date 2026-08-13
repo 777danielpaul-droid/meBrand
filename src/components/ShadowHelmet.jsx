@@ -11,13 +11,8 @@ import "./ShadowHelmet.css";
  * Maus-Events werden auf dem Dokumentebene gehört (wie im Original-HTML,
  * wo #wrap die ganze Viewportfläche abdeckte). Dadurch funktioniert
  * die Interaktion auch, wenn andere Hero-Elemente im Stacking davorliegen.
- *
- * @param {Object} props
- * @param {React.RefObject<HTMLElement>} props.heroRef — Referenz auf den
- *   hero-Section-Container; Cursor-Tracking ist nur aktiv, solange der
- *   Mauszeiger sich innerhalb dieses Elements befindet.
  */
-export default function ShadowHelmet({ heroRef }) {
+export default function ShadowHelmet() {
   const canvasRef = useRef(null);
   const stateRef = useRef(null);
 
@@ -609,12 +604,23 @@ export default function ShadowHelmet({ heroRef }) {
     let lastTime = performance.now();
     let raf = 0;
 
+    // Mobile / schwache Geräte: 30fps reicht für flüssige Physik.
+    // Desktop: 60fps für maximale Responsivität.
+    const TARGET_FPS = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? 15
+      : 30;
+    const FRAME = 1000 / TARGET_FPS;
+
     function frame(now) {
+      if (now - lastTime < FRAME) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const dt = Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
 
       ctx.clearRect(0, 0, W, H);
-      time += 0.016;
+      time += FRAME / 1000;
       updatePhysics();
       updateEyes(dt);
 

@@ -52,16 +52,19 @@ export default function HeatmapStrip() {
     animateWave();
 
     // Zufälliger Cell-Puls (Sparkle)
+    let activeTimeout = null;
     const sparkleInterval = setInterval(() => {
+      if (activeTimeout) clearTimeout(activeTimeout);
       const idx = (Math.random() * cells.length) | 0;
       const cell = cells[idx];
       cell.style.animation = "cellWave 0.4s ease-out";
-      setTimeout(() => { cell.style.animation = ""; }, 400);
+      activeTimeout = setTimeout(() => { cell.style.animation = ""; }, 400);
     }, 80);
 
     return () => {
       cancelAnimationFrame(animId);
       clearInterval(sparkleInterval);
+      if (activeTimeout) clearTimeout(activeTimeout);
       grid.innerHTML = "";
     };
   }, []);

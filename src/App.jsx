@@ -3,8 +3,8 @@ import Navbar from "./components/layout/Navbar"
 import Hero from "./components/layout/Hero"
 import ScrollRevealSection from "./components/ScrollRevealSection"
 import Footer from "./components/layout/Footer"
-import SpaceStage from "./components/SpaceStage"
 import CloudVolume from "./components/CloudVolume"
+import MeteorShower from "./components/MeteorShower"
 import RobotTeardown from "./components/RobotTeardown"
 import HeatmapStrip from "./components/HeatmapStrip"
 import TerminalCard from "./components/TerminalCard"
@@ -18,7 +18,7 @@ export default function App() {
 
   return (
     <LangProvider>
-      <SpaceStage />
+      <MeteorShower />
       <CloudVolume />
       <ScrollProgress />
       <Navbar termOpen={termOpen} setTermOpen={setTermOpen} />
