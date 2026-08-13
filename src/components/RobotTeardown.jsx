@@ -16,9 +16,10 @@ export default function RobotTeardown() {
   const imagesRef = useRef([])
   const frameCountRef = useRef(TOTAL_FRAMES)
   const skillRef = useRef(null)
+  const isMobileRef = useRef(window.innerWidth < 768)
 
   const [frameCount] = useState(() =>
-    window.matchMedia("(max-width: 768px)").matches ? MOBILE_FRAMES : TOTAL_FRAMES
+    isMobileRef.current ? MOBILE_FRAMES : TOTAL_FRAMES
   )
 
   frameCountRef.current = frameCount
@@ -38,7 +39,7 @@ export default function RobotTeardown() {
       if (i < 0 || i >= count || imagesRef.current[i]) return
       const img = new Image()
       img.decoding = "async"
-      img.fetchPriority = i < PRELOAD_RADIUS ? "high" : "low"
+      img.fetchPriority = i < PRELOAD_RADIUS ? (!isMobileRef.current ? "high" : "low") : "low"
       imagesRef.current[i] = img
       img.onload = () => { img.decode().then(() => { imagesRef.current[i] = img }).catch(() => {}) }
       img.src = framePath(i)
@@ -91,9 +92,10 @@ export default function RobotTeardown() {
 
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect()
-      canvas.width = Math.round(rect.width * dpr)
-      canvas.height = Math.round(rect.height * dpr)
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      const renderScale = isMobileRef.current ? 0.5 : 1
+      canvas.width = Math.round(rect.width * dpr * renderScale)
+      canvas.height = Math.round(rect.height * dpr * renderScale)
+      ctx.setTransform(dpr * renderScale, 0, 0, dpr * renderScale, 0, 0)
       drawFrame(currentProgress)
     }
 
