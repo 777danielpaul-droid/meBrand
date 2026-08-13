@@ -23,14 +23,39 @@ export default function RobotTeardown() {
 
   frameCountRef.current = frameCount
 
+  const preloadRef = useRef(null)
+
   useEffect(() => {
     const count = frameCount
     imagesRef.current = new Array(count)
-    for (let i = 0; i < count; i++) {
+
+    // Lazy-Preload-Fenster: nur ~40 Frames um den aktuellen Scroll-Stand.
+    // decoding="async" + decode() verhindert main-thread blocking auf schwachen Geräten.
+    const PRELOAD_RADIUS = 20
+    let currentIdx = -1
+
+    const loadFrame = (i) => {
+      if (i < 0 || i >= count || imagesRef.current[i]) return
       const img = new Image()
-      img.onload = () => { imagesRef.current[i] = img }
+      img.decoding = "async"
+      img.fetchPriority = i < PRELOAD_RADIUS ? "high" : "low"
+      imagesRef.current[i] = img
+      img.onload = () => { img.decode().then(() => { imagesRef.current[i] = img }).catch(() => {}) }
       img.src = framePath(i)
     }
+
+    preloadRef.current = (idx) => {
+      if (idx === currentIdx) return
+      currentIdx = idx
+      const start = Math.max(0, idx - PRELOAD_RADIUS)
+      const end = Math.min(count - 1, idx + PRELOAD_RADIUS)
+      for (let i = start; i <= end; i++) loadFrame(i)
+    }
+
+    // Initial: erste Frames vorrücken
+    preloadRef.current(0)
+
+    return () => { imagesRef.current = []; preloadRef.current = null }
   }, [frameCount])
 
   useEffect(() => {
@@ -42,7 +67,7 @@ export default function RobotTeardown() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
     ctx.imageSmoothingEnabled = true
-    ctx.imageSmoothingQuality = "high"
+    ctx.imageSmoothingQuality = frameCountRef.current > 100 ? "high" : "low"
 
     const dpr = window.devicePixelRatio || 1
     let currentProgress = 0
@@ -50,7 +75,12 @@ export default function RobotTeardown() {
     const drawFrame = (progress) => {
       const count = frameCountRef.current
       const invertedProgress = 1 - progress
-      const img = imagesRef.current[Math.min(Math.floor(invertedProgress * (count - 1)), count - 1)]
+      const targetIdx = Math.min(Math.floor(invertedProgress * (count - 1)), count - 1)
+
+      // Trigger lazy preload of frames around the current position
+      if (preloadRef.current) preloadRef.current(targetIdx)
+
+      const img = imagesRef.current[targetIdx]
       if (!img) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
