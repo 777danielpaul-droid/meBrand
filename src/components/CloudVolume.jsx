@@ -303,16 +303,17 @@ export default function CloudVolume() {
     let raf;
     let last = 0;
     let visible = false;
-    let renderIdleGuard = 0;
+    let documentHidden = document.hidden;
+
+    // Pausiere Renderloop bei inaktivem Tab (Page Visibility API)
+    const onVisibilityChange = () => { documentHidden = document.hidden; };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     const FRAME = 1000 / 60; // 60 FPS für flüssigere Animation
     const start = performance.now();
     const render = (now) => {
       raf = requestAnimationFrame(render);
-      if (!visible) {
-        // keep rAF alive briefly so resizes can still catch state change,
-        // but skip GPU work completely while offscreen.
-        return;
-      }
+      if (!visible || documentHidden) return;
       if (now - last < FRAME) return;
       last = now;
       resize();
@@ -341,6 +342,7 @@ export default function CloudVolume() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       io.disconnect();
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
