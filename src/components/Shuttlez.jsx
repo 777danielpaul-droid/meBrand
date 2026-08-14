@@ -11,7 +11,7 @@ import { useRef, useEffect } from "react"
  * @param {object} props
  * @param {number} [props.shipScale=1.6]  Skalierung der Schiffe
  */
-export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block", active = false }) {
+export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block" }) {
   const canvasRef = useRef(null)
   const rafRef = useRef(null)
 
@@ -245,16 +245,15 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
         }
       }
 
-      // Lasers — nur aktiv, wenn das Spiel freigegeben wurde
-      if (active && mouseDown && player.cooldown <= 0) {
+      // Lasers
+      if (mouseDown && player.cooldown <= 0) {
         spawnLaser(player, player.angle, player.color, true)
         player.cooldown = player.maxCooldown
         spawnParticles(player.x, player.y, player.color, 5)
       }
       if (player.cooldown > 0) player.cooldown--
 
-      // NPC-Lasers — ebenfalls nur wenn aktiv
-      if (active && npc.alive) {
+      if (npc.alive) {
         const distToPlayer = Math.hypot(mouseX - npc.x, mouseY - npc.y)
         if (npc.cooldown <= 0 && distToPlayer < 400 && Math.random() < 0.03) {
           spawnLaser(npc, npc.angle, npc.color, false)
@@ -378,7 +377,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
       window.removeEventListener("resize", resize)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [shipScale, active])
+  }, [shipScale])
 
   return (
     <canvas
