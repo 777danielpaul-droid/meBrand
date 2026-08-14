@@ -11,7 +11,7 @@ import { useRef, useEffect } from "react"
  * @param {object} props
  * @param {number} [props.shipScale=1.6]  Skalierung der Schiffe
  */
-export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block" }) {
+export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block", side = "left" }) {
   const canvasRef = useRef(null)
   const rafRef = useRef(null)
 
@@ -67,7 +67,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
     container.addEventListener("mouseleave", () => (mouseDown = false))
 
     const player = {
-      x: canvas.width / 2,
+      x: side === "center" ? canvas.width / 2 : canvas.width * 0.1, // links neben RocketBeam
       y: canvas.height / 2,
       angle: 0,
       cooldown: 0,
@@ -77,7 +77,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
     }
 
     const npc = {
-      x: canvas.width * 0.8,
+      x: side === "center" ? canvas.width * 0.8 : canvas.width * 0.85,
       y: canvas.height * 0.2,
       angle: 0,
       cooldown: 0,
