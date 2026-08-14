@@ -604,11 +604,11 @@ export default function ShadowHelmet() {
     let lastTime = performance.now();
     let raf = 0;
 
-    // Mobile / schwache Geräte: 30fps reicht für flüssige Physik.
-    // Desktop: 60fps für maximale Responsivität.
+    // Mobile / schwache Geräte: 15fps (reduced motion) / 20fps Standard.
+    // Desktop: 20fps statt 30fps — Helm-Physik ist langsam genug.
     const TARGET_FPS = window.matchMedia("(prefers-reduced-motion: reduce)").matches
       ? 15
-      : 30;
+      : 20;
     const FRAME = 1000 / TARGET_FPS;
 
     function frame(now) {
