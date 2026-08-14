@@ -1,16 +1,16 @@
-// Canvas 2D starfield engine — ~8000 stars, 3 parallax layers, per-star twinkle,
-// mouse drift, hero-star glow, DPR-aware, reduced-motion.
-// Angepasst für ~1000 Sterne mit buntem Neon/Gold-Weiß-Mix.
+// Canvas 2D starfield engine — ~1500 desktop / 100 mobile stars,
+// 3 parallax layers, per-star twinkle, mouse drift, hero-star glow,
+// DPR-aware, reduced-motion. Palette: white / cyan / green only.
 const PALETTES = {
   white: [[234, 246, 255], [180, 230, 255], [255, 255, 255]],
-  neon: [[34, 211, 238], [255, 53, 208], [182, 255, 59]],
-  gold: [[255, 215, 106], [255, 190, 80]],
+  cyan: [[34, 211, 238], [100, 245, 255], [0, 255, 200]],
+  green: [[182, 255, 59], [120, 255, 80], [80, 220, 40]],
 }
 
 const LAYER = {
-  white: { weight: 0.45, parallax: 0.12 },
-  neon: { weight: 0.40, parallax: 0.30 },
-  gold: { weight: 0.15, parallax: 0.55 },
+  white: { weight: 0.50, parallax: 0.12 },
+  cyan: { weight: 0.35, parallax: 0.30 },
+  green: { weight: 0.15, parallax: 0.55 },
 }
 
 /* Radius-Multiplikator: Sterne größer machen (weniger Sterne, dafür auffälliger) */
@@ -31,9 +31,9 @@ function buildStars(count, w, h) {
     const layer = order[i]
     const color = pick(PALETTES[layer])
     const baseR =
-      layer === "gold"
+      layer === "green"
         ? (0.9 + Math.random() * 1.6) * RADIUS_SCALE
-        : layer === "neon"
+        : layer === "cyan"
           ? (0.7 + Math.random() * 1.2) * RADIUS_SCALE
           : (0.5 + Math.random() * 1.1) * RADIUS_SCALE
     const bright = Math.random() < 0.012 // ~1% hero stars
