@@ -105,7 +105,7 @@ export const site = {
     ],
     social: [
       { name: "github", label: "GitHub", href: "https://github.com/777danielpaul-droid", icon: "github" },
-      { name: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/danielpaul", icon: "linkedin" },
+      { name: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/daniel-paul-8b3433409/", icon: "linkedin" },
       { name: "twitter", label: "X / Twitter", href: "https://twitter.com/777danielpaul", icon: "twitter" },
     ],
   },
