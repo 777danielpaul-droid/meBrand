@@ -38,10 +38,15 @@ export default function RobotTeardown() {
     const loadFrame = (i) => {
       if (i < 0 || i >= count || imagesRef.current[i]) return
       const img = new Image()
-      img.decoding = "async"
-      img.fetchPriority = i < PRELOAD_RADIUS ? (!isMobileRef.current || i === 0 ? "high" : "low") : "low"
-      img.onload = () => {
-        img.decode().then(() => { imagesRef.current[i] = img }).catch(() => {})
+      img.decoding = i === 0 ? "sync" : "async"
+      img.fetchPriority = i === 0 ? "high" : (i < PRELOAD_RADIUS ? "low" : "low")
+      if (i === 0) {
+        // Frame 0 muss sofort verfügbar sein — sync decodieren, direkt setzen
+        img.onload = () => { imagesRef.current[i] = img }
+      } else {
+        img.onload = () => {
+          img.decode().then(() => { imagesRef.current[i] = img }).catch(() => {})
+        }
       }
       img.src = framePath(i)
     }
