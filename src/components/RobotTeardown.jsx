@@ -63,7 +63,25 @@ export default function RobotTeardown() {
     // Der Rest wird lazy über preloadRef.current(targetIdx) im drawFrame-Request geladen.
     loadFrame(0)
 
-    return () => { imagesRef.current = []; preloadRef.current = null }
+    // IntersectionObserver: Wenn der Pin sichtbar wird, preload ALLE Frames
+    // für eine flüssige Scroll-Animation (vermeidet Stocken durch fehlende Frames).
+    const io = new IntersectionObserver((entries) => {
+      const entry = entries[0]
+      if (entry.isIntersecting) {
+        // Pin sichtbar → preload alle Frames gleichzeitig (Browser batcht HTTP-Requests)
+        for (let i = 1; i < count; i++) loadFrame(i)
+        io.disconnect()
+      }
+    }, { rootMargin: "100%" }) // 100% Margin = bereits beim Scroll-Richtung starten
+
+    const pinEl = pinRef.current
+    io.observe(pinEl)
+
+    return () => {
+      io.disconnect()
+      imagesRef.current = []
+      preloadRef.current = null
+    }
   }, [frameCount])
 
   useEffect(() => {
