@@ -309,7 +309,7 @@ export default function CloudVolume() {
     const onVisibilityChange = () => { documentHidden = document.hidden; };
     document.addEventListener("visibilitychange", onVisibilityChange);
 
-    const FRAME = 1000 / 60; // 60 FPS für flüssigere Animation
+    const FRAME = 1000 / 15; // 15 FPS reicht für langsame Wolken-Bewegung (75% GPU-Last im Vergleich zu 60fps)
     const start = performance.now();
     const render = (now) => {
       raf = requestAnimationFrame(render);
