@@ -31,7 +31,7 @@ export default function Hero() {
         <div className="relative">
           {/* Name + Lead (bleibt erhalten) */}
           <motion.h1
-            className="font-display font-bold leading-[1.05] tracking-tight text-2xl sm:text-7xl lg:text-8xl max-w-4xl break-words text-cyan pulse-glow"
+            className="font-display font-bold leading-[1.05] tracking-tight text-2xl sm:text-7xl lg:text-8xl w-full break-words text-cyan pulse-glow"
           >
             <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="block">
               <RunenText text="DANIEL" className="block" />
@@ -67,7 +67,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-3 text-lg sm:text-2xl text-cyan font-display max-w-2xl"
+            className="mt-3 text-lg sm:text-2xl text-cyan font-display w-full"
           >
             <T en={c.role.en}>{c.role.de}</T>
           </motion.p>
