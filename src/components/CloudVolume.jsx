@@ -316,7 +316,7 @@ export default function CloudVolume() {
       if (!visible || documentHidden) return;
       if (now - last < FRAME) return;
       last = now;
-      resize();
+      // resize() nur einmal pro Resize-Event, nicht im Render-Loop
       gl.uniform1f(uTime, (now - start) / 1000 * 0.87);
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.clearColor(0, 0, 0, 0);

@@ -37,6 +37,9 @@ function buildStars(count, w, h) {
           ? (0.7 + Math.random() * 1.2) * RADIUS_SCALE
           : (0.5 + Math.random() * 1.1) * RADIUS_SCALE
     const bright = Math.random() < 0.012 // ~1% hero stars
+    // Vor-komputierter color-String für rgba() im Render-Loop (Performance:
+    // spart ~90.000 String-Builds/Sekunde bei 1500 Sternen × 60fps)
+    const baseColor = `rgba(${color[0]},${color[1]},${color[2]},`
     stars.push({
       x: Math.random() * w,
       y: Math.random() * h,
@@ -44,6 +47,7 @@ function buildStars(count, w, h) {
       layer,
       p: LAYER[layer].parallax,
       color,
+      alphaPrefix: baseColor,
       bright,
       twPhase: Math.random() * Math.PI * 2,
       twSpeed: 0.8 + Math.random() * 3.0,
@@ -92,7 +96,7 @@ export function initStarfield(canvas, count = 8000) {
     ctx.clearRect(0, 0, w, h)
     for (const s of stars) {
       const a = 0.75 * s.depth
-      ctx.fillStyle = `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${a})`
+      ctx.fillStyle = `${s.alphaPrefix}${a})`
       ctx.fillRect(s.x, s.y, s.r, s.r)
     }
   }
@@ -110,10 +114,10 @@ export function initStarfield(canvas, count = 8000) {
       const ry = mod(s.y - offY, h)
       const tw = 0.2 + 0.8 * (0.5 + 0.5 * Math.sin(t * s.twSpeed + s.twPhase))
       const a = tw * s.depth
-      ctx.fillStyle = `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${a})`
+      ctx.fillStyle = `${s.alphaPrefix}${a})`
       ctx.fillRect(rx, ry, s.r, s.r)
       if (s.bright && tw > 0.55) {
-        ctx.fillStyle = `rgba(${s.color[0]},${s.color[1]},${s.color[2]},${a * 0.25})`
+        ctx.fillStyle = `${s.alphaPrefix}${a * 0.25})`
         ctx.fillRect(rx - s.r, ry - s.r, s.r * 3, s.r * 3)
       }
     }
