@@ -6,8 +6,8 @@ export const site = {
 
   nav: [
     { label: { de: "Start", en: "Home" }, href: "#hero" },
-    { label: { de: "Terminal", en: "Terminal" }, href: "#terminal" },
-    { label: { de: "Profil", en: "Profile" }, href: "#profile" },
+    { label: { de: "Game", en: "Game" }, href: "#secret-weapon" },
+    { label: { de: "Humble-Bee", en: "Humble-Bee" }, href: "#battle" },
     { label: { de: "Projekte", en: "Projects" }, href: "#archiv" },
   ],
 
