@@ -13,6 +13,9 @@ const LAYER = {
   gold: { weight: 0.15, parallax: 0.55 },
 }
 
+/* Radius-Multiplikator: Sterne größer machen (weniger Sterne, dafür auffälliger) */
+const RADIUS_SCALE = 2.0
+
 const mod = (v, m) => ((v % m) + m) % m
 const pick = (a) => a[(Math.random() * a.length) | 0]
 
@@ -29,10 +32,10 @@ function buildStars(count, w, h) {
     const color = pick(PALETTES[layer])
     const baseR =
       layer === "gold"
-        ? 0.9 + Math.random() * 1.6
+        ? (0.9 + Math.random() * 1.6) * RADIUS_SCALE
         : layer === "neon"
-          ? 0.7 + Math.random() * 1.2
-          : 0.5 + Math.random() * 1.1
+          ? (0.7 + Math.random() * 1.2) * RADIUS_SCALE
+          : (0.5 + Math.random() * 1.1) * RADIUS_SCALE
     const bright = Math.random() < 0.012 // ~1% hero stars
     stars.push({
       x: Math.random() * w,
