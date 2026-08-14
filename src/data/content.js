@@ -101,9 +101,12 @@ export const site = {
   footer: {
     note: { de: "© 2025 Daniel Paul — alle Rechte vorbehalten.", en: "© 2025 Daniel Paul — all rights reserved." },
     links: [
-      { label: { de: "Impressum", en: "Imprint" }, href: "/impressum.html" },
-      { label: { de: "Datenschutz", en: "Privacy" }, href: "/datenschutz.html" },
-      { label: { de: "AGB", en: "Terms" }, href: "/agb.html" },
+      { label: { de: "Impressum", en: "Imprint" }, href: "/impressum.html", type: "text" },
+    ],
+    social: [
+      { name: "github", label: "GitHub", href: "https://github.com/777danielpaul-droid", icon: "github" },
+      { name: "linkedin", label: "LinkedIn", href: "https://linkedin.com/in/danielpaul", icon: "linkedin" },
+      { name: "twitter", label: "X / Twitter", href: "https://twitter.com/777danielpaul", icon: "twitter" },
     ],
   },
 };
