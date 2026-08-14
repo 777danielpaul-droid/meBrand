@@ -63,7 +63,7 @@ export function initStarfield(canvas, count = 8000) {
     h = 0,
     dpr = 1,
     stars = [],
-    raf = 0,
+    intervalId = 0,
     running = true,
     scrollY = 0,
     mouseX = 0,
@@ -104,7 +104,7 @@ export function initStarfield(canvas, count = 8000) {
   let t = 0
   function frame() {
     if (!running) return
-    t += 0.016
+    t += 0.035  // 20fps → time-step pro Frame
     const sy = scrollY
     ctx.clearRect(0, 0, w, h)
     for (const s of stars) {
@@ -121,15 +121,22 @@ export function initStarfield(canvas, count = 8000) {
         ctx.fillRect(rx - s.r, ry - s.r, s.r * 3, s.r * 3)
       }
     }
-    raf = requestAnimationFrame(frame)
   }
 
   function start() {
-    reduce ? (drawStatic(), (running = false)) : (running = true, (raf = requestAnimationFrame(frame)))
+    if (reduce) {
+      drawStatic()
+      running = false
+      return
+    }
+    running = true
+    // 20fps statt 60fps — Twinkle ist subtil, Parallax langsam.
+    // Reduziert CPU-Last um 66% ohne sichtbaren Qualitätsverlust.
+    intervalId = setInterval(frame, 50)
   }
   function stop() {
     running = false
-    cancelAnimationFrame(raf)
+    clearInterval(intervalId)
   }
 
   resize()
