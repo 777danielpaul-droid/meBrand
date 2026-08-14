@@ -16,8 +16,9 @@ const ShadowHelmetIcon = ({ className = "w-6 h-6" }) => (
     <line x1="12" y1="3" x2="12" y2="7" strokeWidth="1.5" stroke="currentColor" strokeLinecap="round" />
     <circle cx="12" cy="7.5" r="1.5" fill="currentColor" />
 
-    {/* Schild (oval) */}
-    <ellipse cx="12" cy="13" rx="7" ry="5" strokeWidth="1.5" stroke="currentColor" />
+    {/* Schild (oval) — gefüllt für kräftige blaue Präsenz */}
+    <ellipse cx="12" cy="13" rx="8" ry="6" fill="currentColor" opacity="0.7" />
+    <ellipse cx="12" cy="13" rx="8" ry="6" fill="none" strokeWidth="1.5" stroke="currentColor" />
 
     {/* Visor (dunkle Mulde) */}
     <path
