@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { site } from "../../data/content"
 import { getInitialTheme, toggleTheme } from "../../lib/theme"
 import { useLang } from "../RunenContext"
+import ShadowHelmetIcon from "../icons/ShadowHelmetIcon"
 
 const NEON = ["#c026d3", "#7c3aed", "#c9a227"]
 
@@ -27,7 +28,7 @@ export default function Navbar({ termOpen, setTermOpen }) {
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-1 md:h-12 md:py-0 flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0">
           <a href="#hero" className="flex items-center gap-3 group">
             <span className="relative grid place-items-center w-7 h-7 rounded-md bg-neon/15 border border-neon/40">
-              <span className="text-sm leading-none">🐻</span>
+              <ShadowHelmetIcon className="w-5 h-5 text-cyan group-hover:text-neon transition-colors" />
             </span>
             <span className="font-display font-bold tracking-[0.18em] text-sm">
               {site.brand.de}
