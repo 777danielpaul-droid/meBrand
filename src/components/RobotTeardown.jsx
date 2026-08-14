@@ -161,18 +161,21 @@ export default function RobotTeardown() {
           end: `+=${pinHeight + extraRevealSpace}`,
           scrub: true,
           pin: true,
-          anticipatePin: 1,
+          pinSpacing: true,
         },
       })
     }
 
-    const poll = setInterval(() => {
-      if (initialized) { clearInterval(poll); return }
+    let pollRaf
+    const poll = () => {
+      if (initialized) return
       tryInit()
-    }, 200)
+      pollRaf = requestAnimationFrame(poll)
+    }
+    pollRaf = requestAnimationFrame(poll)
 
     return () => {
-      clearInterval(poll)
+      cancelAnimationFrame(pollRaf)
       resizeObserver.disconnect()
       if (tween) tween.kill()
       ScrollTrigger.getAll().forEach((t) => t.kill())
