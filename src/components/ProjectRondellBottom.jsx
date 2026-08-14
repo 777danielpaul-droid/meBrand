@@ -47,7 +47,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
   return (
     <section
       id={id}
-      className={`relative min-h-screen h-auto bg-ink/10 border-t border-white/5 overflow-x-hidden ${className}`}
+      className={`relative min-h-screen h-auto bg-ink/10 border-t border-white/5 overflow-x-hidden z-20 sm:z-0 ${className}`}
       data-rondell-bottom
       onMouseEnter={() => { pauseRef.current = true; }}
       onMouseLeave={() => { pauseRef.current = false; }}

@@ -10,10 +10,11 @@
   pointer-events: none; /* Mausklicks durchdringen zum Content; Tracking via document */
 }
 
-/* Mobile: Helm weiter runter, da Hero-Bereich kompakt ist */
+/* Mobile: Helm direkt am Hero-Top (kein Versatz mehr) */
 @media (max-width: 767.98px) {
   .shadow-helmet-wrap {
-    top: 10vh; /* mobil mehr Abstand vom oberen Rand */
+    top: 0;
+    z-index: 0; /* auf Mobile hinter ProjectRondellBottom, damit Karten klickbar sind */
   }
 }
 
