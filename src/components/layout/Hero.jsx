@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import { site } from "../../data/content"
 import { cvData } from "../../data/cv"
 import { T, default as RunenText } from "../RunenText"
@@ -15,18 +15,11 @@ const TITLE_SHADOW =
 export default function Hero() {
   const h = site.hero
   const c = cvData
-  const { scrollY } = useScroll()
-  const blobY = useTransform(scrollY, [0, 800], [0, 220])
-  const blobOpacity = useTransform(scrollY, [0, 600], [1, 0.3])
 
   return (
     <section id="hero" className="hero-holo relative motion-reveal min-h-[100vh] h-auto sm:h-screen sm:max-h-[680px] bg-transparent z-0">
       {/* Canvas-Shuttle-Animation: transparenter, voller Hero-Bereich */}
-      <motion.div
-        style={{ y: blobY, opacity: blobOpacity }}
-        className="absolute top-24 right-[-6rem] w-[18rem] h-[18rem] sm:w-[28rem] sm:h-[28rem] rounded-full bg-neon/25 blur-[60px] sm:blur-[120px]"
-        aria-hidden="true"
-      />
+      {/* Lila Orb-Blob entfernt — unnötiger CSS-Blur-Overhead (120px Gaussian) */}
 
       {/* Shadow Helmet Canvas-Animation — IN FRONT of all content (z-20 > z-10).
           Canvas background ist transparent (clearRect), nur der Helm-Sprite ist opaque.
