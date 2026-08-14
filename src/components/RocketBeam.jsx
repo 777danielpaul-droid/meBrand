@@ -406,7 +406,7 @@ function drawBeam(ctx, ex, ey, t, running, direction = 'thrust') {
   ctx.fill()
 }
 
-export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
+export default function RocketBeam({ enginesOn: initialEnginesOn = true, onEnginesChange }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
   const [enginesOn, setEnginesOn] = useState(initialEnginesOn)
@@ -414,8 +414,12 @@ export default function RocketBeam({ enginesOn: initialEnginesOn = true }) {
   runningRef.current = enginesOn
 
   const toggleEngines = useCallback(() => {
-    setEnginesOn((prev) => !prev)
-  }, [])
+    setEnginesOn((prev) => {
+      const next = !prev;
+      onEnginesChange?.(next);
+      return next;
+    })
+  }, [onEnginesChange])
 
   const timeRef = useRef(0)
   const particlesRef = useRef([])

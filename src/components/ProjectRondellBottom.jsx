@@ -9,8 +9,13 @@ import RocketBeam from "./RocketBeam";
  * Bereich ist screen-size (min-h-screen) und enthält das transparente
  * Shuttlez-Canvas als Hintergrund-Overlay. Karten wechseln per Klick/Pfeiltasten.
  * Links: statisches RocketBeam-Schiff (Engines-on, kein Interaktion nötig).
+ *
+ * Der RocketBeam-Button schaltet das Shuttlez-Spiel (Mausklick-Laser) erst frei,
+ * wenn die Engines ausgeschaltet werden — spart Performance durch gleichzeitige
+ * Canvas-Animationen.
  */
 export default function ProjectRondellBottom({ sections, id, className = "" }) {
+  const [rocketActive, setRocketActive] = useState(true);
   const [current, setCurrent] = useState(0);
   const intervalRef = useRef(null);
   const pauseRef = useRef(false);
@@ -49,14 +54,14 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
     >
       {/* Shuttlez als transparenter Hintergrund — gleiche Schiffegröße wie Hero */}
       <div className="absolute inset-0 w-full h-full pointer-events-auto">
-        <Shuttlez shipScale={1.2} className="hidden md:block" />
+        <Shuttlez shipScale={1.2} className="hidden md:block" active={!rocketActive} />
       </div>
 
       {/* Verdunkelter Overlay entfernt — Shuttlez-Hintergrund bleibt durchscheinend */}
 
       {/* RocketBeam-Schiff links (Desktop: 25% Breite, mobil/tablet versteckt) */}
       <div className="absolute top-0 left-[18%] h-full hidden md:block overflow-visible" style={{ width: "25%" }}>
-        <RocketBeam enginesOn={true} />
+        <RocketBeam enginesOn={true} onEnginesChange={setRocketActive} />
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto mr-0 sm:mr-auto sm:ml-[30%] px-5 sm:px-8 py-20 sm:py-24">
