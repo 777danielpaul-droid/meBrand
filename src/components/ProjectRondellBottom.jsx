@@ -75,7 +75,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
         <RocketBeam enginesOn={true} onEnginesChange={setRocketActive} />
       </div>
 
-      <div className="relative z-10 max-w-3xl mx-auto mr-0 sm:mr-auto sm:ml-[30%] px-5 sm:px-8 py-20 sm:py-24">
+      <div className="relative z-10 max-w-4xl mx-auto mr-0 sm:mr-auto sm:ml-[30%] px-5 sm:px-8 py-20 sm:py-24">
 
         <AnimatePresence mode="wait">
           <motion.div
