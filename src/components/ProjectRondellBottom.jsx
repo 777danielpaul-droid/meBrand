@@ -52,13 +52,12 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
       onMouseEnter={() => { pauseRef.current = true; }}
       onMouseLeave={() => { pauseRef.current = false; }}
     >
-      {/* Shuttlez als transparenter Hintergrund — gleiche Schiffegröße wie Hero.
-          Nur gemountet, wenn RocketBeam ausgeschaltet ist (rocketActive===false).
-          Canvas liegt EXAKT überein mit dem RocketBeam-Container (links: 18%, Breite 25%),
-          damit das blaue Raumschiff direkt links neben dem RocketBeam-Schiff spawnen kann. */}
+      {/* Shuttlez als transparenter Hintergrund — 100% breit (Canvas-Render ist transparent,
+          die CSS-Breite kostet keine extra CPU — nur das Canvas-Pixel-Grid zählt).
+          Ship-Scale bleibt bei 1.2 für konsistente Schiffgröße zum RocketBeam. */}
       <div className="absolute inset-0 w-full h-full">
         {!rocketActive && (
-          <div className="absolute top-0 left-[18%] hidden md:block" style={{ width: "25%", height: "100%" }}>
+          <div className="absolute inset-0 hidden md:block">
             <Shuttlez
               shipScale={1.2}
               side="left"
@@ -75,7 +74,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
         <RocketBeam enginesOn={true} onEnginesChange={setRocketActive} />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto mr-0 sm:mr-auto sm:ml-[30%] px-5 sm:px-8 py-20 sm:py-24">
+      <div className="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
 
         <AnimatePresence mode="wait">
           <motion.div
