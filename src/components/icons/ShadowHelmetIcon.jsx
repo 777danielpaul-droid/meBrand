@@ -23,7 +23,7 @@ const ShadowHelmetIcon = ({ className = "w-6 h-6" }) => (
       </clipPath>
     </defs>
     <ellipse cx="12" cy="13" rx="8" ry="6" fill="currentColor" opacity="0.7" clipPath="url(#top-half)" />
-    <ellipse cx="12" cy="13" rx="8" ry="6" fill="none" strokeWidth="1.5" stroke="currentColor" />
+    <ellipse cx="12" cy="13" rx="8" ry="6" fill="none" strokeWidth="2.5" stroke="currentColor" />
 
     {/* Visor (dunkle Mulde) */}
     <path
@@ -34,9 +34,11 @@ const ShadowHelmetIcon = ({ className = "w-6 h-6" }) => (
       opacity="0.3"
     />
 
-    {/* Augen — vergrößert für bessere Sichtbarkeit */}
-    <circle cx="10" cy="11.5" r="1.5" fill="currentColor" />
-    <circle cx="15" cy="11.5" r="1.5" fill="currentColor" />
+    {/* Augen — vergrößert + leicht unten + heller Kern */}
+    <circle cx="10" cy="13" r="1.5" fill="currentColor" />
+    <circle cx="10" cy="13" r="0.5" fill="rgba(255,255,255,0.6)" />
+    <circle cx="15" cy="13" r="1.5" fill="currentColor" />
+    <circle cx="15" cy="13" r="0.5" fill="rgba(255,255,255,0.6)" />
   </svg>
 )
 
