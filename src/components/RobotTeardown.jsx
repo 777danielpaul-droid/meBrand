@@ -30,7 +30,7 @@ export default function RobotTeardown() {
     const count = frameCount
     imagesRef.current = new Array(count)
 
-    // Lazy-Preload-Fenster: nur ~40 Frames um den aktuellen Scroll-Stand.
+    // Lazy-Preload-Fenster: ±20 Frames um den aktuellen Scroll-Stand.
     // decoding="async" + decode() verhindert main-thread blocking auf schwachen Geräten.
     const PRELOAD_RADIUS = 20
     let currentIdx = -1
@@ -40,8 +40,9 @@ export default function RobotTeardown() {
       const img = new Image()
       img.decoding = "async"
       img.fetchPriority = i < PRELOAD_RADIUS ? (!isMobileRef.current || i === 0 ? "high" : "low") : "low"
-      imagesRef.current[i] = img
-      img.onload = () => { img.decode().then(() => { imagesRef.current[i] = img }).catch(() => {}) }
+      img.onload = () => {
+        img.decode().then(() => { imagesRef.current[i] = img }).catch(() => {})
+      }
       img.src = framePath(i)
     }
 
@@ -53,7 +54,7 @@ export default function RobotTeardown() {
       for (let i = start; i <= end; i++) loadFrame(i)
     }
 
-    // Initial: nur Frame 0 (hohe Priorität via fetchPriority).
+    // Initial: Frame 0 mit hoher Priorität, damit der Pin sofort etwas anzeigt.
     // Der Rest wird lazy über preloadRef.current(targetIdx) im drawFrame-Request geladen.
     loadFrame(0)
 
@@ -83,7 +84,17 @@ export default function RobotTeardown() {
       if (preloadRef.current) preloadRef.current(targetIdx)
 
       const img = imagesRef.current[targetIdx]
-      if (!img) return
+      if (!img) {
+        // Fallback: Frame 0 (wenn geladen) anzeigen, bis der target geladen ist
+        const f = imagesRef.current[0]
+        if (!f) return
+        const scale = Math.min(canvas.width / f.naturalWidth, canvas.height / f.naturalHeight)
+        const dw = f.naturalWidth * scale
+        const dh = f.naturalHeight * scale
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(f, (canvas.width - dw) / 2, (canvas.height - dh) / 2, dw, dh)
+        return
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
       const dw = img.naturalWidth * scale
