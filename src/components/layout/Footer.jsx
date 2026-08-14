@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import { site } from "../../data/content"
 import { T } from "../RunenText"
 import { useEffect, useState } from "react"
+import ShadowHelmetIcon from "../icons/ShadowHelmetIcon"
 
 export default function Footer({ className = "" }) {
   const f = site.footer
@@ -60,7 +61,7 @@ export default function Footer({ className = "" }) {
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-1 flex items-center justify-between h-full">
           <a href="#hero" className="flex items-center gap-3 group">
             <span className="relative grid place-items-center w-8 h-8 rounded-md bg-neon/15 border border-neon/40">
-              <span className="text-base leading-none" aria-hidden="true">🐻</span>
+              <ShadowHelmetIcon className="w-6 h-6 text-cyan group-hover:text-neon transition-colors" />
             </span>
             <span className="font-display font-bold tracking-[0.18em] text-sm">
               <T en={site.brand.en}>{site.brand.de}</T>
