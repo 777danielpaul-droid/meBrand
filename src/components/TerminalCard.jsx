@@ -3,7 +3,7 @@ import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "framer-
 import RunenText from "./RunenText"
 import { useTerminalCommands } from "./motion/useTerminalCommands"
 import { asset } from "../lib/asset"
-import { profile } from "../data/content"
+import { profile, site } from "../data/content"
 import SkillGrid from "./SkillGrid"
 
 // Runen-Text-Klasse für Terminal-Ausgabe (größer als die Mini-Runen in Cards)
@@ -134,6 +134,23 @@ export default function TerminalCard({ open, onClose }) {
                       <div className="flex flex-col gap-1">
                         <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">LOCATION</span>
                         <span className="text-cyan text-sm font-medium">{profile.contact.address.de}</span>
+                      </div>
+                      {/* Social-Media Links (GitHub, LinkedIn, Twitter) als Text */}
+                      <div className="flex flex-col gap-1">
+                        <span className="mono-label text-[11px] uppercase tracking-[0.3em] text-cyan/60">SOCIAL</span>
+                        <div className="flex flex-col gap-1.5">
+                          {site.footer.social.map((s, i) => (
+                            <a
+                              key={i}
+                              href={s.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-cyan hover:text-neon transition-colors text-sm font-medium"
+                            >
+                              {s.label}
+                            </a>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </>
