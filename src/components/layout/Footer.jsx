@@ -113,7 +113,7 @@ export default function Footer({ className = "" }) {
             </div>
           )}
           {/* Per Aspera Ad Astra — zentrierte Runen, desktop only, hinter Glas */}
-          <div className="hidden sm:block sm:absolute inset-x-0 text-center font-mono text-cyan/30 text-[18px] pointer-events-none">
+          <div className="hidden sm:block sm:absolute inset-x-0 text-center font-mono text-cyan/30 text-[9px] pointer-events-none">
             <RunenText text="Per Aspera Ad Astra" className="center" />
           </div>
         </div>
