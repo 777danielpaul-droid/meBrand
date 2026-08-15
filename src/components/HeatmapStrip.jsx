@@ -6,6 +6,8 @@ import { useEffect, useRef } from "react";
  * 7 Tage × 53 Wochen, 10×10px Zellen mit 3px Gap.
  * Wave-Opacity-Animation + zufälliger Cell-Puls (wie im Original).
  * Ohne Title, Legend oder Stats — nur das reine Grid.
+ *
+ * Mobile: 53 Spalten mit 1fr (minmax) + kleiner Gap → passt in 375px.
  */
 const INTENSITIES = [1, 0.85, 0.7, 0.55, 0.4];
 const BASE = [57, 211, 83];
@@ -80,9 +82,10 @@ export default function HeatmapStrip() {
         className="hm-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(53, 1fr)",
+          gridTemplateColumns: "repeat(53, minmax(0, 1fr))",
           gap: "3px",
           justifyContent: "center",
+          maxWidth: "100%",
         }}
         aria-label="Contribution activity heatmap"
       />
