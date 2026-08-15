@@ -17,14 +17,17 @@ export default function HeatmapStrip() {
     const grid = gridRef.current;
     if (!grid) return;
 
-    const cells = [];
+    const cells = [],
+      isMobile = window.matchMedia("(max-width: 639px)").matches;
+    const sz = isMobile ? 4 : 10,
+      gap = isMobile ? 2 : 3;
 
     for (let w = 0; w < 53; w++) {
       for (let d = 0; d < 7; d++) {
         const cell = document.createElement("div");
         const intensity = INTENSITIES[(Math.random() * INTENSITIES.length) | 0];
-        cell.style.width = "10px";
-        cell.style.height = "10px";
+        cell.style.width = sz + "px";
+        cell.style.height = sz + "px";
         cell.style.borderRadius = "2px";
         cell.style.background = `rgba(${BASE[0]}, ${BASE[1]}, ${BASE[2]}, ${intensity})`;
         cell.style.transition = "transform 0.2s ease-out, opacity 0.2s ease-out";
@@ -34,6 +37,7 @@ export default function HeatmapStrip() {
         cells.push(cell);
       }
     }
+    grid.style.gap = gap + "px";
 
     // Wave-Opacity-Animation
     let waveOffset = 0;

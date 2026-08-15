@@ -226,8 +226,6 @@ export default function RobotTeardown() {
         <canvas
           ref={canvasRef}
           className="absolute top-0 left-0 w-full h-full"
-          width={1920}
-          height={1080}
         />
 
         {/* Skill-Balken-Reveal: erscheint ERST nach kompletter Scroll-Animation.
