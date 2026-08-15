@@ -100,10 +100,10 @@ export default function TerminalCard({ open, onClose }) {
           >
             {/* Header — KONTAKT-Titel + mittig zentrierte Runenbotschaft über volle Breite */}
             <div className="px-4 py-2 border-b border-white/10 bg-ink/40 mono-label text-cyan text-xs tracking-[0.2em]">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center">
                 <span>// KONTAKT //</span>
-                {/* Social-Icons (GitHub, LinkedIn, Twitter) als SVG */}
-                <div className="flex items-center gap-2">
+                {/* Social-Icons direkt nach KONTAKT, linksbündig */}
+                <div className="flex items-center gap-2 ml-3">
                   {site.footer.social.map((s, i) => (
                     <SocialIcon key={i} name={s.icon} href={s.href} label={s.label} />
                   ))}
@@ -112,7 +112,7 @@ export default function TerminalCard({ open, onClose }) {
                   type="submit"
                   aria-label="Terminal schließen"
                   onClick={onClose}
-                  className="grid place-items-center w-6 h-6 rounded border border-white/15 text-bone/60 hover:text-bone hover:border-neon/50 transition-all"
+                  className="ml-auto grid place-items-center w-6 h-6 rounded border border-white/15 text-bone/60 hover:text-bone hover:border-neon/50 transition-all"
                 >
                   <span className="text-xs leading-none">✕</span>
                 </button>
