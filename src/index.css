@@ -242,6 +242,9 @@
   line-height: 1;
   color: var(--color-cyan);
 }
+.runen.center {
+  justify-content: center;
+}
 .runen-glyph {
   width: 0.85em;
   height: 0.85em;
