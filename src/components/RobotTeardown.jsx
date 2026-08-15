@@ -131,7 +131,8 @@ export default function RobotTeardown() {
       canvas.width = Math.round(rect.width * dpr * renderScale)
       canvas.height = Math.round(rect.height * dpr * renderScale)
       ctx.setTransform(dpr * renderScale, 0, 0, dpr * renderScale, 0, 0)
-      drawFrame(currentProgress)
+      // drawFrame(currentProgress) — entfernt: ResizeObserver-Triggers
+      // unterbrechen die Animation. drawFrame läuft über den Animationsloop.
     }
 
     resizeCanvas()

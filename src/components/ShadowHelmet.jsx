@@ -603,6 +603,13 @@ export default function ShadowHelmet() {
 
     let lastTime = performance.now();
     let raf = 0;
+    let visible = true; // IntersectionObserver-steuerung
+    const io = new IntersectionObserver((entries) => {
+      // threshold: 0 — visible=true solange auch nur 1 Pixel im Viewport
+      visible = entries.some((e) => e.isIntersecting);
+    });
+    io.observe(canvas);
+    // visible bleibt initial true, da IntersectionObserver async feuert
 
     // Mobile / schwache Geräte: 15fps (reduced motion) / 20fps Standard.
     // Desktop: 20fps statt 30fps — Helm-Physik ist langsam genug.
@@ -612,6 +619,8 @@ export default function ShadowHelmet() {
     const FRAME = 1000 / TARGET_FPS;
 
     function frame(now) {
+      // IntersectionObserver-Pause: wenn nicht im Viewport, nicht updaten
+      if (!visible) { raf = requestAnimationFrame(frame); return; }
       if (now - lastTime < FRAME) {
         raf = requestAnimationFrame(frame);
         return;
