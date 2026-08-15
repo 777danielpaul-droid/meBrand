@@ -100,9 +100,7 @@ export const site = {
   // --- FOOTER ---
   footer: {
     note: { de: "© 2025 Daniel Paul — alle Rechte vorbehalten.", en: "© 2025 Daniel Paul — all rights reserved." },
-    links: [
-      { label: { de: "Impressum", en: "Imprint" }, href: "/impressum.html", type: "text" },
-    ],
+    links: [],
     social: [
       { name: "github", label: "GitHub", href: "https://github.com/777danielpaul-droid", icon: "github" },
       { name: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/daniel-paul-8b3433409/", icon: "linkedin" },
