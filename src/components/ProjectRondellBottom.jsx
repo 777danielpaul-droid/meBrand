@@ -83,7 +83,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 sm:p-8 h-[408px] sm:h-[320px] flex flex-col justify-between overflow-hidden"
+            className="relative rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 sm:p-8 h-[320px] sm:h-[408px] flex flex-col justify-between overflow-hidden"
             style={{ backgroundColor: "rgba(0,0,0,0.35)" }}
           >
             <h3
