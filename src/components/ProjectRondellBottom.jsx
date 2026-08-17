@@ -83,7 +83,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 sm:p-8"
+            className="relative rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 sm:p-8 h-[408px] flex flex-col justify-between"
             style={{ backgroundColor: "rgba(0,0,0,0.35)" }}
           >
             <h3
@@ -100,7 +100,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
                 <img
                   src={s.image}
                   alt={s.title.de}
-                  className="w-full h-40 sm:h-48 object-cover"
+                  className="w-full h-40 object-cover"
                   loading="lazy"
                 />
               </div>
@@ -120,7 +120,7 @@ export default function ProjectRondellBottom({ sections, id, className = "" }) {
                 href={s.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cyan hover:text-neon text-sm underline decoration-cyan/50 hover:decoration-neon transition-colors link-pulse"
+                className="text-cyan hover:text-neon text-sm underline decoration-cyan/50 hover:decoration-neon transition-colors link-pulse mt-auto"
               >
                 <T en={s.url.replace("https://", "")}>{s.url.replace("https://", "")}</T>
               </a>

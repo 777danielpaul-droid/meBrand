@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 
 /**
  * Shuttlez — minimalistisches Canvas-Overlay für den Hero-Bereich.
@@ -12,6 +12,7 @@ import { useRef, useEffect } from "react"
  * @param {number} [props.shipScale=1.6]  Skalierung der Schiffe
  */
 export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block", side = "left" }) {
+  const [shotsHit, setShotsHit] = useState(0)
   const canvasRef = useRef(null)
   const rafRef = useRef(null)
 
@@ -315,6 +316,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
             spawnParticles(npc.x, npc.y, 25, 2)
             spawnParticles(npc.x, npc.y, 20, 1.8)
             score++
+            setShotsHit(h => h + 1)
             npc.alive = false
             npc.respawnTimer = 0
             lasers.splice(i, 1)
@@ -406,11 +408,20 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
   }, [shipScale])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={`absolute inset-0 h-full w-full ${className}`}
-      style={{ zIndex: 2 }}
-      data-shuttlez="true"
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        className={`absolute inset-0 h-full w-full ${className}`}
+        style={{ zIndex: 2 }}
+        data-shuttlez="true"
+      />
+      {/* UI-Overlay: Trefferzähler (zentriert über Footer) */}
+      <div
+        className="fixed bottom-16 left-1/2 -translate-x-1/2 mono-label text-cyan text-xs bg-ink/40 backdrop-blur-sm rounded px-2 py-0.5 border border-cyan/20 pointer-events-none"
+        style={{ zIndex: 50 }}
+      >
+        Treffer: {shotsHit}
+      </div>
+    </>
   )
 }
