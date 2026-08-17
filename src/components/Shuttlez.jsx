@@ -154,21 +154,36 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
       })
     }
 
-    function spawnParticles(x, y, color, count, speedMult) {
+    function spawnParticles(x, y, count, speedMult) {
+      count = count || 5
       speedMult = speedMult || 1
+
+      const hue = 210 + Math.random() * 40
+      const sat = 70 + Math.random() * 30
+      const light = 50 + Math.random() * 40
+
       for (let i = 0; i < count; i++) {
         const a = Math.random() * Math.PI * 2
-        const s = (Math.random() * 3 + 1) * speedMult
+        const s = (Math.random() * 4 + 1) * speedMult
         particles.push({
           x: x,
           y: y,
           vx: Math.cos(a) * s,
           vy: Math.sin(a) * s,
-          life: 40,
-          color: color,
-          size: Math.random() * 3 + 1,
+          life: 30,
+          baseColor: { h: hue, s: sat, l: light },
+          size: Math.random() * 2 + 0.5,
+          birthTime: frame,
         })
       }
+    }
+
+    // Pulse- und Flicker-Effekte wie RocketBeam.jsx
+    function pulse(t) {
+      return 0.5 + 0.5 * Math.sin(t * 3.0) + 0.25 * Math.sin(t * 7.2 + 1.0) + 0.15 * Math.sin(t * 11.5 + 2.3)
+    }
+    function flicker(t) {
+      return 0.7 + 0.3 * Math.sin(t * 9.0) + 0.2 * Math.sin(t * 17.3 + 0.7)
     }
 
     function respawnNPC() {
@@ -249,7 +264,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
       if (mouseDown && player.cooldown <= 0) {
         spawnLaser(player, player.angle, player.color, true)
         player.cooldown = player.maxCooldown
-        spawnParticles(player.x, player.y, player.color, 5)
+        spawnParticles(player.x, player.y, 5)
       }
       if (player.cooldown > 0) player.cooldown--
 
@@ -258,7 +273,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
         if (npc.cooldown <= 0 && distToPlayer < 400 && Math.random() < 0.03) {
           spawnLaser(npc, npc.angle, npc.color, false)
           npc.cooldown = npc.maxCooldown
-          spawnParticles(npc.x, npc.y, npc.color, 5)
+          spawnParticles(npc.x, npc.y, 5)
         }
         if (npc.cooldown > 0) npc.cooldown--
       }
@@ -296,9 +311,9 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
         if (l.isPlayer && npc.alive) {
           const d = Math.hypot(l.x - npc.x, l.y - npc.y)
           if (d < 18) {
-            spawnParticles(npc.x, npc.y, "#00e5ff", 30, 2.5)
-            spawnParticles(npc.x, npc.y, "#8a2be2", 20, 2)
-            spawnParticles(npc.x, npc.y, "#ffaa00", 15, 1.8)
+            spawnParticles(npc.x, npc.y, 40, 2.5)
+            spawnParticles(npc.x, npc.y, 25, 2)
+            spawnParticles(npc.x, npc.y, 20, 1.8)
             score++
             npc.alive = false
             npc.respawnTimer = 0
@@ -309,7 +324,7 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
         if (!l.isPlayer) {
           const d = Math.hypot(l.x - mouseX, l.y - mouseY)
           if (d < 18) {
-            spawnParticles(mouseX, mouseY, "#00e5ff", 12)
+            spawnParticles(mouseX, mouseY, 12)
             lasers.splice(i, 1)
             continue
           }
@@ -337,15 +352,26 @@ export default function Shuttlez({ shipScale = 1.6, className = "hidden sm:block
           particles.splice(i, 1)
           continue
         }
-        const alpha = p.life / 40
+
+        const age = frame - p.birthTime
+        const t = age * 0.016
+        const pVal = Math.max(0.3, pulse(t))  // min 30% Puls-Basis
+        const fVal = 0.5 + 0.5 * flicker(t)   // stärkeres Flackern: 0.5–1.0
+        const alpha = (p.life / 30) * pVal * fVal
+
+        const h = Math.min(280, 220 + (p.life / 30) * 60)  // Lila (280) → Blau (220)
+        const s_ = 80 + (p.life / 30) * 20               // 80% → 100%
+        const l = 60 + (p.life / 30) * 25                // 60% → 85%
+        const coreH = h + 30                             // Weißer Kern
+
         ctx.globalAlpha = alpha
-        ctx.fillStyle = p.color
+        ctx.fillStyle = `hsla(${h}, ${s_}%, ${l}%, ${alpha})`
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.arc(p.x, p.y, p.size * 0.7, 0, Math.PI * 2)  // etwas kleiner → optisch mehr
         ctx.fill()
-        // Hellere Kern (wie RocketBeam Particle) — silber-weißer Akzent
+
         ctx.globalAlpha = alpha * 0.8
-        ctx.fillStyle = "#ffffff"
+        ctx.fillStyle = `hsla(${coreH}, ${s_}%, ${Math.min(100, l + 20)}%, ${alpha * 0.7})`
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size * 0.45, 0, Math.PI * 2)
         ctx.fill()

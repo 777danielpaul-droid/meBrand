@@ -197,6 +197,7 @@ export default function RobotTeardown() {
           scrub: true,
           pin: true,
           pinSpacing: true,
+          onLeave: () => drawFrame(0),  // Robot bleibt sichtbar (Frame 0 = intakt)
         },
       })
     }
@@ -222,7 +223,7 @@ export default function RobotTeardown() {
     <section className="relative w-full mt-0">
       <div
         ref={pinRef}
-        className="relative w-full h-[100vh] sm:h-[110vh]"
+        className="relative w-full h-[100vh] sm:h-[110vh] min-h-screen"
       >
         <canvas
           ref={canvasRef}
